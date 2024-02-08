@@ -71,15 +71,101 @@ Communication channels and collaboration tools used during this project are: Dis
 
 ### 3. Technology Stack
 #### 3.1 Backend Frameworks
-##### <ins>3.1.1 Node.js</ins>
--- not finished
+##### <ins>**3.1.1 Node.js**</ins>
 
-##### <ins>3.1.2 MongoDB</ins>
--- not finished
+**- Description:** Open source server environment by using JavaScript on the server.
+
+**- Rationale:**
+- Easy to set ups as a server.
+- Scalable.
+- Javascript
+- Large ecosystem
+- Large community for support
+- Fast
+- Cross platform
+
+**- Qualitative Assessment:**
+- Strengths
+  - Large community for support and troubleshooting.
+  -  Uses JavaScript so it is one language less to learn.
+  -  Fast execution
+  -  Large ecosystem for installing packets.
+   	
+- Weaknesses
+  - Might be overkill for small applications.
+  - Hard to maintain at scale.
+  - Heavy computations.
+
+- Use Cases (Source)
+  - Netflix
+  - NASA
+  - LinkedIn
+  - Twitter
+
+##### <ins>**3.1.2 MongoDB**</ins>
+
+**- Description:**  Brief overview of Framework B.
+
+**- Rationale:**
+- JSON-like documents meaning easy integration with node.js
+- Easily Scalable and maintained.
+- Easy to integrate 
+- High Performance 
+- Cross platform compatibility 
+
+**- Qualitative Assessment:**
+- Strengths
+  - Large community for support and troubleshooting.
+  - Scalability 
+  - No sql, an easy learning curve  
+  - Horizontal Scaling 
+
+- Weaknesses
+  - Not the best for a lot of transactions 
+  - Heavy memory usage
+  - No join operations like in SQL
+
+- Use Cases (Source)
+  - Uber
+  - Lyft
+  - Coinbase
+  - Forbes
+
 
 #### 3.2 Frontend Frameworks
-##### <ins>3.2.1 React.js</ins>
--- not finished
+##### <ins>**3.2.1 React.js**</ins>
+
+**- Description:**  A JavaScript framework that promotes modularity by allowing the use of components that encapsulate part of the user interface.
+
+**- Rationale:**
+-   	Modularity
+-   	Reusability
+-   	Modern
+-   	Responsive
+-   	Flexibility
+-   	OOP aspects
+
+**- Qualitative Assessment:**
+- Strengths
+  - Widely used.
+  - A lot of documentation, tutorials.
+  - Modular.
+  - Reusability
+  - Virtual DOM
+  - JSX syntax very similar to HTML
+ 
+- Weaknesses
+  - Learning curve
+  - Community not as mature
+  - Large Library
+ 
+- Use Cases (Source)
+  - Airbnb
+  - Cloudflare
+  - Dropbox
+  - BBC
+  - Facebook
+
 
 ### 4. Integration and Interoperability
 #### 4.1 Backend-Frontend Integration
