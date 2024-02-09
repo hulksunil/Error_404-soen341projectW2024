@@ -104,7 +104,8 @@ Communication channels and collaboration tools used during this project are: Dis
 
 ##### <ins>**3.1.2 MongoDB**</ins>
 
-**- Description:**  Brief overview of Framework B.
+**- Description:** Database management system that stores data into documents.
+
 
 **- Rationale:**
 - JSON-like documents meaning easy integration with node.js
@@ -138,12 +139,12 @@ Communication channels and collaboration tools used during this project are: Dis
 **- Description:**  A JavaScript framework that promotes modularity by allowing the use of components that encapsulate part of the user interface.
 
 **- Rationale:**
--   	Modularity
--   	Reusability
--   	Modern
--   	Responsive
--   	Flexibility
--   	OOP aspects
+- Modularity
+- Reusability
+- Modern
+- Responsive
+- Flexibility
+- OOP aspects
 
 **- Qualitative Assessment:**
 - Strengths
@@ -172,7 +173,7 @@ Communication channels and collaboration tools used during this project are: Dis
 In our project, our strategy is to use the client server model. The backend, made with Node.js, will be handling all server side operations such as storing, updating and deleting data. The front end is the client side made with React.js that will interface with the server by passing data to it. The front end will prepare all the data prior to passing it towards the server for proper storing.
 
 #### 4.2 Third-Party Services
--- not finished
+Material UI will be used as a third-party service to React.js. This will provide a large library of customizable React components. This will make our program easier to follow, more efficient to process, and allow us to have a cohesive modern design.
 
 
 
