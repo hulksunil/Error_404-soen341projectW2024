@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
+import CreateUser from './CreateUser.tsx';
+import Home from './Home.tsx';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Routes>
+        <Route index element={<Home/>}/> 
+          {/*This initilizes what the initial page will be*/}
+        <Route path='/createuser' element={<CreateUser/>}/> 
+        {/* This defines a url path that will route the user to the CreateUser.tsx page*/}
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
