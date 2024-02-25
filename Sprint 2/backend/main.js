@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 
 const app = express();
+
 const PORT = 8080;
+
+// Middleware to parse the body of the request (to get the data from the client)
+app.use(express.urlencoded());
 
 const dbURI =
   "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
@@ -32,6 +36,61 @@ app.get("/createUser", (req, res) => {
     // Sending the result to the client
     res.send(result);
   });
+});
+
+// Reading a user information when the user goes to /users/{user_id} url
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  User.findById(id)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding a user\n" + err);
+    });
+});
+
+// Get all users
+app.get("/users", (req, res) => {
+  User.find()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding all users.\n" + err);
+    });
+});
+
+// Update a user
+app.get("/updateUser", (req, res) => {
+  // Update the user with the given id
+  const id = req.body.id;
+  User.findByIdAndUpdate(id, {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    accType: req.body.accType,
+    email: req.body.email,
+  })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// Delete a user
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+
+  User.findByIdAndDelete(id)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
