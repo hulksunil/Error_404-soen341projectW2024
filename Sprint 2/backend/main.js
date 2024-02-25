@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const User = require("./models/user");
+const UserDB = require("./models/user");
 
 const app = express();
 
@@ -18,19 +18,21 @@ mongoose
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
+// QUERIES
+
+// ROUTES
 // Creating a user when the user goes to /createUser url
 app.get("/createUser", (req, res) => {
-  const user = new User({
-    _id: new mongoose.Types.ObjectId(),
-    firstName: "John",
-    lastName: "Doe",
-    accType: "admin",
-    email: "mrJohnDoe@email.com",
-    hashedPass: "password123",
-  });
+  const createdUser = UserDB.createUser(
+    "John",
+    "Doe",
+    "admin",
+    "mrJohnDoe@email.com",
+    "password123"
+  );
 
   // Saving the user to the database (asynchronous operation)
-  user.save().then((result) => {
+  createdUser.then((result) => {
     console.log(result);
 
     // Sending the result to the client
@@ -42,7 +44,8 @@ app.get("/createUser", (req, res) => {
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
-  User.findById(id)
+  user = UserDB.findUserById(id);
+  user
     .then((result) => {
       res.send(result);
     })
@@ -53,7 +56,8 @@ app.get("/users/:id", (req, res) => {
 
 // Get all users
 app.get("/users", (req, res) => {
-  User.find()
+  users = UserDB.findAllUsers();
+  users
     .then((result) => {
       res.send(result);
     })
@@ -66,12 +70,15 @@ app.get("/users", (req, res) => {
 app.get("/updateUser", (req, res) => {
   // Update the user with the given id
   const id = req.body.id;
-  User.findByIdAndUpdate(id, {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    accType: req.body.accType,
-    email: req.body.email,
-  })
+  updatedUser = UserDB.updateUser(
+    id,
+    "Jane",
+    "Doe",
+    "admin",
+    "newEmail",
+    "newPassword"
+  );
+  updatedUser
     .then((result) => {
       res.send(result);
     })
@@ -83,8 +90,9 @@ app.get("/updateUser", (req, res) => {
 // Delete a user
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
+  deletedUser = UserDB.deleteUser(id);
 
-  User.findByIdAndDelete(id)
+  deletedUser
     .then((result) => {
       res.send(result);
     })
