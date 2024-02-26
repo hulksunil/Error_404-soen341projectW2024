@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: './Sprint 2/backend'
 
     strategy:
       matrix:
@@ -25,11 +27,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache-dependency-path: './Sprint 2/backend/package-lock.json'
         cache: 'npm'
     - run: npm ci
-      working-directory: './Sprint 2/backend' 
+      working-directory: ${{ working-directory }}
     - run: npm run build --if-present
-      working-directory: './Sprint 2/backend'
+      working-directory: ${{ working-directory }}
     - run: npm test
-      working-directory: './Sprint 2/backend'
+      working-directory: ${{ working-directory }}
