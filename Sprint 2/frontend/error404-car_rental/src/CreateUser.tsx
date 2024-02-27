@@ -1,5 +1,5 @@
-import React from 'react';
-import './CreateUser.css';
+import React, { useEffect } from 'react';
+import './styles/CreateUser.css';
 
 export default function CreateUser(){
 

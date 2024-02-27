@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import './Home.css';
+import './styles/Home.css'
+
 
 export default function Home(){
+    function pageTitle() {
+        return <title>This is the home page</title>;
+      }
+    
+    
     return(
         <div>
-
+            {pageTitle()}
             <h1>Home Page</h1>
             <Link to ="/createuser">Link to create user page</Link>
             <br/>

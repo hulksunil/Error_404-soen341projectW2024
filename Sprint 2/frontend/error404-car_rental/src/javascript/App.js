@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import './App.css';
-import CreateUser from './CreateUser.tsx';
-import Home from './Home.tsx';
-import Browse from './Browse.tsx';
-import ViewRes from './ViewReservation.tsx';
+import '../styles/App.css';
+import CreateUser from '../CreateUser.tsx';
+import Home from '../Home.tsx';
+import Browse from '../Browse.tsx';
+import ViewRes from '../ViewReservation.tsx';
 
 function App() {
   return (

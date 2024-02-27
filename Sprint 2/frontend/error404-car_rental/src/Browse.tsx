@@ -1,7 +1,8 @@
-import React from "react";
-import "./Browse.css";
+import React, { useEffect } from "react";
+import "./styles/Browse.css";
 
 export default function Browse() {
+
   function pageTitle() {
     return <title>This is the page title</title>;
   }
