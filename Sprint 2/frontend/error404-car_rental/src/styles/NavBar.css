@@ -1,0 +1,46 @@
+.navBar{
+    padding-bottom: 30px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#4BC6B9;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.navbarLeft, .navbarRight{
+    display: block;
+}
+
+.navbarLeft {
+    float: left;
+}
+
+.navbarRight{
+    float: right;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    background-color: #A79AB2;
+  }
+
+  #active{
+    background-color: #B57BA6;
+  }
+
+  /*
+  https://coolors.co/4bc6b9-73c1c6-96c3ce-a79ab2-b57ba6
+  */
