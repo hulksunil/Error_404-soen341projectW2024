@@ -1,0 +1,37 @@
+.mainContent{
+    background-color:#8fb3ff;
+    width:fit-content;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.leftContainer,.rightContainer{
+    display: inline-block;
+}
+
+.leftContainer{
+    width: 320px;
+    background-color:#8fb3ff;
+  }
+
+
+  .imageContainer,.colorOptions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .colorButton{
+    width: 1.5em;
+    height: 1.5em;
+    margin: 3px;
+    border: none;
+    cursor: pointer;
+  }
+
+
+ 
