@@ -1,11 +1,28 @@
+.createAccount{
+    padding-top: 50px;
+}
+.test{
+    display: inline-block;
+    color: red;
+}
 .mainContent{
     background-color:#8fb3ff;
-    width:fit-content;
+    width:50em;
+    height: fit-content;
 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+
+    border-color: black;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
 }
 
 .leftContainer,.rightContainer{
@@ -33,5 +50,40 @@
     cursor: pointer;
   }
 
+  .fieldLabels{
+    text-align: left;
+    padding-right: 10px;
+  }
 
- 
+  .fieldInputs > input,.submitButton{
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 8px 12px; 
+    font-size: 12px; 
+    outline: none; 
+    width: 10em;
+  }
+
+  .fieldInputs > input:focus {
+    border-color: blue; 
+  }
+
+  .submitButton{
+    padding: 1em;
+    margin-top: 5px;
+    border: none;
+    background-color: #96C3CE;
+    cursor: pointer;
+  }
+
+ .error,.errorVisible{
+    color: rgb(170, 9, 9);
+    font-size: 12px;
+    list-style-type: none;
+    text-align: left;
+    display: none;
+ }
+
+ .errorVisible{
+    display: block;
+ }

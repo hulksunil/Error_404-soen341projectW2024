@@ -2,7 +2,7 @@
     padding-bottom: 30px;
 }
 
-ul {
+.navBar > ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -23,6 +23,12 @@ ul {
 
 .navbarRight{
     float: right;
+}
+
+.centerNav{
+    position: absolute;
+    top: 0.8em;
+    left: 45%;
 }
 
 li a {

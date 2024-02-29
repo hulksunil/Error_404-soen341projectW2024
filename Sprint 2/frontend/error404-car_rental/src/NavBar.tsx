@@ -37,6 +37,10 @@ export default function NavBar(props){
                     </a>
                 </li>
 
+                <li className='centerNav'>
+                    {document.title}
+                </li>
+
                 <li className='navbarRight'>
                     <a>
                         Sign in
