@@ -1,0 +1,49 @@
+.navbar{
+    height: 5rem;
+    width: 100vw;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    background-color: #E63946;
+    justify-content: space-between;
+    position:sticky;
+    top: 0;
+    z-index:3;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.navTitleName{
+    color: #F1FAEE;
+}
+
+.desktopMenu{
+    color: #F1FAEE;
+}
+
+.desktopMenuListItem{
+    margin: 1rem;
+    cursor: pointer;
+}
+
+.desktopMenuListItem:hover{
+    color: #457B9D;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #457B9D;
+}
+
+.LogBtn{
+    background-color: #F1FAEE;
+    color: #1D3557;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+
+.LogBtn:hover{
+    background-color: #457B9D;
+}

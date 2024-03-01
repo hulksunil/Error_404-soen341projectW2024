@@ -1,0 +1,31 @@
+.card-container{
+    width:300px;
+    overflow: hidden;
+    box-shadow: 0px 0px 15px -5px;
+    margin: 20px;
+    transition: 0.5s;
+    animation: ease-in;
+    background-color: #1D3557;
+    border-radius: 20px;
+    color: #A8DADC
+;
+    
+
+}
+
+.card-container:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px 0px;
+}
+
+.image-container img{
+    
+    width: 300px;
+    overflow: hidden;
+}
+
+.card-content{
+    margin:1rem;
+    margin-top: 0.5rem;
+    text-align: left;
+}

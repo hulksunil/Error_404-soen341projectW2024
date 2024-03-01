@@ -1,0 +1,10 @@
+.card-list {
+    display: flex;
+    flex-direction: row; 
+}
+  
+
+
+.mainBrowse{
+  background-color: #A8DADC;
+}
