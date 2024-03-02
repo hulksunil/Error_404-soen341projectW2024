@@ -7,7 +7,7 @@ const PORT = 8080;
 
 app.use(express.urlencoded());
 
-const dbURI =  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
+const dbURI =  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404testdb?retryWrites=true&w=majority";
 
 mongoose.connect(dbURI)
   .then(() => console.log("Connected to DB"))

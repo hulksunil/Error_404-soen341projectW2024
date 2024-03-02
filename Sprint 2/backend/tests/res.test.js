@@ -1,7 +1,7 @@
 const ReservationDB = require("../models/res");
 const mongoose = require("mongoose");
 
-const dbURI =  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
+const dbURI =  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404testdb?retryWrites=true&w=majority";
 
 // Connect to the test database
 beforeAll(async () => {
