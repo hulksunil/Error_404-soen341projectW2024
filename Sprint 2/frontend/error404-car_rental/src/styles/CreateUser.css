@@ -1,10 +1,14 @@
 .createAccount{
     padding-top: 50px;
 }
-.test{
-    display: inline-block;
-    color: red;
+
+.close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
+
 .mainContent{
     background-color:#8fb3ff;
     width:50em;
@@ -55,17 +59,22 @@
     padding-right: 10px;
   }
 
-  .fieldInputs > input,.submitButton{
+  .fieldInputs > input,.submitButton,  .fieldInputs > select{
     border-radius: 10px;
     border: 1px solid #ccc;
     padding: 8px 12px; 
     font-size: 12px; 
     outline: none; 
-    width: 10em;
+    width: 11em;
   }
 
   .fieldInputs > input:focus {
     border-color: blue; 
+  }
+
+  .fieldInputs > select{
+    width: 13em; 
+    padding: 8px 5px; 
   }
 
   .submitButton{

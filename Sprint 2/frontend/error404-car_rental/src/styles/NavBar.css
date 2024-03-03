@@ -16,6 +16,10 @@
     transform: translate(-50%, -50%);
 }
 
+.userIcon{
+    padding-right:5px ;
+}
+
 .navBar{
     padding-bottom: 30px;
 }
@@ -33,6 +37,7 @@
 
 .navbarLeft, .navbarRight{
     display: block;
+    height: 50px;
 }
 
 .navbarLeft {
