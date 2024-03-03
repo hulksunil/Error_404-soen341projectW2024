@@ -1,6 +1,6 @@
 .navbar{
     height: 5rem;
-    width: 100vw;
+    width: auto;
     margin: 0 auto;
     padding: 1rem 2rem;
     display: flex;
@@ -28,9 +28,11 @@
 }
 
 .desktopMenuListItem:hover{
-    color: #457B9D;
+    color: #A8DADC;
     padding-bottom: 0.5rem;
-    border-bottom: 3px solid #457B9D;
+    border-bottom: 3px solid #A8DADC;
+    font-weight: 700;
+    
 }
 
 .LogBtn{
@@ -46,4 +48,5 @@
 
 .LogBtn:hover{
     background-color: #457B9D;
+    color: #F1FAEE;
 }
