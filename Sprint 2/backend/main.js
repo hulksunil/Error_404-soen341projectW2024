@@ -1,6 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const UserDB = require("./models/user");
+const cors = require('cors'); // This solves an error of cross site scripting
+const bodyParser = require('body-parser'); // This allows the data to be taken
+const crypto = require('crypto'); // this is for hashing the password
+
+const hash = crypto.createHash('sha256');
 
 const app = express();
 
@@ -8,6 +13,8 @@ const PORT = 8080;
 
 // Middleware to parse the body of the request (to get the data from the client)
 app.use(express.urlencoded());
+app.use(cors());
+app.use(bodyParser.json());
 
 const dbURI =
   "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
@@ -22,19 +29,27 @@ mongoose
 
 // ROUTES
 // Creating a user when the user goes to /createUser url
-app.get("/createUser", (req, res) => {
+app.post("/createUser", (req, res) => {
+  //check if the user email exsists already in the db
+
+  const hash = crypto.createHash('sha256');
+
+  const userInfo = req.body;
+
+  hash.update(userInfo.password);
+  const hashedPassword = hash.digest('hex');
+
   const createdUser = UserDB.createUser(
-    "John",
-    "Doe",
-    "admin",
-    "mrJohnDoe@email.com",
-    "password123"
-  );
+    userInfo.fname,
+    userInfo.lname,
+    userInfo.accType,
+    userInfo.email,
+    hashedPassword
+    );
 
   // Saving the user to the database (asynchronous operation)
   createdUser.then((result) => {
     console.log(result);
-
     // Sending the result to the client
     res.send(result);
   });

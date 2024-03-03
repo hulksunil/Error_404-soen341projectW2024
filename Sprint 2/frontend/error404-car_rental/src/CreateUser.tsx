@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/CreateUser.css';
 import NavBar from './NavBar.tsx';
 import db from '../../../backend/models/user.js'
+import axios from 'axios';
 // @ts-ignore
 import { ReactComponent as UserSilhouette } from './svgs/userSilhouette.svg';
 export default function CreateUser(){
@@ -13,19 +14,20 @@ export default function CreateUser(){
     const [license,setLicense]=useState("");
     const [password,setPassword]=useState("");
     const [accType,setAccType] = useState("rentee");
+    
 
     const [errorVisibility,setErrorVisibility] = useState({
         name:false,
         email:false,
         dob:false,
         license:false,
-        password:false
+        password:false,
+        status: false,
     });
     // False means that the errors will not show and true means they will show
 
     const emailRegEx = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" // from chatGPT and tested
     const passwordRegEx = "^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$"
-    const dateRegEx = "^(19|20)\d{2}-\d{2}-\d{2}$" // verifies that the date starts with 19 or 20
     const maxDob = 20091231;
     const minDob = 19241231;
 
@@ -50,14 +52,41 @@ export default function CreateUser(){
         //dob must be at least 15 years ago date out of range but also check if it is at least 2009
         setErrorVisibility(errorVisibility => ({...errorVisibility, password : !RegExp(passwordRegEx).test(password)}));
         setErrorVisibility(errorVisibility => ({...errorVisibility, license : license.length < 2}));
-        console.log(accType)
+
         if((!errorVisibility.name && !errorVisibility.password && !errorVisibility.email && !errorVisibility.dob && !errorVisibility.license )){
             submit();
         }
     }
 
     function submit(){
-        //db.createUser(fname,lname,accType,email,password)
+        const userData = {
+            fname: fname,
+            lname: lname,
+            email: email,
+            dob: dob,
+            licenseNum: license,
+            password: password,
+            accType: accType
+        };
+
+        let status : number = 0;
+
+        axios.post('http://localhost:8080/createUser', userData)
+        .then(res =>{
+            console.log(res.status)
+            status = res.status;
+        })
+        .catch(error=>{
+            console.error('Error:', error);
+        });
+
+        if(status == 200){
+            setErrorVisibility(errorVisibility => ({...errorVisibility, status : true}));
+            
+        }
+        else{
+            setErrorVisibility(errorVisibility => ({...errorVisibility, status : false}));
+        }
     }
 
 
@@ -153,6 +182,7 @@ export default function CreateUser(){
 
 
                     <button className='submitButton' onClick={submitCheck}>Submit</button>
+                    <p className={errorVisibility.status?'errorVisible':'error'}>There has been an error creating your account</p>
                 </div>
             </div>
 
