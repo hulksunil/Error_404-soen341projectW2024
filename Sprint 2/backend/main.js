@@ -7,6 +7,7 @@ const crypto = require('crypto'); // this is for hashing the password
 
 const hash = crypto.createHash('sha256');
 
+const ReservationDB = require("./models/res");
 const app = express();
 
 const PORT = 8080;
@@ -115,6 +116,7 @@ app.delete("/users/:id", (req, res) => {
     });
 });
 
+
 app.post("/findUserByEmail",(req,res) =>{
   const userInfo = req.body;
 
@@ -147,9 +149,80 @@ app.post("/findUserByEmail",(req,res) =>{
         ERROR:"INCORRECT"
       })
     }
-
-    
   });
+});
+
+app.get("/CreateReservation", (req, res) => {
+  const createdReservation = ReservationDB.createReservation(
+      "Steve Collins",
+      "123456",
+      new Date(2024, 2, 28, 13, 30),
+      new Date(2024, 3, 5, 18, 40),
+      "Montreal"
+    );
+    createdReservation.then((result)=> {
+    console.log(result);
+    res.send(result);
+  });
+});
+// Get reservations
+app.get("/reservations", (req, res) => {
+  reservations = ReservationDB.findAllReservations();
+  reservations
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error finding all reservations.\n" + err);
+    });
+});
+
+// Reading a reservation by ID
+app.get("/reservations/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  reservation = ReservationDB.findReservationById(id);
+  reservation
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the reservation\n" + err);
+    });
+});
+
+// Update a reservation by ID
+app.put("/UpdateReservation", (req, res) => {
+  const id = req.body.id;
+  updatedReservation = ReservationDB.updateReservation(
+    id,
+    "Kevin Collins",
+      "121234",
+      new Date(2024, 3, 20, 14, 20),
+      new Date(2024, 4, 10, 8, 30),
+      "Montreal"
+  );
+  updatedReservation
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// Deleting a reservation by ID
+app.delete("/reservations/:id", (req, res) => {
+  const id = req.params.id;
+  deletedReservation = ReservationDB.deleteReservation(id);
+
+  deletedReservation
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
@@ -157,6 +230,7 @@ app.listen(PORT, () => {
   console.log(
     `Go to http://localhost:${PORT}/mainBackend to see the server running`
   );
+
   console.log(`Press CTRL + C to stop server`);
 });
 
