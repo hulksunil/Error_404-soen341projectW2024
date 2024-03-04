@@ -49,7 +49,6 @@ app.post("/createUser", (req, res) => {
 
   // Saving the user to the database (asynchronous operation)
   createdUser.then((result) => {
-    console.log(result);
     // Sending the result to the client
     res.send(result);
   });
@@ -116,12 +115,48 @@ app.delete("/users/:id", (req, res) => {
     });
 });
 
+app.post("/findUserByEmail",(req,res) =>{
+  const userInfo = req.body;
+
+  const hash = crypto.createHash('sha256');
+  hash.update(userInfo.password);
+  const hashedPasswordAttempt = hash.digest('hex');
+
+  const searchedUser = UserDB.findUserByEmail(userInfo.email);
+
+  searchedUser.then((result) => {
+    if(result.length > 0 ){
+      const hashedPassword = result[0].hashedPass;
+
+      if(hashedPassword === hashedPasswordAttempt){
+        // Sending the result to the client
+        res.send({
+          fname: result[0].firstName,
+          lname: result[0].lastName,
+          accType: result[0].accType
+        });
+      }
+      else{
+        res.send({
+          ERROR:"INCORRECT"
+        })
+      }
+    }
+    else{
+      res.send({
+        ERROR:"INCORRECT"
+      })
+    }
+
+    
+  });
+});
+
 // Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
 app.listen(PORT, () => {
   console.log(
     `Go to http://localhost:${PORT}/mainBackend to see the server running`
   );
-  console.log(`Go to http://localhost:${PORT}/createUser to create a user`);
   console.log(`Press CTRL + C to stop server`);
 });
 

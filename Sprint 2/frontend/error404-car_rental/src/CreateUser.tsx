@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles/CreateUser.css";
-import NavBar from "./NavBar.tsx";
 import axios from "axios";
 // @ts-ignore
 import { ReactComponent as UserSilhouette } from "./svgs/userSilhouette.svg";
@@ -98,26 +97,25 @@ export default function CreateUser(props) {
         status = res.status;
 
         if (status == 200) {
-            setErrorVisibility((errorVisibility) => ({
-              ...errorVisibility,
-              status: true,
-            }));
+          setErrorVisibility((errorVisibility) => ({
+            ...errorVisibility,
+            status: true,
+          }));
 
-            //Setting props to be read in the previous page, NavBar.tsx
-            props.setUserInfo({
-              fname: fname,
-              lname: lname,
-              userColor: color,
-            });
-            props.setIsLoggedIn(true);
-            props.toggleModal();
-          } else {
-            setErrorVisibility((errorVisibility) => ({
-              ...errorVisibility,
-              status: false,
-            }));
-          }
-
+          //Setting props to be read in the previous page, NavBar.tsx
+          props.setUserInfo({
+            fname: fname,
+            lname: lname,
+            userColor: color,
+          });
+          props.setIsLoggedIn(true);
+          props.toggleModal();
+        } else {
+          setErrorVisibility((errorVisibility) => ({
+            ...errorVisibility,
+            status: false,
+          }));
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -126,8 +124,8 @@ export default function CreateUser(props) {
 
   return (
     <div className="createAccount">
-      {pageTitle()}
-      <NavBar pageTitle={document.title} />
+      {/* {pageTitle()} */}
+      {/* <NavBar pageTitle={document.title} /> */}
       <div className="mainContent">
         <CloseModal className="close" onClick={props.toggleModal} />
         <div className="leftContainer">

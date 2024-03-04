@@ -55,6 +55,10 @@ class UserDB {
   static deleteUser(id) {
     return User.findByIdAndDelete(id);
   }
+
+  static findUserByEmail(passedEmail){
+    return User.find({email: passedEmail});
+  }
 }
 
 module.exports = UserDB;
