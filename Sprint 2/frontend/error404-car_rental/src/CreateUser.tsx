@@ -116,10 +116,15 @@ export default function CreateUser(props) {
             status: false,
           }));
         }
+        storeCookies();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+  }
+
+  function storeCookies(){
+    document.cookie = "user ="+fname + " "+lname+";max-age=604800";
   }
 
   return (

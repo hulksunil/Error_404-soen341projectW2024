@@ -27,16 +27,37 @@ export default function NavBar(props) {
   function toggleCreateUserModal() {
     if(!isLoggedIn){
       setCreateUserModal(!createUserModal);
+      storeCookies();
     }
   }
 
   function toggleLoginModal() {
     setLoginModal(!loginModal);
+    console.log(userInfo);
+    storeCookies()
+  }
+
+  function storeCookies(){
+    document.cookie = "{user ="+userInfo.fname + " "+userInfo.lname+";max-age=604800";
   }
 
   useEffect(() => {
     sethomeActive(props.pageTitle === "Home" || document.title === "Home");
   }, [props.pageTitle, document.title]);
+
+  //This useeffect is for loading the cookies 
+  useEffect(()=>{
+    let cookies = document.cookie;
+    let username = (cookies.split(';'))[0].replace("user=",'').split(" ");
+    if(username.length  == 2){
+      setUserInfo((userInfo) => ({
+        ...userInfo,
+        fname: username[0],
+        lname: username[1]
+      }));
+      setIsLoggedIn(true)
+    }
+  },[])
 
   return (
     <>
@@ -72,6 +93,9 @@ export default function NavBar(props) {
                 className="userIcon"/>
                 Sign in
             </a>}
+            {isLoggedIn &&
+              <a> View Reservations</a>
+            }
           </li>
         </ul>
       </div>

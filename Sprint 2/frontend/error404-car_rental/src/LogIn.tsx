@@ -46,6 +46,8 @@ export default function LogIn(props) {
             accType: res.data.accType
           });
 
+          storeCookies(res.data.fname, res.data.lname)
+
           props.setIsLoggedIn(true);
           props.toggleModal();
 
@@ -57,6 +59,10 @@ export default function LogIn(props) {
       .catch((error) => {
         console.error("Error:", error);
       });
+  }
+
+  function storeCookies(fname,lname){
+    document.cookie = "user ="+fname + " "+lname+";max-age=604800";
   }
 
   return (
