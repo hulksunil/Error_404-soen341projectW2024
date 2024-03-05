@@ -5,6 +5,7 @@ import axios from "axios";
 import { ReactComponent as UserSilhouette } from "./svgs/userSilhouette.svg";
 // @ts-ignore
 import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
+import {storeCookies} from './CookieManager.ts';
 
 export default function CreateUser(props) {
   const [color, setColor] = useState("black");
@@ -104,9 +105,10 @@ export default function CreateUser(props) {
 
           //Setting props to be read in the previous page, NavBar.tsx
           props.setUserInfo({
-            fname: fname,
-            lname: lname,
-            userColor: color,
+            fname: fname, //This is from the field
+            lname: lname, //This is from the field
+            userColor: color, //This is from the field
+            id: res.data._id // This is from the return
           });
           props.setIsLoggedIn(true);
           props.toggleModal();
@@ -116,21 +118,16 @@ export default function CreateUser(props) {
             status: false,
           }));
         }
-        storeCookies();
+        storeCookies("username",res.data.fname + " " + res.data.lname);
+        storeCookies("userId",res.data._id);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
 
-  function storeCookies(){
-    document.cookie = "user ="+fname + " "+lname+";max-age=604800";
-  }
-
   return (
     <div className="createAccount">
-      {/* {pageTitle()} */}
-      {/* <NavBar pageTitle={document.title} /> */}
       <div className="mainContent">
         <CloseModal className="close" onClick={props.toggleModal} />
         <div className="leftContainer">

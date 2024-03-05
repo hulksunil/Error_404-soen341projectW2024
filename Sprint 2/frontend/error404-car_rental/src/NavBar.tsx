@@ -7,6 +7,7 @@ import LogIn from "./LogIn.tsx";
 import { ReactComponent as UserSilhouette } from "./svgs/userSilhouette.svg";
 // @ts-ignore
 import { ReactComponent as Signin } from "./svgs/sign-in.svg";
+import {getCookie} from './CookieManager.ts';
 
 export default function NavBar(props) {
   const [homeActive, sethomeActive] = useState(
@@ -19,7 +20,8 @@ export default function NavBar(props) {
     fname: "",
     lname: "",
     userColor: "",
-    accType:""
+    accType:"",
+    id:"",
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,18 +29,11 @@ export default function NavBar(props) {
   function toggleCreateUserModal() {
     if(!isLoggedIn){
       setCreateUserModal(!createUserModal);
-      storeCookies();
     }
   }
 
   function toggleLoginModal() {
     setLoginModal(!loginModal);
-    console.log(userInfo);
-    storeCookies()
-  }
-
-  function storeCookies(){
-    document.cookie = "{user ="+userInfo.fname + " "+userInfo.lname+";max-age=604800";
   }
 
   useEffect(() => {
@@ -47,13 +42,14 @@ export default function NavBar(props) {
 
   //This useeffect is for loading the cookies 
   useEffect(()=>{
-    let cookies = document.cookie;
-    let username = (cookies.split(';'))[0].replace("user=",'').split(" ");
-    if(username.length  == 2){
+    let username = getCookie("username");
+    if(username){
+      let usernameSplit = username.split(" ");
+      console.log(usernameSplit)
       setUserInfo((userInfo) => ({
         ...userInfo,
-        fname: username[0],
-        lname: username[1]
+        fname: usernameSplit[0],
+        lname: usernameSplit[1]
       }));
       setIsLoggedIn(true)
     }
@@ -91,7 +87,7 @@ export default function NavBar(props) {
                 width="30px"
                 height="30px"
                 className="userIcon"/>
-                Sign in
+                Log in
             </a>}
             {isLoggedIn &&
               <a> View Reservations</a>

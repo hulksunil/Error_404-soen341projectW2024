@@ -135,7 +135,8 @@ app.post("/findUserByEmail",(req,res) =>{
         res.send({
           fname: result[0].firstName,
           lname: result[0].lastName,
-          accType: result[0].accType
+          accType: result[0].accType,
+          id: result[0]._id
         });
       }
       else{

@@ -4,6 +4,7 @@ import "./styles/LogIn.css";
 import axios from "axios";
 // @ts-ignore
 import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
+import {storeCookies} from './CookieManager.ts';
 
 export default function LogIn(props) {
   const [userData, setUserData] = useState({ email: "", password: "",accType:"" });
@@ -43,10 +44,12 @@ export default function LogIn(props) {
             fname: res.data.fname,
             lname: res.data.lname,
             // userColor: color,
-            accType: res.data.accType
+            accType: res.data.accType,
+            id: res.data.id
           });
 
-          storeCookies(res.data.fname, res.data.lname)
+          storeCookies("username",res.data.fname + " " + res.data.lname);
+          storeCookies("userId",res.data.id);
 
           props.setIsLoggedIn(true);
           props.toggleModal();
@@ -59,10 +62,6 @@ export default function LogIn(props) {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }
-
-  function storeCookies(fname,lname){
-    document.cookie = "user ="+fname + " "+lname+";max-age=604800";
   }
 
   return (
