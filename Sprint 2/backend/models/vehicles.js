@@ -9,13 +9,14 @@ const vehicleSchema = new Schema({
   const Vehicle = mongoose.model("Vehicle", vehicleScheme);
   
   class VehicleDB {
-    static createVehicle(transmission, numberOfSeats, fuelType, baggageSpace) {
-      const user = new Vehicle({
+    static createVehicle( model, type, transmission, numberOfSeats, fuelType) {
+      const vehicle = new Vehicle({
         _id: new mongoose.Types.ObjectId(),
+        model : model,
+        type : type,
         transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
-        baggageSpace: baggageSpace,
       });
       return Vehicle.save();
     }
@@ -31,10 +32,11 @@ const vehicleSchema = new Schema({
       return Vehicle.findByIdAndUpdate(
         id,
         {
-          transmission: transmission,
+        model : model,
+        type: type,
+        transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
-        baggageSpace: baggageSpace,
         },
         { new: true }
       );
