@@ -76,7 +76,7 @@ test("Find a reservation by ID", async () => {
         "Montreal"
       );
       const foundRes=await ReservationDB.findReservationById(createdReservation._id);
-      expect(foundRes.userId).toEqual(createdReservation.userId);
+      expect(foundRes.userId).toStrictEqual(createdReservation.userId);
 });
 
 test("Update a reservation", async () => {
