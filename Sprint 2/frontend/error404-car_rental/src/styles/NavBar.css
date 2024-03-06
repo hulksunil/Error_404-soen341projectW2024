@@ -25,6 +25,8 @@
 
 .navBar{
     padding-bottom: 30px;
+    position: relative;
+    z-index: 1;
 }
 
 .navBar > ul {
