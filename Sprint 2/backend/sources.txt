@@ -4,3 +4,9 @@ https://www.turing.com/kb/how-to-connect-nodejs-to-mongodb
 https://www.mongodb.com/docs/mongodb-shell/write-scripts/
 
 https://blog.logrocket.com/how-to-set-up-node-typescript-express/
+
+https://www.youtube.com/watch?v=bxsemcrY4gQ
+
+https://www.youtube.com/watch?v=xrc7dIO_tXk&t=308s
+
+__v is a version number in mongodb

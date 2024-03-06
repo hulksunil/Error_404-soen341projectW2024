@@ -32,7 +32,7 @@ const CarRentalReservation = () => {
         <br />
         <div>
           <label htmlFor="driver_license">Driver's License Number:</label><br />
-          <input type="text" id="driver_license" name="driver_license" required />
+          <input type="text" id="driver_license" name="driver_license" maxLength={20} required />
         </div>
         <br />
         <div>
