@@ -18,51 +18,59 @@ afterEach(async () => {
 afterAll(async () => {
   await mongoose.connection.close();
 });
-
+const userM=  new mongoose.Types.ObjectId(123);
+  const idM= new  mongoose.Types.ObjectId(123456);
 // Test cases
 test("Create a reservation", async () => {
- 
+
+  
  createdReservation = await ReservationDB.createReservation(
-    "Steve Collins",
-    "123456",
+  userM,
+  idM,
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
     "Montreal"
   );
 
-  expect(createdReservation.userId).toStrictEqual("Steve Collins");
-  expect(createdReservation.carId).toEqual("123456");
+  
+
+
+  expect(createdReservation.userId).toBe(userM);
+  expect(createdReservation.carId).toBe(idM);
   expect(createdReservation.reservationDate).toStrictEqual(new Date(2024,2,28, 13, 20));
   expect(createdReservation.returnDate).toStrictEqual(new Date(2024, 3, 5, 14, 40),);
   expect(createdReservation.location).toEqual("Montreal");
 });
 
 test("Find all reservations", async () => {
+  const userMM1=  new mongoose.Types.ObjectId(1231);
+  const userMM2=  new mongoose.Types.ObjectId(1232);
+  const idMM= new  mongoose.Types.ObjectId(123456);
   createdReservation1= await ReservationDB.createReservation(
-    "Steve Collins1",
-    "123456",
+    userMM1,
+    idMM, 
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
     "Montreal"
   );
   createdReservation2= await ReservationDB.createReservation(
-    "Steve Collins2",
-    "123456",
+    userMM2,
+    idMM,
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
     "Montreal"
   );
   const myRes=[createdReservation1,createdReservation2];
   const foundRes=await ReservationDB.findAllReservations();
-  expect(foundRes.length).toBe(2);
-  expect(foundRes[0].userId).toBe(myRes[0].userId);
-  expect(foundRes[1].userId).toBe(myRes[1].userId);
+  expect(foundRes.length).toStrictEqual(2);
+  expect(foundRes[0].userId).toStrictEqual(myRes[0].userId);
+  expect(foundRes[1].userId).toStrictEqual(myRes[1].userId);
 });
 
 test("Find a reservation by ID", async () => {
     createdReservation = await ReservationDB.createReservation(
-        "Steve Collins",
-        "123456",
+      userM,
+      idM,
         new Date(2024, 2, 28, 13, 20),
         new Date(2024, 3, 5, 14, 40),
         "Montreal"
@@ -73,22 +81,22 @@ test("Find a reservation by ID", async () => {
 
 test("Update a reservation", async () => {
     createdReservation = await ReservationDB.createReservation(
-        "Steve Collins",
-        "123456",
+      userM,
+      idM,
         new Date(2024, 2, 28, 13, 20),
         new Date(2024, 3, 5, 14, 40),
         "Montreal"
       );
       updatedReservation = await ReservationDB.createReservation(
-       
-        "Kevin Collins",
-        "121234",
+        
+        userM,
+  idM,
         new Date(2024, 3, 20, 17, 20),
         new Date(2024, 4, 10, 18, 20),
         "Montreal"
       );
-      expect(updatedReservation.userId).toStrictEqual("Kevin Collins");
-      expect(updatedReservation.carId).toEqual("121234");
+      expect(updatedReservation.userId).toBe(userM);
+      expect(updatedReservation.carId).toBe(idM);
       expect(updatedReservation.reservationDate).toEqual(new Date(2024, 3, 20, 17, 20));
       expect(updatedReservation.returnDate).toEqual (new Date(2024, 4, 10, 18, 20));
 
@@ -96,8 +104,8 @@ test("Update a reservation", async () => {
 
 test("Delete a reservation", async () => {
     createdReservation = await ReservationDB.createReservation(
-        "Steve Collins",
-        "123456",
+      userM,
+      idM,
         new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
         "Montreal"
