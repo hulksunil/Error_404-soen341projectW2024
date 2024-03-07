@@ -1,5 +1,7 @@
 const vehicleSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    model : String,
+    type : String,
     transmission: String,
     numberOfSeats: String,
     fuelType: String,
@@ -28,7 +30,7 @@ const vehicleSchema = new Schema({
       return Vehicle.find();
     }
   
-   static updateVehicle(transmission, numberOfSeats, fuelType, baggageSpace) {
+   static updateVehicle(model, type, transmission, numberOfSeats, fuelType, ) {
       return Vehicle.findByIdAndUpdate(
         id,
         {
@@ -41,4 +43,10 @@ const vehicleSchema = new Schema({
         { new: true }
       );
     }
-}
+
+    static deleteVehicle(id) {
+      return Vehicle.findByIdAndDelete(id);
+    }
+  }
+
+module.exports = UserDB;
