@@ -1,10 +1,11 @@
 .viewReservationContainer {
     padding-top: 2em;
+    background-color: #ADADFF;
 }
 
 .reservationContainer {
     position: relative;
-    background-color: #b57ba6;
+    background-color: white;
     width: 12em;
     height: 12em;
     margin: 1em;
@@ -26,7 +27,7 @@
     right: 0;
     width: 12em;
     height: 3em;
-    background-color: lightblue;
+    background-color: #7A7AFF;
 }
 
 .deleteSVG,
@@ -53,4 +54,5 @@
     font-size: 12px; 
     margin-top: 10px;
     border: none;
+    background-color: #ADADFF;
 }

@@ -7,12 +7,17 @@ import LogIn from "./LogIn.tsx";
 import { ReactComponent as UserSilhouette } from "./svgs/userSilhouette.svg";
 // @ts-ignore
 import { ReactComponent as Signin } from "./svgs/sign-in.svg";
-import {getCookie} from './CookieManager.ts';
+import { getCookie } from './CookieManager.ts';
 
 export default function NavBar(props) {
   const [homeActive, sethomeActive] = useState(
     props.pageTitle === "Home" || document.title === "Home"
   );
+
+  const [viewResActive, setviewResActive] = useState(
+    props.pageTitle === "View Reservations" || document.title === "View Reservations"
+  );
+
   const [createUserModal, setCreateUserModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
 
@@ -20,14 +25,14 @@ export default function NavBar(props) {
     fname: "",
     lname: "",
     userColor: "",
-    accType:"",
-    id:"",
+    accType: "",
+    id: "",
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function toggleCreateUserModal() {
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
       setCreateUserModal(!createUserModal);
     }
   }
@@ -38,12 +43,13 @@ export default function NavBar(props) {
 
   useEffect(() => {
     sethomeActive(props.pageTitle === "Home" || document.title === "Home");
+    setviewResActive(props.pageTitle === "View reservations" || document.title === "View reservations");
   }, [props.pageTitle, document.title]);
 
   //This useeffect is for loading the cookies 
-  useEffect(()=>{
+  useEffect(() => {
     let username = getCookie("username");
-    if(username){
+    if (username) {
       let usernameSplit = username.split(" ");
       console.log(usernameSplit)
       setUserInfo((userInfo) => ({
@@ -53,20 +59,23 @@ export default function NavBar(props) {
       }));
       setIsLoggedIn(true)
     }
-  },[])
+  }, [])
 
   return (
     <>
       <div className="navBar">
         <ul>
-          <li className="navbarLeft" id={homeActive ? "active" : ""}>
+          <li className="navbarLeft" id="siteTitle">
+            Cars R Us
+          </li>
+          <li className="navbarLeft" id={homeActive ? "active" : "notActive"}>
             <Link to="/">Home</Link>
           </li>
-          <li className="navbarLeft">
+          <li className="navbarLeft" id={"notActive"}>
             <a>About</a>
           </li>
 
-          <li className="navbarRight">
+          <li className="navbarRight" id={"notActive"}>
             <a onClick={toggleCreateUserModal}>
               <UserSilhouette
                 width="30px"
@@ -80,17 +89,17 @@ export default function NavBar(props) {
             </a>
           </li>
 
-          <li className="navbarRight">
-            {!isLoggedIn && 
-            <a onClick={toggleLoginModal}>
-                <Signin 
-                width="30px"
-                height="30px"
-                className="userIcon"/>
+          <li className="navbarRight" id={viewResActive ? "active" : "notActive"}>
+            {!isLoggedIn &&
+              <a onClick={toggleLoginModal}>
+                <Signin
+                  width="30px"
+                  height="30px"
+                  className="userIcon" />
                 Log in
-            </a>}
+              </a>}
             {isLoggedIn &&
-              <a> View Reservations</a>
+              <Link to="/viewreservation"> View Reservations</Link>
             }
           </li>
         </ul>

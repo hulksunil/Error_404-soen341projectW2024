@@ -21,7 +21,7 @@ export default function ViewReservation() {
   }]); 
 
   function pageTitle() {
-    return <title>This is the page title</title>;
+    return <title>View Reservations</title>;
   }
 
   function Reservation({res}) {

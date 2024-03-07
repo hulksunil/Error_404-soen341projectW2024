@@ -10,7 +10,7 @@
 }
 
 .mainContent{
-    background-color:#8fb3ff;
+    background-color:#7A7AFF;
     width:50em;
     height: fit-content;
 
@@ -35,7 +35,7 @@
 
 .leftContainer{
     width: 320px;
-    background-color:#8fb3ff;
+    background-color:#7A7AFF;
   }
 
 
@@ -69,7 +69,8 @@
   }
 
   .fieldInputs > input:focus {
-    border-color: blue; 
+    border-color: black; 
+    border-width: 1.2px;
   }
 
   .fieldInputs > select{
@@ -81,7 +82,7 @@
     padding: 1em;
     margin-top: 5px;
     border: none;
-    background-color: #96C3CE;
+    background-color: #ADADFF;
     cursor: pointer;
   }
 
