@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const dbURI =
-  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
+  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404testdb?retryWrites=true&w=majority";
 
 // Connecting to the database
 mongoose
@@ -116,7 +116,6 @@ app.delete("/users/:id", (req, res) => {
     });
 });
 
-
 app.post("/findUserByEmail",(req,res) =>{
   const userInfo = req.body;
 
@@ -153,10 +152,13 @@ app.post("/findUserByEmail",(req,res) =>{
   });
 });
 
+const userM=  new mongoose.Types.ObjectId(123);
+const idM= new  mongoose.Types.ObjectId(123456);
+// Create a reservation
 app.get("/CreateReservation", (req, res) => {
   const createdReservation = ReservationDB.createReservation(
-      "Steve Collins",
-      "123456",
+      userM,
+      idM,
       new Date(2024, 2, 28, 13, 30),
       new Date(2024, 3, 5, 18, 40),
       "Montreal"
@@ -197,8 +199,8 @@ app.put("/UpdateReservation", (req, res) => {
   const id = req.body.id;
   updatedReservation = ReservationDB.updateReservation(
     id,
-    "Kevin Collins",
-      "121234",
+    userM,
+      idM,
       new Date(2024, 3, 20, 14, 20),
       new Date(2024, 4, 10, 8, 30),
       "Montreal"

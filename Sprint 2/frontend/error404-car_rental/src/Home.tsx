@@ -16,7 +16,7 @@ export default function Home() {
             <div className='content'>
                 {pageTitle()}
                 <NavBar pageTitle={document.title} />
-                <h1>Cars R Us or something</h1>
+                <h1>Cars R Us</h1>
 
                 <button className="buttonContainer">
                     <img src={require('./images/roadtrip.jpg')} alt="People on an advdnture" className='image' />
@@ -27,6 +27,8 @@ export default function Home() {
                     <img src={require('./images/handingOverKeys.jpg')} alt="handingOverKeys" className='image' />
                     <Link to="/viewreservation" className="centeredText"> View Reservations </Link>
                 </button>
+
+                <Link to="/reservation">Hi</Link>
 
                 {/* This creates a link on the page that will route 
             to the specified element, CreateUser.tsx, page and will display the 
