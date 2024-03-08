@@ -15,7 +15,8 @@ In frontend folder,
 
 #### <ins>Backend </ins>
 In backend folder,  
-``node server.js``
+``npm install``
+``node main.js``
 
 
 ## Usage Guidelines
