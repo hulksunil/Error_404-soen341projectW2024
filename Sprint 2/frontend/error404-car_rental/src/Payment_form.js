@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/create_a_reservation&payment.css'
 
 const CarRentalPayment = () => {
   return (
