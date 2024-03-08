@@ -6,32 +6,35 @@ import { ReactComponent as Delete } from "./svgs/delete.svg";
 // @ts-ignore
 import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
-import {getCookie} from './CookieManager.ts';
+import { getCookie } from './CookieManager.ts';
 
 export default function ViewReservation() {
 
-  const [reservations,setReservations]=useState([{
+  const [reservations, setReservations] = useState([{
     carId: "",
     location: "",
     reservationDate: "",
     returnDate: "",
     userId: "",
     __v: 0,
-    _id : "",
-  }]); 
+    _id: "",
+  }]);
 
   function pageTitle() {
     return <title>View Reservations</title>;
   }
 
-  function Reservation({res}) {
+  function Reservation({ res }) {
+    const isEmpty = res.carId.length;
+
+
     return (
       <div className="reservationContainer">
         <img className="carImage" />
         <div className="actionbar">
           <button className="viewLabel">View</button> {/*onClick={viewReservationOnClick(res._id)} */}
-          <Modify className="editSVG" onClick={modifyReservationOnClick(res._id)}/>
-          <Delete fill="red" className="deleteSVG" onClick={deleteReservationOnClick(res._id)}/>
+          <Modify className="editSVG" onClick={modifyReservationOnClick(res._id)} />
+          <Delete fill="red" className="deleteSVG" onClick={deleteReservationOnClick(res._id)} />
         </div>
       </div>
     )
@@ -49,7 +52,7 @@ export default function ViewReservation() {
 
   }
 
-  function loadAllReservations(){
+  function loadAllReservations() {
     const userId = getCookie("usreID");
 
     // /http://localhost:8080/reservations:id 
@@ -77,7 +80,7 @@ export default function ViewReservation() {
       {pageTitle()}
       <h1>Current Reservations</h1>
       {reservations.map(reservation =>
-        <Reservation key={reservation._id} res = {reservation} />
+        <Reservation key={reservation._id} res={reservation} />
       )}
 
 
@@ -85,7 +88,7 @@ export default function ViewReservation() {
       <h1>Past Reservations</h1>
 
       {reservations.map(reservation =>
-        <Reservation key={reservation._id} res = {reservation} />
+        <Reservation key={reservation._id} res={reservation} />
       )}
 
 
