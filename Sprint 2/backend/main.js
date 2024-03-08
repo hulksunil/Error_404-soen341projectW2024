@@ -248,3 +248,80 @@ app.post("/mainBackend", (req, res) => {
   console.log(req);
   res.send("Data received. You sent a post to the server at /mainBackend");
 });
+
+//Creating a vehicle
+app.get("/createVehicle", (req, res) => {
+  const createVehicle = VehicleDB.createVehicle(
+    "Subaru",
+    "Hatchback",
+    "Manual",
+    "5",
+    "Gas"
+  );
+   
+  // Saving the vehicle to the database
+   createVehicle.then((result) => {
+    console.log(result);
+
+    // Sending the result to the client
+    res.send(result);
+  });
+});
+
+
+app.get("/vehicles/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  vehicle = VehicleDB.findVehicleById(id);
+  user
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the selected vehicle\n" + err);
+    });
+});
+
+app.get("/vehicles", (req, res) => {
+  vehicle = VehicleDB.findAllVehicles();
+  vehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding all vehicles.\n" + err);
+    });
+});
+
+app.get("/updateVehicle", (req, res) => { 
+  // Update the vehicle with the given id
+  const id = req.body.id;
+  updateVehicle = VehicleDB.updateVehicle(
+    id,
+    "Tesla",
+    "Sedan",
+    "Automatic",
+    "2",
+    "Electric"
+  );
+  updateVehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.delete("/vehicles/:id", (req, res) => {
+  const id = req.params.id;
+  deleteVehicle = VehivleDB.deleteVehicle(id);
+
+  deleteVehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});

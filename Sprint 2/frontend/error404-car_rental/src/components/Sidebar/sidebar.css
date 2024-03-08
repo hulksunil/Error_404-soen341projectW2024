@@ -1,0 +1,54 @@
+.filtersidebar{
+    
+    width: 200px;
+    background-color: #457B9D;
+    padding: 20px;
+    box-sizing: border-box;
+    float: left; /* Ensure the sidebar floats on the left */
+    margin-left: 10px;
+    margin-top: 20px;
+    border-radius: 20px;
+    color: #F1FAEE;
+    
+      
+}
+
+.filterTitle{
+    text-decoration: underline;
+    color: #F1FAEE;
+    text-align:left;
+    margin-top: 0.05px;
+}
+
+.cartype{
+    text-align: left;
+    margin:0;
+    padding: 0;
+   
+}
+
+.nopassenger{
+    text-align: left;
+    margin:0;
+    padding: 0;
+}
+
+.powertrain{
+    text-align: left;
+    margin:0;
+    padding: 0;
+}
+
+.cartype label {
+    display: block;
+}
+  
+.typeinput {
+    margin-right: 8px;
+    cursor: pointer;
+    margin-top: 0.05px;
+}
+
+.titlecheck{
+    margin-bottom: 0px;
+}
