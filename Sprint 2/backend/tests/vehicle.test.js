@@ -49,10 +49,10 @@ const dbURI =
       "Electric"
     );
   
-    const myVehicles = [createVehicle1, createdVehicle2];
+    const myVehicles = [createdVehicle1, createdVehicle2];
     const foundVehicles = await VehicleDB.findAllVehicles();
   
     expect(foundVehicles.length).toBe(2);
     expect(foundVehicles[0].model).toBe(myVehicles[0].model);
-    expect(foundVehicles[1].model.toBe(myVehicles[1].model);
+    expect(foundVehicles[1].model).toBe(myVehicles[1].model);
   });

@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
 const vehicleSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     model : String,
@@ -8,7 +11,7 @@ const vehicleSchema = new Schema({
     baggageSpace: String,
   });
   
-  const Vehicle = mongoose.model("Vehicle", vehicleScheme);
+  const Vehicle = mongoose.model("Vehicle", vehicleSchema);
   
   class VehicleDB {
     static createVehicle( model, type, transmission, numberOfSeats, fuelType) {
@@ -20,7 +23,7 @@ const vehicleSchema = new Schema({
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
       });
-      return Vehicle.save();
+      return vehicle.save();
     }
     static findVehicleById(id) {
       return Vehicle.findById(id);
@@ -49,4 +52,4 @@ const vehicleSchema = new Schema({
     }
   }
 
-module.exports = UserDB;
+module.exports = VehicleDB;
