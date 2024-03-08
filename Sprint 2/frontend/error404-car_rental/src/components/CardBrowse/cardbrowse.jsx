@@ -18,6 +18,7 @@ function CardBrowse(props) {
           <br />
           <div>Powertrain: {PTrain}</div>
         </div>
+        <div className="rentBtn"><button>Rent</button></div>
       </div>
 
       

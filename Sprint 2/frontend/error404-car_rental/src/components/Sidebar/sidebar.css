@@ -1,23 +1,25 @@
 .filtersidebar{
     
     width: 200px;
-    background-color: #457B9D;
+    background-color: #7A7AFF;
     padding: 20px;
     box-sizing: border-box;
     float: left; /* Ensure the sidebar floats on the left */
     margin-left: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
     border-radius: 20px;
-    color: #F1FAEE;
+    margin-right: 30px;
+    color: #000;
     
       
 }
 
 .filterTitle{
     text-decoration: underline;
-    color: #F1FAEE;
+    color: #000;
     text-align:left;
     margin-top: 0.05px;
+    
 }
 
 .cartype{
