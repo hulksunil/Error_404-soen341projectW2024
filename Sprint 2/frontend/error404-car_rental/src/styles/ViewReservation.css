@@ -1,0 +1,58 @@
+.viewReservationContainer {
+    padding-top: 2em;
+    background-color: #ADADFF;
+}
+
+.reservationContainer {
+    position: relative;
+    background-color: white;
+    width: 12em;
+    height: 12em;
+    margin: 1em;
+    display: inline-block;
+}
+
+.carImage{
+    background-color: yellow;
+    width: 10em;
+    height: 10em;
+
+    max-width: 12em;
+    max-height: 12em;
+}
+
+.actionbar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12em;
+    height: 3em;
+    background-color: #7A7AFF;
+}
+
+.deleteSVG,
+.editSVG {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.deleteSVG {
+    position: absolute;
+    right: 0;
+}
+
+.editSVG {}
+
+.viewLabel {
+    position: absolute;
+    left: 5px;
+    display: inline;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 8px 12px; 
+    font-size: 12px; 
+    margin-top: 10px;
+    border: none;
+    background-color: #ADADFF;
+}

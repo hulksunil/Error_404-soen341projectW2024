@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  userId: String, 
-  carId: String,
+  userId: mongoose.Schema.Types.ObjectId, 
+  carId: mongoose.Schema.Types.ObjectId,
   reservationDate: Date,
   returnDate: Date,
   location: String,
@@ -41,7 +41,7 @@ class ReservationDB {
       id,
       {
         userId: userId,
-        carId: carId,
+      carId: carId,
         reservationDate: reservationDate,
         returnDate: returnDate,
         location: location, 

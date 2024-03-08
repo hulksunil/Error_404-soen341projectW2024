@@ -1,0 +1,99 @@
+.createAccount{
+    padding-top: 50px;
+}
+
+.close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.mainContent{
+    background-color:#7A7AFF;
+    width:50em;
+    height: fit-content;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+
+    border-color: black;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+}
+
+.leftContainer,.rightContainer{
+    display: inline-block;
+}
+
+.leftContainer{
+    width: 320px;
+    background-color:#7A7AFF;
+  }
+
+
+  .imageContainer,.colorOptions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .colorButton{
+    width: 1.5em;
+    height: 1.5em;
+    margin: 3px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .fieldLabels{
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .fieldInputs > input,.submitButton,  .fieldInputs > select{
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 8px 12px; 
+    font-size: 12px; 
+    outline: none; 
+    width: 11em;
+  }
+
+  .fieldInputs > input:focus {
+    border-color: black; 
+    border-width: 1.2px;
+  }
+
+  .fieldInputs > select{
+    width: 13em; 
+    padding: 8px 5px; 
+  }
+
+  .submitButton{
+    padding: 1em;
+    margin-top: 5px;
+    border: none;
+    background-color: #ADADFF;
+    cursor: pointer;
+  }
+
+ .error,.errorVisible{
+    color: rgb(170, 9, 9);
+    font-size: 12px;
+    list-style-type: none;
+    text-align: left;
+    display: none;
+ }
+
+ .errorVisible{
+    display: block;
+ }
