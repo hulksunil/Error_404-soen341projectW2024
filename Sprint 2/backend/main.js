@@ -1,13 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const UserDB = require("./models/user");
-const cors = require('cors'); // This solves an error of cross site scripting
-const bodyParser = require('body-parser'); // This allows the data to be taken
-const crypto = require('crypto'); // this is for hashing the password
+const cors = require("cors"); // This solves an error of cross site scripting
+const bodyParser = require("body-parser"); // This allows the data to be taken
+const crypto = require("crypto"); // this is for hashing the password
 
-const hash = crypto.createHash('sha256');
+const hash = crypto.createHash("sha256");
 
 const ReservationDB = require("./models/res");
+const VehicleDB = require("./models/vehicle");
 const app = express();
 
 const PORT = 8080;
@@ -18,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const dbURI =
-  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404testdb?retryWrites=true&w=majority";
+  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
 
 // Connecting to the database
 mongoose
@@ -33,12 +34,12 @@ mongoose
 app.post("/createUser", (req, res) => {
   //check if the user email exsists already in the db
 
-  const hash = crypto.createHash('sha256');
+  const hash = crypto.createHash("sha256");
 
   const userInfo = req.body;
 
   hash.update(userInfo.password);
-  const hashedPassword = hash.digest('hex');
+  const hashedPassword = hash.digest("hex");
 
   const createdUser = UserDB.createUser(
     userInfo.fname,
@@ -46,7 +47,7 @@ app.post("/createUser", (req, res) => {
     userInfo.accType,
     userInfo.email,
     hashedPassword
-    );
+  );
 
   // Saving the user to the database (asynchronous operation)
   createdUser.then((result) => {
@@ -116,54 +117,52 @@ app.delete("/users/:id", (req, res) => {
     });
 });
 
-app.post("/findUserByEmail",(req,res) =>{
+app.post("/findUserByEmail", (req, res) => {
   const userInfo = req.body;
 
-  const hash = crypto.createHash('sha256');
+  const hash = crypto.createHash("sha256");
   hash.update(userInfo.password);
-  const hashedPasswordAttempt = hash.digest('hex');
+  const hashedPasswordAttempt = hash.digest("hex");
 
   const searchedUser = UserDB.findUserByEmail(userInfo.email);
 
   searchedUser.then((result) => {
-    if(result.length > 0 ){
+    if (result.length > 0) {
       const hashedPassword = result[0].hashedPass;
 
-      if(hashedPassword === hashedPasswordAttempt){
+      if (hashedPassword === hashedPasswordAttempt) {
         // Sending the result to the client
         res.send({
           fname: result[0].firstName,
           lname: result[0].lastName,
           accType: result[0].accType,
-          id: result[0]._id
+          id: result[0]._id,
+        });
+      } else {
+        res.send({
+          ERROR: "INCORRECT",
         });
       }
-      else{
-        res.send({
-          ERROR:"INCORRECT"
-        })
-      }
-    }
-    else{
+    } else {
       res.send({
-        ERROR:"INCORRECT"
-      })
+        ERROR: "INCORRECT",
+      });
     }
   });
 });
 
-const userM=  new mongoose.Types.ObjectId(123);
-const idM= new  mongoose.Types.ObjectId(123456);
+const userM = new mongoose.Types.ObjectId(123);
+const idM = new mongoose.Types.ObjectId(123456);
 // Create a reservation
 app.get("/CreateReservation", (req, res) => {
   const createdReservation = ReservationDB.createReservation(
-      userM,
-      idM,
-      new Date(2024, 2, 28, 13, 30),
-      new Date(2024, 3, 5, 18, 40),
-      "Montreal"
-    );
-    createdReservation.then((result)=> {
+    userM,
+    idM,
+    new Date(2024, 2, 28, 13, 30),
+    new Date(2024, 3, 5, 18, 40),
+    "Montreal"
+  );
+  createdReservation.then((result) => {
     console.log(result);
     res.send(result);
   });
@@ -200,10 +199,10 @@ app.put("/UpdateReservation", (req, res) => {
   updatedReservation = ReservationDB.updateReservation(
     id,
     userM,
-      idM,
-      new Date(2024, 3, 20, 14, 20),
-      new Date(2024, 4, 10, 8, 30),
-      "Montreal"
+    idM,
+    new Date(2024, 3, 20, 14, 20),
+    new Date(2024, 4, 10, 8, 30),
+    "Montreal"
   );
   updatedReservation
     .then((result) => {
@@ -258,16 +257,15 @@ app.get("/createVehicle", (req, res) => {
     "5",
     "Gas"
   );
-   
+
   // Saving the vehicle to the database
-   createVehicle.then((result) => {
+  createVehicle.then((result) => {
     console.log(result);
 
     // Sending the result to the client
     res.send(result);
   });
 });
-
 
 app.get("/vehicles/:id", (req, res) => {
   const id = req.params.id;
@@ -293,7 +291,7 @@ app.get("/vehicles", (req, res) => {
     });
 });
 
-app.get("/updateVehicle", (req, res) => { 
+app.get("/updateVehicle", (req, res) => {
   // Update the vehicle with the given id
   const id = req.body.id;
   updateVehicle = VehicleDB.updateVehicle(
