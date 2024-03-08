@@ -6,7 +6,7 @@ import {Link} from 'react-scroll';
 function navbar() {
   return (
     <nav className="navbar">
-        <div className="navTitleName"><h1>CAR RENTAL</h1></div>
+        <div className="navTitleName"><h1>CARS R US</h1></div>
         <div className="desktopMenu">
             <Link className="desktopMenuListItem">Home</Link>
             <Link className="desktopMenuListItem">Browse</Link>

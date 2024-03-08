@@ -21,7 +21,7 @@ function Sidebar({ handleFilterChange }) {
         </div>
 
         <div className="nopassenger">
-          <h3 className='titlecheck'>No. of Passengers:</h3>
+          <h3 className='titlecheck'>No. of Seats</h3>
           <input type="checkbox" onChange={() => handleFilterChange('passengers', '2')} className='typeinput'/> 2
           <br />
           <input type="checkbox" onChange={() => handleFilterChange('passengers', '5')} className='typeinput'/> 5
@@ -32,7 +32,7 @@ function Sidebar({ handleFilterChange }) {
         </div>
     
         <div className="powertrain">
-          <h3 className='titlecheck'>Powertrain:</h3>
+          <h3 className='titlecheck'>Fuel Type:</h3>
           <input type="checkbox" onChange={() => handleFilterChange('powertrain', 'Gas')} className='typeinput'/> Gas
           <br />
           <input type="checkbox" onChange={() => handleFilterChange('powertrain', 'Electric')} className='typeinput'/> Electric

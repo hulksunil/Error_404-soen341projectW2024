@@ -5,14 +5,15 @@
     margin: 15px;
     transition: 0.5s;
     animation: ease-in;
-    background-color: #1D3557;
+    background-color: #354AF2;
     border-radius: 20px;
-    color: #F1FAEE;
+    color: #FFFEE0;
+    margin-top: 30px;
 }
 
 .card-container:hover{
     transform: scale(1.1);
-    box-shadow: 0px 0px 20px 0px #1D3557;
+    box-shadow: 0px 0px 20px 0px #FFFEE0;
 }
 
 .image-container{
@@ -33,4 +34,14 @@
     margin-top: 0.5rem;
     text-align: left;
     /*height: 400px;*/ /*to adjust the height of the box wothout changing the picture size*/
+}
+
+.rentBtn{
+    text-align: center;
+    border-radius: 20%;
+    
+}
+
+.rentBtn :hover{
+    cursor: pointer;
 }
