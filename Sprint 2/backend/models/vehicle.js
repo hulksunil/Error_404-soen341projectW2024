@@ -8,7 +8,6 @@ const vehicleSchema = new Schema({
     transmission: String,
     numberOfSeats: String,
     fuelType: String,
-    baggageSpace: String,
   });
   
   const Vehicle = mongoose.model("Vehicle", vehicleSchema);

@@ -251,11 +251,11 @@ app.post("/mainBackend", (req, res) => {
 //Creating a vehicle
 app.get("/createVehicle", (req, res) => {
   const createVehicle = VehicleDB.createVehicle(
-    "Subaru",
-    "Hatchback",
+    "Ferrari SF90",
+    "Sports Car",
     "Manual",
-    "5",
-    "Gas"
+    "2",
+    "Hybrid"
   );
 
   // Saving the vehicle to the database
