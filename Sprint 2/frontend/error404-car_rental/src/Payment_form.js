@@ -5,7 +5,7 @@ const CarRentalPayment = () => {
   return (
     <>
       <h1>Payment Information</h1>
-      <form action="Transaction_approved.js">
+      <form action="./Transaction_approved.js">
         <div>
           <label htmlFor="amount">Amount:</label><br />
           <input type="number" id="amount" name="amount" min="0" step="0.01" required />

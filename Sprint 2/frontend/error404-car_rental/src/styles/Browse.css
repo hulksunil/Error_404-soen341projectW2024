@@ -1,0 +1,14 @@
+.card-list {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    
+}
+  
+
+
+body{
+  background-color: #A8DADC;
+  margin: 0;
+  padding: 0;
+}

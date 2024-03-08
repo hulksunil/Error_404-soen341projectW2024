@@ -1,6 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const UserDB = require("./models/user");
+const cors = require('cors'); // This solves an error of cross site scripting
+const bodyParser = require('body-parser'); // This allows the data to be taken
+const crypto = require('crypto'); // this is for hashing the password
+
+const hash = crypto.createHash('sha256');
+
 const ReservationDB = require("./models/res");
 const app = express();
 
@@ -8,9 +14,11 @@ const PORT = 8080;
 
 // Middleware to parse the body of the request (to get the data from the client)
 app.use(express.urlencoded());
+app.use(cors());
+app.use(bodyParser.json());
 
 const dbURI =
-  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
+  "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404testdb?retryWrites=true&w=majority";
 
 // Connecting to the database
 mongoose
@@ -22,19 +30,26 @@ mongoose
 
 // ROUTES
 // Creating a user when the user goes to /createUser url
-app.get("/createUser", (req, res) => {
+app.post("/createUser", (req, res) => {
+  //check if the user email exsists already in the db
+
+  const hash = crypto.createHash('sha256');
+
+  const userInfo = req.body;
+
+  hash.update(userInfo.password);
+  const hashedPassword = hash.digest('hex');
+
   const createdUser = UserDB.createUser(
-    "John",
-    "Doe",
-    "admin",
-    "mrJohnDoe@email.com",
-    "password123"
-  );
+    userInfo.fname,
+    userInfo.lname,
+    userInfo.accType,
+    userInfo.email,
+    hashedPassword
+    );
 
   // Saving the user to the database (asynchronous operation)
   createdUser.then((result) => {
-    console.log(result);
-
     // Sending the result to the client
     res.send(result);
   });
@@ -101,10 +116,49 @@ app.delete("/users/:id", (req, res) => {
     });
 });
 
+app.post("/findUserByEmail",(req,res) =>{
+  const userInfo = req.body;
+
+  const hash = crypto.createHash('sha256');
+  hash.update(userInfo.password);
+  const hashedPasswordAttempt = hash.digest('hex');
+
+  const searchedUser = UserDB.findUserByEmail(userInfo.email);
+
+  searchedUser.then((result) => {
+    if(result.length > 0 ){
+      const hashedPassword = result[0].hashedPass;
+
+      if(hashedPassword === hashedPasswordAttempt){
+        // Sending the result to the client
+        res.send({
+          fname: result[0].firstName,
+          lname: result[0].lastName,
+          accType: result[0].accType,
+          id: result[0]._id
+        });
+      }
+      else{
+        res.send({
+          ERROR:"INCORRECT"
+        })
+      }
+    }
+    else{
+      res.send({
+        ERROR:"INCORRECT"
+      })
+    }
+  });
+});
+
+const userM=  new mongoose.Types.ObjectId(123);
+const idM= new  mongoose.Types.ObjectId(123456);
+// Create a reservation
 app.get("/CreateReservation", (req, res) => {
   const createdReservation = ReservationDB.createReservation(
-      "Steve Collins",
-      "123456",
+      userM,
+      idM,
       new Date(2024, 2, 28, 13, 30),
       new Date(2024, 3, 5, 18, 40),
       "Montreal"
@@ -145,8 +199,8 @@ app.put("/UpdateReservation", (req, res) => {
   const id = req.body.id;
   updatedReservation = ReservationDB.updateReservation(
     id,
-    "Kevin Collins",
-      "121234",
+    userM,
+      idM,
       new Date(2024, 3, 20, 14, 20),
       new Date(2024, 4, 10, 8, 30),
       "Montreal"
@@ -179,8 +233,7 @@ app.listen(PORT, () => {
   console.log(
     `Go to http://localhost:${PORT}/mainBackend to see the server running`
   );
-  console.log(`Go to http://localhost:${PORT}/createReservation to create a reservation`);
-  console.log(`Go to http://localhost:${PORT}/createUser to create a user`);
+
   console.log(`Press CTRL + C to stop server`);
 });
 
@@ -194,4 +247,81 @@ app.get("/mainBackend", (req, res) => {
 app.post("/mainBackend", (req, res) => {
   console.log(req);
   res.send("Data received. You sent a post to the server at /mainBackend");
+});
+
+//Creating a vehicle
+app.get("/createVehicle", (req, res) => {
+  const createVehicle = VehicleDB.createVehicle(
+    "Subaru",
+    "Hatchback",
+    "Manual",
+    "5",
+    "Gas"
+  );
+   
+  // Saving the vehicle to the database
+   createVehicle.then((result) => {
+    console.log(result);
+
+    // Sending the result to the client
+    res.send(result);
+  });
+});
+
+
+app.get("/vehicles/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  vehicle = VehicleDB.findVehicleById(id);
+  user
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the selected vehicle\n" + err);
+    });
+});
+
+app.get("/vehicles", (req, res) => {
+  vehicle = VehicleDB.findAllVehicles();
+  vehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding all vehicles.\n" + err);
+    });
+});
+
+app.get("/updateVehicle", (req, res) => { 
+  // Update the vehicle with the given id
+  const id = req.body.id;
+  updateVehicle = VehicleDB.updateVehicle(
+    id,
+    "Tesla",
+    "Sedan",
+    "Automatic",
+    "2",
+    "Electric"
+  );
+  updateVehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.delete("/vehicles/:id", (req, res) => {
+  const id = req.params.id;
+  deleteVehicle = VehivleDB.deleteVehicle(id);
+
+  deleteVehicle
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
