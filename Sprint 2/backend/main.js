@@ -230,7 +230,7 @@ app.get("/vehicles/:id", (req, res) => {
 });
 
 app.get("/vehicles", (req, res) => {
-  vehicle = VehicleDBDB.findAllVehicles();
+  vehicle = VehicleDB.findAllVehicles();
   vehicle
     .then((result) => {
       res.send(result);
@@ -240,7 +240,7 @@ app.get("/vehicles", (req, res) => {
     });
 });
 
-pp.get("/updateVehicle", (req, res) => {
+app.get("/updateVehicle", (req, res) => { 
   // Update the vehicle with the given id
   const id = req.body.id;
   updateVehicle = VehicleDB.updateVehicle(
