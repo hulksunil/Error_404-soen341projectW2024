@@ -28,8 +28,6 @@ export default function Home() {
                     <Link to="/viewreservation" className="centeredText"> View Reservations </Link>
                 </button>
 
-                <Link to="/reservation">Hi</Link>
-
                 {/* This creates a link on the page that will route 
             to the specified element, CreateUser.tsx, page and will display the 
             specified path in the search bar. The route is specified in the App.js page */}
