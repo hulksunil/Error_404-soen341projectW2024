@@ -55,7 +55,15 @@ const carsData: Car[] = [
     CarType: "Pick-Up",
     NoOfPass: "5",
     PTrain: "Gas"
+  },
+  {
+    titleName: "Honda Civic",
+    imageUrl: "https://media.ed.edmunds-media.com/honda/civic/2023/oem/2023_honda_civic_sedan_si_fq_oem_1_1600.jpg",
+    CarType: "Sedan",
+    NoOfPass: "5",
+    PTrain: "Gas"
   }
+
 
 
   // Add more car objects here

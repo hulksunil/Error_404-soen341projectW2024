@@ -5,7 +5,7 @@
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
-    background-color: #E63946;
+    background-color: #7A7AFF;
     justify-content: space-between;
     position:sticky;
     top: 0;
@@ -15,11 +15,11 @@
 }
 
 .navTitleName{
-    color: #F1FAEE;
+    color: #000000;
 }
 
 .desktopMenu{
-    color: #F1FAEE;
+    color: #000000;
 }
 
 .desktopMenuListItem{
@@ -28,16 +28,16 @@
 }
 
 .desktopMenuListItem:hover{
-    color: #A8DADC;
+    color: #C2BBF0;
     padding-bottom: 0.5rem;
-    border-bottom: 3px solid #A8DADC;
+    border-bottom: 3px solid #C2BBF0;
     font-weight: 700;
     
 }
 
 .LogBtn{
     background-color: #F1FAEE;
-    color: #1D3557;
+    color: #000000;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -47,6 +47,7 @@
 }
 
 .LogBtn:hover{
-    background-color: #457B9D;
-    color: #F1FAEE;
+    background-color: #354AF2;
+    color: #FFFEE0;
+    
 }
