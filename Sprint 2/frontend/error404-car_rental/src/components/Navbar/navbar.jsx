@@ -1,6 +1,6 @@
 import React from 'react';
 import './navbar.css';
-import {Link} from 'react-scroll';
+import {Link} from 'react-router-dom';
 
 
 function navbar() {

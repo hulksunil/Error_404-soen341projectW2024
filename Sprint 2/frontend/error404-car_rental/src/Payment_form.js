@@ -1,11 +1,11 @@
 import React from 'react';
-import './styles/create_a_reservation&payment.css'
+import './styles/create_a_reservation&payment.css';
 
 const CarRentalPayment = () => {
   return (
-    <>
+    <div className='background_payment'>
       <h1>Payment Information</h1>
-      <form action="./Transaction_approved.js">
+      <form action='/transactionapproved'>
         <div>
           <label htmlFor="amount">Amount:</label><br />
           <input type="number" id="amount" name="amount" min="0" step="0.01" required />
@@ -24,7 +24,10 @@ const CarRentalPayment = () => {
         <div>
           <label htmlFor="expiry_date">Expiry Date:</label><br />
           <input type="month" id="expiry_date" name="expiry_date" placeholder="MM/YY" required />
-          <label htmlFor="cvv">CVV:</label>
+        </div>
+        <br />
+        <div>
+          <label htmlFor="cvv">CVV:</label><br />
           <input type="text" id="cvv" name="cvv" maxLength="3" required />
         </div>
         <br />
@@ -38,7 +41,7 @@ const CarRentalPayment = () => {
           <input type="reset" value="Reset" />
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -6,7 +6,6 @@ import ViewRes from '../ViewReservation.tsx';
 import CarRentalPayment from '../Payment_form.js';
 import CarRentalReservation from '../create_a_reservation.js';
 import TransactionApproved from '../Transaction_approved.js';
-import Payment from '../Payment_form.js';
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
         <Route path="/viewreservation" element={<ViewRes/>}/>
         <Route path="/payment" element ={<CarRentalPayment/>} />
         <Route path="/reservation" element={<CarRentalReservation/>} />
-        <Route path="/payment" element={<Payment/>} />
         <Route path="/transactionapproved" element={<TransactionApproved/>} />
       </Routes>
       </BrowserRouter>

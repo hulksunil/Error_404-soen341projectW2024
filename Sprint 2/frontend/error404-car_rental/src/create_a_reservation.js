@@ -1,11 +1,11 @@
 import React from 'react';
-import './styles/create_a_reservation&payment.css'
+import './styles/create_a_reservation&payment.css';
 
 const CarRentalReservation = () => {
   return (
-    <div>
+    <div className='background_reserve'>
       <h1 style={{ textAlign: 'center' }}>Car Rental Reservation</h1>
-      <form action="Payment_form.js">
+      <form action="/payment">
         <div>
           <label htmlFor="fname">First Name:</label><br />
           <input type="text" id="fname" name="fname" required />
