@@ -1,0 +1,18 @@
+.userTable{
+    width:100%;
+    border: 1px solid black;
+}
+
+.confirmation > button{
+    width: 5em;
+    padding: 5px;
+}
+
+#deleteButton{
+    background-color: red;
+}
+
+#updateButton{
+    background-color: green;
+    color: white;
+}

@@ -1,8 +1,8 @@
 .navbar{
-    height: 5rem;
+    height: 4rem;
     width: auto;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     background-color: #7A7AFF;
@@ -25,6 +25,7 @@
 .desktopMenuListItem{
     margin: 1rem;
     cursor: pointer;
+    text-decoration: none; 
 }
 
 .desktopMenuListItem:hover{
@@ -35,7 +36,7 @@
     
 }
 
-.LogBtn{
+.LogBtn,.SignBtn{
     background-color: #F1FAEE;
     color: #000000;
     border: none;
@@ -43,11 +44,41 @@
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
+    margin: 3px;
 }
 
-.LogBtn:hover{
+
+.LogBtn:hover, .SignBtn:hover{
     background-color: #354AF2;
     color: #FFFEE0;
     
+}
+
+.overlay{
+    width: 100vw;
+    height: 100vw;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background: rgba(49,49,49,0.8);
+    z-index: 2;
+}
+
+.modal-content2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    z-index: 3;
+}
+
+.welcomeUser{
+    position: absolute;
+    right: 15px;
+    bottom: 40%;
+    margin: 0;
 }

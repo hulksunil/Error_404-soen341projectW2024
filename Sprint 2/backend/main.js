@@ -56,9 +56,9 @@ app.post("/createUser", (req, res) => {
 });
 
 // Reading a user information when the user goes to /users/{user_id} url
-app.get("/users/:id", (req, res) => {
+app.post("/users/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  
   user = UserDB.findUserById(id);
   user
     .then((result) => {
@@ -131,12 +131,7 @@ app.post("/findUserByEmail",(req,res) =>{
 
       if(hashedPassword === hashedPasswordAttempt){
         // Sending the result to the client
-        res.send({
-          fname: result[0].firstName,
-          lname: result[0].lastName,
-          accType: result[0].accType,
-          id: result[0]._id
-        });
+        res.send(result[0]);
       }
       else{
         res.send({
