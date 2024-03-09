@@ -1,3 +1,45 @@
 .background_payment,.background_reserve,.background_confirm{
     background-color: #D8BFD8;
 }
+.outlined_fields{
+  border: 1px solid #aaa; 
+  border-radius: 10px; 
+  padding: 8px; 
+  outline: none;
+}  
+table {
+    width: 50%; 
+    margin: 0 auto; 
+    margin-left: 5%;
+}
+.submit{
+  border: 1px solid #aaa; 
+  border-radius: 10px; 
+  padding: 8px; 
+  outline: none;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+}
+.reset{
+  border: 1px solid #aaa; 
+  border-radius: 10px; 
+  padding: 8px; 
+  outline: none;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+img{
+    height: 250px;
+    float: left;
+    margin-left: 13px;
+    border-radius: 30%; /* Make the image circular */
+    height: 230px; /* Adjust the height of the image */
+    object-fit: cover; /* Optional: Ensures the image covers the entire container */
+}
+.tab_payment{
+    width: 50%; 
+    margin: 0 auto; 
+    margin-left: 25%;
+}
