@@ -10,6 +10,7 @@ import Payment from '../Payment_form.js';
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 
+
 function App() {
   return (
     <div className="App">
@@ -21,7 +22,6 @@ function App() {
         <Route path="/viewreservation" element={<ViewRes/>}/>
         <Route path="/payment" element ={<CarRentalPayment/>} />
         <Route path="/reservation" element={<CarRentalReservation/>} />
-        <Route path="/payment" element={<Payment/>} />
         <Route path="/transactionapproved" element={<TransactionApproved/>} />
         <Route path="/adminview" element={<AdminView/>}/>
         <Route path="/modifyusers" element={<ModifyUsers/>}/>
