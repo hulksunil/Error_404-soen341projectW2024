@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "node main.js",
     "test": "jest --silent=false"
   },
   "dependencies": {

@@ -8,12 +8,26 @@ const userSchema = new Schema({
   accType: String,
   email: String,
   hashedPass: String,
+  licenseNum: String,
+  dob: Date,
+  reservations: [{ type: Schema.Types.ObjectId, ref: "Reservation" }],
 });
 
 const User = mongoose.model("User", userSchema);
 
 class UserDB {
-  static createUser(firstName, lastName, accType, email, hashedPass) {
+  static createUser(
+    firstName,
+    lastName,
+    accType,
+    email,
+    hashedPass,
+    licenseNum,
+    dob
+  ) {
+    if (dob >= Date.now()) {
+      throw new Error("Date of valid birth must be in the past");
+    }
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       firstName: firstName,
@@ -21,6 +35,9 @@ class UserDB {
       accType: accType,
       email: email,
       hashedPass: hashedPass,
+      licenseNum: licenseNum,
+      dob: dob,
+      reservations: [],
     });
     return user.save();
   }
@@ -32,7 +49,17 @@ class UserDB {
     return User.find();
   }
 
-  static updateUser(id, firstName, lastName, accType, email, hashedPass) {
+  static updateUser(
+    id,
+    firstName,
+    lastName,
+    accType,
+    email,
+    hashedPass,
+    licenseNum,
+    dob,
+    reservations
+  ) {
     return User.findByIdAndUpdate(
       id,
       {
@@ -41,23 +68,20 @@ class UserDB {
         accType: accType,
         email: email,
         hashedPass: hashedPass,
+        licenseNum: licenseNum,
+        dob: dob,
+        reservations: reservations,
       },
       { new: true }
     );
   }
 
-  // static updateUser(id, updatedUser) {
-  //   return User.findByIdAndUpdate(id, updatedUser, {
-  //     new: true,
-  //   });
-  // }
-
   static deleteUser(id) {
     return User.findByIdAndDelete(id);
   }
 
-  static findUserByEmail(passedEmail){
-    return User.find({email: passedEmail});
+  static findUserByEmail(passedEmail) {
+    return User.find({ email: passedEmail });
   }
 }
 

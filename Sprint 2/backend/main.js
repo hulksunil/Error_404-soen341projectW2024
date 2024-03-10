@@ -26,8 +26,6 @@ mongoose
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
-// QUERIES
-
 // ROUTES
 // Creating a user when the user goes to /createUser url
 app.post("/createUser", (req, res) => {
@@ -44,7 +42,9 @@ app.post("/createUser", (req, res) => {
     userInfo.lname,
     userInfo.accType,
     userInfo.email,
-    hashedPassword
+    hashedPassword,
+    userInfo.licenseNum,
+    userInfo.dob
   );
 
   // Saving the user to the database (asynchronous operation)
@@ -57,7 +57,7 @@ app.post("/createUser", (req, res) => {
 // Reading a user information when the user goes to /users/{user_id} url
 app.post("/users/:id", (req, res) => {
   const id = req.params.id;
-  
+
   user = UserDB.findUserById(id);
   user
     .then((result) => {
@@ -92,7 +92,10 @@ app.post("/updateUser", (req, res) => {
     newUserInfo.lastName,
     newUserInfo.accType,
     newUserInfo.email,
-    newUserInfo.hashedPass
+    newUserInfo.hashedPass,
+    newUserInfo.licenseNum,
+    newUserInfo.dob,
+    newUserInfo.reservations
   );
   updatedUser
     .then((result) => {
@@ -133,8 +136,7 @@ app.post("/findUserByEmail", (req, res) => {
       if (hashedPassword === hashedPasswordAttempt) {
         // Sending the result to the client
         res.send(result[0]);
-      }
-      else{
+      } else {
         res.send({
           ERROR: "INCORRECT",
         });
