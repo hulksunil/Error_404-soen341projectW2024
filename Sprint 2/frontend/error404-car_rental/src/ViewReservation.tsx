@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./styles/ViewReservation.css";
-import NavBar from './NavBar.tsx';
 // @ts-ignore
 import { ReactComponent as Delete } from "./svgs/delete.svg";
 // @ts-ignore
 import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
 import { getCookie } from './CookieManager.ts';
+import Navbar from "./components/Navbar/navbar";
 
 export default function ViewReservation() {
 
@@ -76,7 +76,7 @@ export default function ViewReservation() {
 
   return (
     <div className="viewReservationContainer">
-      <NavBar pageTitle={document.title} />
+      <Navbar/>
       {pageTitle()}
       <h1>Current Reservations</h1>
       {reservations.map(reservation =>
