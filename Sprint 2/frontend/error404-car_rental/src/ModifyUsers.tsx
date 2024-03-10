@@ -14,7 +14,9 @@ export default function ModifyUsers() {
         lastName: string,
         __v: string,
         _id: string,
-        newPass:string
+        licenseNum: string,
+        dob:string,
+        newPass:string,
     }
 
     const [allUsers, setAllUsers] = useState<user[]>([]);
@@ -42,6 +44,7 @@ export default function ModifyUsers() {
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res);
+                    location.reload();
                 }
             })
             .catch((error) => {
@@ -50,7 +53,7 @@ export default function ModifyUsers() {
     }
 
     function UserRow({ userInfo }) {
-
+        userInfo.newPass = "";
         let updatedUserInfo: user = userInfo;
 
         return (
@@ -58,22 +61,22 @@ export default function ModifyUsers() {
                 <tr>
                     <td className="hiddenForm"><form id={userInfo._id} onSubmit={(e) => handleSubmit(e, updatedUserInfo)} /></td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.firstName} className="inputBoxes" form={userInfo._id} name="firstName" onChange={(e) => updatedUserInfo.firstName = e.target.value} />
+                        <input type="text" placeholder={userInfo.firstName} className="inputBoxes" form={userInfo._id} name="firstName" onChange={(e) => updatedUserInfo.firstName = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.lastName} className="inputBoxes" form={userInfo._id} name="lastName" onChange={(e) => updatedUserInfo.lastName = e.target.value} />
+                        <input type="text" placeholder={userInfo.lastName} className="inputBoxes" form={userInfo._id} name="lastName" onChange={(e) => updatedUserInfo.lastName = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.email} className="inputBoxes" form={userInfo._id} name="email" onChange={(e) => updatedUserInfo.email = e.target.value} />
+                        <input type="text" placeholder={userInfo.email} className="inputBoxes" form={userInfo._id} name="email" onChange={(e) => updatedUserInfo.email = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" className="inputBoxes" form={userInfo._id} /> {/*Date of birth*/}
+                        <input type="text" placeholder={userInfo.dob} className="inputBoxes" form={userInfo._id} name="dob" onChange={(e) => updatedUserInfo.dob = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" className="inputBoxes" form={userInfo._id} /> {/*License*/}
+                        <input type="text" placeholder={userInfo.licenseNum} className="inputBoxes" form={userInfo._id} name="licenseNum" onChange={(e) => updatedUserInfo.licenseNum = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder="Enter a new password" className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.hashedPass = e.target.value} />
+                        <input type="text" placeholder="Enter a new password" className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.newPass = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
                         <select
