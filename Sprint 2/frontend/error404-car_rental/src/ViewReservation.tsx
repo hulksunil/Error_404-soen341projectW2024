@@ -7,6 +7,7 @@ import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
 import { getCookie } from './CookieManager.ts';
 import Navbar from "./components/Navbar/navbar";
+import { set } from "mongoose";
 
 export default function ViewReservation() {
   type reservation = {
@@ -60,17 +61,27 @@ export default function ViewReservation() {
 
   function loadAllReservations() {
     const userId = getCookie("userid");
+    
+    axios.post("http://localhost:8080/users/" + userId).then((res) => {
+      const user = res.data;
+      setReservations(user.reservations);
+      setIsEmpty(user.reservations.length === 0);
+      console.log(res.data);
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
+  
 
     //.get("http://localhost:8080/reservations/"+userId)
-    axios
-      .get("http://localhost:8080/reservations")
-      .then((res) => {
-        setReservations(res.data)
-        setIsEmpty(res.data.length === 0)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // axios
+    //   .get("http://localhost:8080/reservations")
+    //   .then((res) => {
+    //     setReservations(res.data)
+    //     setIsEmpty(res.data.length === 0)
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   }
 
   useEffect(() => {
