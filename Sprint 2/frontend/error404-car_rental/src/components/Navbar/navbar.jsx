@@ -62,7 +62,7 @@ function navbar() {
         <Link to="/browse" className="desktopMenuListItem">Browse</Link>
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
         <Link className="desktopMenuListItem">About Us</Link>
-        {isAdmin && (<Link className="desktopMenuListItem">Admin Management</Link>)}
+        {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
       </div>
       <div>
         {isLoggedIn ?

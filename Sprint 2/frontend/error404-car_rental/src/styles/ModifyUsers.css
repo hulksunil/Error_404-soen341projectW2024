@@ -3,7 +3,7 @@
     border: 1px solid black;
 }
 
-.confirmation > button{
+.confirmation > button, .confirmation > input {
     width: 5em;
     padding: 5px;
 }
@@ -15,4 +15,9 @@
 #updateButton{
     background-color: green;
     color: white;
+}
+
+.hiddenForm{
+   background-color: red;
+   display: none;
 }
