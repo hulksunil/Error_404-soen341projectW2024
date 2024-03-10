@@ -15,7 +15,7 @@ export default function CreateUser(props) {
   const [dob, setDob] = useState("");
   const [license, setLicense] = useState("");
   const [password, setPassword] = useState("");
-  const [accType, setAccType] = useState("rentee");
+  const [accType, setAccType] = useState("customer");
 
   const [errorVisibility, setErrorVisibility] = useState({
     name: false,
@@ -52,6 +52,7 @@ export default function CreateUser(props) {
       ...errorVisibility,
       email: !RegExp(emailRegEx).test(email),
     }));
+    
     let dobCompare = parseInt(dob.replace(/-/g, ""));
 
     setErrorVisibility((errorVisibility) => ({
@@ -104,22 +105,19 @@ export default function CreateUser(props) {
           }));
 
           //Setting props to be read in the previous page, NavBar.tsx
-          props.setUserInfo({
-            fname: fname, //This is from the field
-            lname: lname, //This is from the field
-            userColor: color, //This is from the field
-            id: res.data._id // This is from the return
-          });
+          props.setUserInfo(res.data);
+          storeCookies("username",res.data.firstName + " " + res.data.lastName);
+          storeCookies("userid",res.data._id);
+
           props.setIsLoggedIn(true);
           props.toggleModal();
-        } else {
+        } 
+        else {
           setErrorVisibility((errorVisibility) => ({
             ...errorVisibility,
             status: false,
           }));
         }
-        storeCookies("username",res.data.fname + " " + res.data.lname);
-        storeCookies("userId",res.data._id);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -244,21 +242,6 @@ export default function CreateUser(props) {
                     required
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                </td>
-              </tr>
-
-              <tr>
-                <td className="fieldLabels">Account Type</td>
-                <td className="fieldInputs">
-                  <select
-                    className="fieldInputs"
-                    onChange={(e) => {
-                      setAccType(e.target.value);
-                    }}
-                  >
-                    <option value="rentee">I want to rent a car</option>
-                    <option value="renter">I want to rent my car</option>
-                  </select>
                 </td>
               </tr>
             </tbody>

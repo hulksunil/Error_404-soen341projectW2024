@@ -4,10 +4,10 @@ import "./styles/LogIn.css";
 import axios from "axios";
 // @ts-ignore
 import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
-import {storeCookies} from './CookieManager.ts';
+import { storeCookies } from './CookieManager.ts';
 
 export default function LogIn(props) {
-  const [userData, setUserData] = useState({ email: "", password: "",accType:"" });
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const [incorrect, setIncorrect] = useState(false);
   const [emailErrorVisibility, setEmailErrorVisibility] = useState(false);
 
@@ -15,10 +15,10 @@ export default function LogIn(props) {
 
   function submitCheck() {
     setEmailErrorVisibility(!RegExp(emailRegEx).test(userData.email));
-    if(!emailErrorVisibility){
-        submit()
+    if (!emailErrorVisibility) {
+      submit()
     }
-    else{
+    else {
 
     }
   }
@@ -29,34 +29,27 @@ export default function LogIn(props) {
       password: userData.password,
     };
 
-    let status: number = 0;
-
     axios
       .post("http://localhost:8080/findUserByEmail", passedUserData)
       .then((res) => {
-        status = res.status;
 
-        if (!res.data.ERROR) {
-            setIncorrect(false);
+        if (!res.data.ERROR && res.status === 200) {
+          setIncorrect(false);
 
           //Setting props to be read in the previous page, NavBar.tsx
-          props.setUserInfo({
-            fname: res.data.fname,
-            lname: res.data.lname,
-            // userColor: color,
-            accType: res.data.accType,
-            id: res.data.id
-          });
+          props.setUserInfo(res.data);
 
-          storeCookies("username",res.data.fname + " " + res.data.lname);
-          storeCookies("userId",res.data.id);
+          storeCookies("username", res.data.firstName + " " + res.data.lastName);
+          storeCookies("userid", res.data._id);
+
+          console.log(res.data);
 
           props.setIsLoggedIn(true);
           props.toggleModal();
 
         } else {
-            setIncorrect(true)
-            props.setIsLoggedIn(false);
+          setIncorrect(true)
+          props.setIsLoggedIn(false);
         }
       })
       .catch((error) => {
@@ -110,14 +103,14 @@ export default function LogIn(props) {
         <button className="submitButton" onClick={submitCheck}>
           Submit
         </button>
-        
+
         <p className={incorrect ? "errorVisible" : "error"}>
           The email and/or password is incorrect
         </p>
         <p className={emailErrorVisibility ? "errorVisible" : "error"}>
-            {" "}
-            Verify that your email is in the correct format
-          </p>
+          {" "}
+          Verify that your email is in the correct format
+        </p>
       </div>
     </div>
   );

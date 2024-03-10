@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import './styles/Home.css'
-import NavBar from './NavBar.tsx';
-
+import React from 'react';
+import { Link } from "react-router-dom";
+import './styles/Home.css';
+import Navbar from "./components/Navbar/navbar";
 
 export default function Home() {
     function pageTitle() {
@@ -15,7 +14,7 @@ export default function Home() {
             <div className='background' />
             <div className='content'>
                 {pageTitle()}
-                <NavBar pageTitle={document.title} />
+                <Navbar/>
                 <h1>Cars R Us</h1>
 
                 <button className="buttonContainer">
