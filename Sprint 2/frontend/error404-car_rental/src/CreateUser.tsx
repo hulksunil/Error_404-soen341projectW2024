@@ -15,7 +15,7 @@ export default function CreateUser(props) {
   const [dob, setDob] = useState("");
   const [license, setLicense] = useState("");
   const [password, setPassword] = useState("");
-  const [accType, setAccType] = useState("rentee");
+  const [accType, setAccType] = useState("customer");
 
   const [errorVisibility, setErrorVisibility] = useState({
     name: false,
