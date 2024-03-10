@@ -25,7 +25,7 @@ export default function ViewReservation() {
   }
 
   function Reservation({ res }) {
-    const isEmpty = res.carId.length;
+    // const isEmpty = res.carId.length;
 
 
     return (

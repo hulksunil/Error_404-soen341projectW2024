@@ -7,7 +7,7 @@ import CreateUser from "../../CreateUser.tsx";
 import axios from "axios";
 // import AdminManagement from "../../AdminManagement.tsx"
 
-function navbar() {
+function Navbar() {
   const [createUserModal, setCreateUserModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -114,4 +114,4 @@ function navbar() {
   )
 }
 
-export default navbar
+export default Navbar
