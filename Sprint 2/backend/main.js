@@ -5,7 +5,6 @@ const cors = require("cors"); // This solves an error of cross site scripting
 const bodyParser = require("body-parser"); // This allows the data to be taken
 const crypto = require("crypto"); // this is for hashing the password
 
-const hash = crypto.createHash("sha256");
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
@@ -33,6 +32,7 @@ mongoose
 // Creating a user when the user goes to /createUser url
 app.post("/createUser", (req, res) => {
   //check if the user email exsists already in the db
+  const hash = crypto.createHash("sha256");
 
   const userInfo = req.body;
 
@@ -119,6 +119,7 @@ app.delete("/users/:id", (req, res) => {
 
 app.post("/findUserByEmail", (req, res) => {
   const userInfo = req.body;
+  const hash = crypto.createHash("sha256");
 
   hash.update(userInfo.password);
   const hashedPasswordAttempt = hash.digest("hex");
@@ -177,7 +178,6 @@ app.get("/reservations", (req, res) => {
 // Reading a reservation by ID
 app.get("/reservations/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
   reservation = ReservationDB.findReservationById(id);
   reservation
     .then((result) => {

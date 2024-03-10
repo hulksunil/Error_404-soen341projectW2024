@@ -13,7 +13,8 @@ export default function ModifyUsers() {
         hashedPass: string,
         lastName: string,
         __v: string,
-        _id: string
+        _id: string,
+        newPass:string
     }
 
     const [allUsers, setAllUsers] = useState<user[]>([]);
@@ -21,11 +22,7 @@ export default function ModifyUsers() {
     function pageTitle() {
         return <title>Modify Users</title>;
     }
-
-    function updateUser(userInfo) {
-        console.log(userInfo)
-    }
-
+    
     function deleteUser(userInfo) {
         axios
             .delete("http://localhost:8080/users/" + userInfo._id)
@@ -41,7 +38,6 @@ export default function ModifyUsers() {
 
     function handleSubmit(event: React.FormEvent, newUserInfo) {
         event.preventDefault();
-        console.log(newUserInfo);
         axios.post("http://localhost:8080/updateUser", newUserInfo)
             .then((res) => {
                 if (res.status === 200) {
@@ -56,7 +52,6 @@ export default function ModifyUsers() {
     function UserRow({ userInfo }) {
 
         let updatedUserInfo: user = userInfo;
-        console.log(updatedUserInfo)
 
         return (
             <>
@@ -78,7 +73,7 @@ export default function ModifyUsers() {
                         <input type="text" className="inputBoxes" form={userInfo._id} /> {/*License*/}
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.hashedPass} className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.hashedPass = e.target.value} />
+                        <input type="text" placeholder="Enter a new password" className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.hashedPass = e.target.value} />
                     </td>
                     <td className="fieldInputs">
                         <select
@@ -129,7 +124,7 @@ export default function ModifyUsers() {
                         <th>Email</th>
                         <th>Date of birth</th>
                         <th>License #</th>
-                        <th>Password</th>
+                        <th>New Password</th>
                         <th>Account Type</th>
                         <th>Confirm</th>
                     </tr>
