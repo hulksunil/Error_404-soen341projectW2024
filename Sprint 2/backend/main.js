@@ -9,7 +9,7 @@ const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const app = express();
 
-const PORT = 8081;
+const PORT = 8080;
 
 // Middleware to parse the body of the request (to get the data from the client)
 app.use(express.urlencoded());
