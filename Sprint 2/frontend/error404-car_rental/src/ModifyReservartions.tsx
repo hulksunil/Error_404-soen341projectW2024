@@ -33,8 +33,8 @@ export default function ModifyReservations() {
     loadAllReservations();
   }, []);
 
-  function updateReservation(updatedReservation: Reservation) {
-    axios.put(`http://localhost:8080/reservations/${updatedReservation._id}`, updatedReservation)
+  function updateReservation(reservationId: string, updatedReservation: Partial<Reservation>) {
+    axios.put(`http://localhost:8081/UpdateReservation/${reservationId}`, updatedReservation)
       .then((res) => {
         if (res.status === 200) {
           // Handle success
@@ -45,6 +45,8 @@ export default function ModifyReservations() {
         console.error('Error updating reservation:', error);
       });
   }
+  
+  
 
   function deleteReservation(reservationId: string) {
     axios
@@ -62,24 +64,52 @@ export default function ModifyReservations() {
 
   function handleSubmit(event: React.FormEvent, updatedReservation: Reservation) {
     event.preventDefault();
-    updateReservation(updatedReservation);
+    updateReservation(updatedReservation._id, updatedReservation);
   }
-
+  
+  
   function ReservationRow({ reservation }: { reservation: Reservation }) {
+    const [editableReservation, setEditableReservation] = useState<Reservation>(reservation);
+  
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
+      setEditableReservation({ ...editableReservation, [name]: value });
+    };
+  
+    const handleUpdate = () => {
+        const updatedFields = {
+          userId: editableReservation.userId,
+          carId: editableReservation.carId,
+          reservationDate: editableReservation.reservationDate,
+          returnDate: editableReservation.returnDate,
+          location: editableReservation.location
+        };
+      
+        updateReservation(editableReservation._id, updatedFields);
+      };
+      
+      
+      
+  
+    useEffect(() => {
+      setEditableReservation(reservation);
+    }, [reservation]); // Update editableReservation when the reservation prop changes
+  
     return (
       <tr>
-        <td>{reservation.userId}</td>
-        <td>{reservation.carId}</td>
-        <td>{reservation.reservationDate}</td>
-        <td>{reservation.returnDate}</td>
-        <td>{reservation.location}</td>
+        <td><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} /></td>
+        <td><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} /></td>
+        <td><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
+        <td><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
+        <td><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
         <td>
-          <button onClick={() => updateReservation(reservation)}>Update</button>
+          <button onClick={handleUpdate}>Update</button>
           <button onClick={() => deleteReservation(reservation._id)}>Delete</button>
         </td>
       </tr>
     );
   }
+  
 
   if (loading) {
     return <div>Loading...</div>;
