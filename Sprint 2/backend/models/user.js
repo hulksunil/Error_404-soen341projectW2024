@@ -76,6 +76,15 @@ class UserDB {
     );
   }
 
+  // Add a reservation to a user (using an update query to push the reservation id to the user's reservations array)
+  static addReservation(id, reservationId) {
+    return User.findByIdAndUpdate(
+      id,
+      { $push: { reservations: reservationId } },
+      { new: true }
+    );
+  }
+
   static deleteUser(id) {
     return User.findByIdAndDelete(id);
   }

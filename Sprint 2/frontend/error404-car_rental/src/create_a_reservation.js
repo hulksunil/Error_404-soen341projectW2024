@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from 'axios';
 import "./styles/create_a_reservation&payment.css";
 
 const getCurrentDate = () => {
@@ -10,6 +11,51 @@ const getCurrentDate = () => {
 };
 
 const CarRentalReservation = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    licenseNumber: "",
+    licenseExpiryDate: "",
+    
+    reservationDate: getCurrentDate(),
+    returnDate: getCurrentDate(),
+    location: "",
+    returnLocation: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8080/reservations', formData)
+      .then((res) => {
+        console.log('Reservation created:', res.data);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          address: "",
+          licenseNumber: "",
+          licenseExpiryDate: "",
+        
+          reservationDate: getCurrentDate(),
+          returnDate: getCurrentDate(),
+          location: "",
+          returnLocation: ""
+        });
+      })
+      .catch((error) => {
+        console.error('Error creating reservation:', error);
+      });
+  };
+
   return (
     <div className="background_reserve">
       <h1>Car Rental Reservation</h1>
@@ -18,73 +64,54 @@ const CarRentalReservation = () => {
         src="https://robbreport.com/wp-content/uploads/2019/03/18c0771_007.jpg?w=1000"
         alt="car"
       ></img>
-      <form action="/payment">
+      <form onSubmit={handleSubmit}>
         <table className="reservationTable">
-          <tr>
-            <th>First Name:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Last Name:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Email: </th>
-          </tr>
-          <br />
-          <tr>
-            <th>Phone number: </th>
-          </tr>
-          <br />
-          <tr>
-            <th>Address: </th>
-          </tr>
-          <br />
-          <tr>
-            <th>Driver's License Number: </th>
-          </tr>
-          <br />
-          <tr>
-            <th>Driver's License Expiry Date: </th>
-          </tr>
-          <br />
-          <tr>
-            <th>Pickup Date: </th>
-            <td>
-              <input
-                type="date"
-                min={getCurrentDate()}
-                className="outlined_fields"
-                required
-              />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Return Date: </th>
-            <td>
-              <input
-                type="date"
-                min={getCurrentDate()}
-                className="outlined_fields"
-                required
-              />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Pickup location: </th>
-            <td>
-              <input type="text" className="outlined_fields" required />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Return location: </th>
-            <td>
-              <input type="text" className="outlined_fields" required />
-            </td>
-          </tr>
+          <tbody>
+            {/* Input fields */}
+            <tr>
+              <th>Reservation Date:</th>
+              <td>
+                <input
+                  type="date"
+                  name="reservationDate"
+                  value={formData.reservationDate}
+                  onChange={handleChange}
+                  min={getCurrentDate()}
+                  className="outlined_fields"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Return Date:</th>
+              <td>
+                <input
+                  type="date"
+                  name="returnDate"
+                  value={formData.returnDate}
+                  onChange={handleChange}
+                  min={getCurrentDate()}
+                  className="outlined_fields"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Location:</th>
+              <td>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="outlined_fields"
+                  required
+                />
+              </td>
+            </tr>
+            
+              
+          </tbody>
         </table>
         <br />
         <div>
