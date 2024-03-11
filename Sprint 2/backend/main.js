@@ -5,8 +5,6 @@ const cors = require("cors"); // This solves an error of cross site scripting
 const bodyParser = require("body-parser"); // This allows the data to be taken
 const crypto = require("crypto"); // this is for hashing the password
 
-const hash = crypto.createHash("sha256");
-
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const app = express();
@@ -28,9 +26,11 @@ mongoose
   .catch((err) => console.log(err));
 
 // ROUTES
+// ======================================================== USER ROUTES ========================================================
 // Creating a user when the user goes to /createUser url
 app.post("/createUser", (req, res) => {
   //check if the user email exsists already in the db
+  const hash = crypto.createHash("sha256");
 
   const userInfo = req.body;
 
@@ -122,6 +122,7 @@ app.delete("/users/:id", (req, res) => {
 
 app.post("/findUserByEmail", (req, res) => {
   const userInfo = req.body;
+  const hash = crypto.createHash("sha256");
 
   hash.update(userInfo.password);
   const hashedPasswordAttempt = hash.digest("hex");
@@ -148,14 +149,14 @@ app.post("/findUserByEmail", (req, res) => {
   });
 });
 
-const userM = new mongoose.Types.ObjectId(123);
-const idM = new mongoose.Types.ObjectId(123456);
-// Create a reservation
+// ======================================================== RESERVATION ROUTES ========================================================
+const mockUserId = new mongoose.Types.ObjectId("65ee0f0f1fd06cc2bafdaeb2");
+const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
   const { userId, carId, reservationDate, returnDate, location } = req.body;
-  console.log("Received reservation data:", req.body); 
+  console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
     userId,
@@ -168,18 +169,22 @@ app.post("/CreateReservation", (req, res) => {
   // Handle promise result
   createdReservation
     .then((result) => {
-      // Send success response to client
-      res.send(result);
+      UserDB.addReservation(userId, result._id).then((newUser) => {
+        VehicleDB.addReservation(carId, result._id).then((newVehicle) => {
+          // console.log(newUser);
+          // console.log(newVehicle);
+
+          // Send success response to client
+          res.send(result);
+        });
+      });
     })
     .catch((error) => {
       // Handle error
-      console.error('Error creating reservation:', error);
-      res.status(500).send('Error creating reservation.');
+      console.error("Error creating reservation:", error);
+      res.status(500).send("Error creating reservation.");
     });
 });
-
-
-
 
 // Get reservations
 app.get("/reservations", (req, res) => {
@@ -196,7 +201,6 @@ app.get("/reservations", (req, res) => {
 // Reading a reservation by ID
 app.get("/reservations/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
   reservation = ReservationDB.findReservationById(id);
   reservation
     .then((result) => {
@@ -247,27 +251,7 @@ app.delete("/reservations/:id", (req, res) => {
     });
 });
 
-// Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
-app.listen(PORT, () => {
-  console.log(
-    `Go to http://localhost:${PORT}/mainBackend to see the server running`
-  );
-
-  console.log(`Press CTRL + C to stop server`);
-});
-
-// ========================================================
-// SOME TEST CODE (Can ignore if you want)
-app.get("/mainBackend", (req, res) => {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.end("Congrats, you got node.js to run on port 3000");
-});
-
-app.post("/mainBackend", (req, res) => {
-  console.log(req);
-  res.send("Data received. You sent a post to the server at /mainBackend");
-});
-
+// ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
 app.get("/createVehicle", (req, res) => {
   const createVehicle = VehicleDB.createVehicle(
@@ -342,4 +326,25 @@ app.delete("/vehicles/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+// Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
+app.listen(PORT, () => {
+  console.log(
+    `Go to http://localhost:${PORT}/mainBackend to see the server running`
+  );
+
+  console.log(`Press CTRL + C to stop server`);
+});
+
+// ========================================================
+// SOME TEST CODE (Can ignore if you want)
+app.get("/mainBackend", (req, res) => {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.end("Congrats, you got node.js to run on port 3000");
+});
+
+app.post("/mainBackend", (req, res) => {
+  console.log(req);
+  res.send("Data received. You sent a post to the server at /mainBackend");
 });

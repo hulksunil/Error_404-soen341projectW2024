@@ -7,41 +7,48 @@ import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
 import { getCookie } from './CookieManager.ts';
 import Navbar from "./components/Navbar/navbar";
+import { set } from "mongoose";
 
 export default function ViewReservation() {
+  type reservation = {
+    location: string,
+    reservationDate: string,
+    returnDate: string,
+    __v: string,
+    _id: string
+}
+  const [reservations, setReservations] = useState<reservation[]>([])
+  const [isEmpty,setIsEmpty]= useState(false);
 
-  const [reservations, setReservations] = useState([{
-    carId: "",
-    location: "",
-    reservationDate: "",
-    returnDate: "",
-    userId: "",
-    __v: 0,
-    _id: "",
-  }]);
 
   function pageTitle() {
     return <title>View Reservations</title>;
   }
 
   function Reservation({ res }) {
-    // const isEmpty = res.carId.length;
-
 
     return (
       <div className="reservationContainer">
         <img className="carImage" />
         <div className="actionbar">
-          <button className="viewLabel">View</button> {/*onClick={viewReservationOnClick(res._id)} */}
-          <Modify className="editSVG" onClick={modifyReservationOnClick(res._id)} />
-          <Delete fill="red" className="deleteSVG" onClick={deleteReservationOnClick(res._id)} />
+          <button className="viewLabel" onClick={() => viewReservationOnClick(res._id)}>View</button>
+          <Modify className="editSVG" onClick={() => modifyReservationOnClick(res._id)} />
+          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(res._id)} />
         </div>
       </div>
     )
   }
 
   function deleteReservationOnClick(reservationID: String) {
-
+    console.log("would be deleted")
+    // axios
+    //   .delete("http://localhost:8080/reservations/"+reservationID)
+    //   .then((res) => {
+    //     location.reload();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   }
 
   function viewReservationOnClick(reservationID: String) {
@@ -53,25 +60,32 @@ export default function ViewReservation() {
   }
 
   function loadAllReservations() {
-    const userId = getCookie("usreID");
+    const userId = getCookie("userid");
+    
+    axios.post("http://localhost:8080/users/" + userId).then((res) => {
+      const user = res.data;
+      setReservations(user.reservations);
+      setIsEmpty(user.reservations.length === 0);
+      console.log(res.data);
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
+  
 
-    // /http://localhost:8080/reservations:id 
-
-    axios
-      .get("http://localhost:8080/reservations")
-      .then((res) => {
-        setReservations(res.data)
-        console.log(reservations)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-
+    //.get("http://localhost:8080/reservations/"+userId)
+    // axios
+    //   .get("http://localhost:8080/reservations")
+    //   .then((res) => {
+    //     setReservations(res.data)
+    //     setIsEmpty(res.data.length === 0)
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   }
 
   useEffect(() => {
     loadAllReservations();
-
   }, [])
 
   return (
@@ -79,19 +93,31 @@ export default function ViewReservation() {
       <Navbar/>
       {pageTitle()}
       <h1>Current Reservations</h1>
+
+      {isEmpty?
+      <>
+      <h3>No reservations found</h3>
+      </>
+      :
+      <>
       {reservations.map(reservation =>
         <Reservation key={reservation._id} res={reservation} />
       )}
-
-
+      </>
+      }
 
       <h1>Past Reservations</h1>
-
+      {isEmpty?
+      <>
+      <h3>No reservations found</h3>
+      </>
+      :
+      <>
       {reservations.map(reservation =>
         <Reservation key={reservation._id} res={reservation} />
       )}
-
-
+      </>
+      }
     </div>
   );
 }
