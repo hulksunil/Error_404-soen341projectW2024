@@ -5,7 +5,6 @@ const cors = require("cors"); // This solves an error of cross site scripting
 const bodyParser = require("body-parser"); // This allows the data to be taken
 const crypto = require("crypto"); // this is for hashing the password
 
-
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const app = express();
@@ -149,20 +148,28 @@ app.post("/findUserByEmail", (req, res) => {
   });
 });
 
-const userM = new mongoose.Types.ObjectId(123);
-const idM = new mongoose.Types.ObjectId(123456);
+const userM = new mongoose.Types.ObjectId("65ee0f0f1fd06cc2bafdaeb2");
+const userId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.get("/CreateReservation", (req, res) => {
   const createdReservation = ReservationDB.createReservation(
     userM,
-    idM,
+    userId,
     new Date(2024, 2, 28, 13, 30),
     new Date(2024, 3, 5, 18, 40),
     "Montreal"
   );
-  createdReservation.then((result) => {
-    console.log(result);
-    res.send(result);
+  createdReservation.then((newReservation) => {
+    UserDB.addReservation(userM, newReservation._id).then((newUser) => {
+      VehicleDB.addReservation(userId, newReservation._id).then(
+        (newVehicle) => {
+          // console.log(newUser);
+          // console.log(newVehicle);
+          console.log(newReservation);
+          res.send(newReservation);
+        }
+      );
+    });
   });
 });
 // Get reservations
@@ -196,7 +203,7 @@ app.put("/UpdateReservation", (req, res) => {
   updatedReservation = ReservationDB.updateReservation(
     id,
     userM,
-    idM,
+    userId,
     new Date(2024, 3, 20, 14, 20),
     new Date(2024, 4, 10, 8, 30),
     "Montreal"
