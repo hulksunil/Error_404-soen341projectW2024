@@ -208,24 +208,30 @@ app.get("/reservations/:id", (req, res) => {
 });
 
 // Update a reservation by ID
-app.put("/UpdateReservation", (req, res) => {
-  const id = req.body.id;
+app.put("/UpdateReservation/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedReservationData = req.body; // Data sent from the frontend
+
+  // Call the updateReservation function with the received data
   updatedReservation = ReservationDB.updateReservation(
     id,
-    userM,
-    idM,
-    new Date(2024, 3, 20, 14, 20),
-    new Date(2024, 4, 10, 8, 30),
-    "Montreal"
+    updatedReservationData.userId,
+    updatedReservationData.carId,
+    updatedReservationData.reservationDate,
+    updatedReservationData.returnDate,
+    updatedReservationData.location
   );
+
   updatedReservation
     .then((result) => {
       res.send(result);
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).send("Error updating reservation.");
     });
 });
+
 
 // Deleting a reservation by ID
 app.delete("/reservations/:id", (req, res) => {

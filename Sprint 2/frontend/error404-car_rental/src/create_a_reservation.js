@@ -109,19 +109,8 @@ const CarRentalReservation = () => {
                 />
               </td>
             </tr>
-            <tr>
-              <th>Return Location:</th>
-              <td>
-                <input
-                  type="text"
-                  name="returnLocation"
-                  value={formData.returnLocation}
-                  onChange={handleChange}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
-            </tr>
+            
+              
           </tbody>
         </table>
         <br />
