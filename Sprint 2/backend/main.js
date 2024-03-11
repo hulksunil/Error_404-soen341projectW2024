@@ -11,7 +11,7 @@ const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const app = express();
 
-const PORT = 8080;
+const PORT = 8081;
 
 // Middleware to parse the body of the request (to get the data from the client)
 app.use(express.urlencoded());
@@ -151,19 +151,36 @@ app.post("/findUserByEmail", (req, res) => {
 const userM = new mongoose.Types.ObjectId(123);
 const idM = new mongoose.Types.ObjectId(123456);
 // Create a reservation
-app.get("/CreateReservation", (req, res) => {
+// Create a reservation
+app.post("/CreateReservation", (req, res) => {
+  // Extract reservation data from request body
+  const { userId, carId, reservationDate, returnDate, location } = req.body;
+  console.log("Received reservation data:", req.body); 
+  // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
-    userM,
-    idM,
-    new Date(2024, 2, 28, 13, 30),
-    new Date(2024, 3, 5, 18, 40),
-    "Montreal"
+    userId,
+    carId,
+    reservationDate,
+    returnDate,
+    location
   );
-  createdReservation.then((result) => {
-    console.log(result);
-    res.send(result);
-  });
+
+  // Handle promise result
+  createdReservation
+    .then((result) => {
+      // Send success response to client
+      res.send(result);
+    })
+    .catch((error) => {
+      // Handle error
+      console.error('Error creating reservation:', error);
+      res.status(500).send('Error creating reservation.');
+    });
 });
+
+
+
+
 // Get reservations
 app.get("/reservations", (req, res) => {
   reservations = ReservationDB.findAllReservations();
