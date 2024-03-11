@@ -10,14 +10,14 @@ import Navbar from "./components/Navbar/navbar";
 import { set } from "mongoose";
 
 export default function ViewReservation() {
-  type reservation = {
-    location: string,
-    reservationDate: string,
-    returnDate: string,
-    __v: string,
-    _id: string
-}
-  const [reservations, setReservations] = useState<reservation[]>([])
+//   type reservation = {
+//     location: string,
+//     reservationDate: string,
+//     returnDate: string,
+//     __v: string,
+//     _id: string
+// }
+  const [reservations, setReservations] = useState<string[]>([])
   const [isEmpty,setIsEmpty]= useState(false);
 
 
@@ -25,30 +25,31 @@ export default function ViewReservation() {
     return <title>View Reservations</title>;
   }
 
-  function Reservation({ res }) {
+  function Reservation({ resId}) {
 
     return (
       <div className="reservationContainer">
-        <img className="carImage" />
+        <img className="carImage" alt="the car in the reservation" />
         <div className="actionbar">
-          <button className="viewLabel" onClick={() => viewReservationOnClick(res._id)}>View</button>
-          <Modify className="editSVG" onClick={() => modifyReservationOnClick(res._id)} />
-          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(res._id)} />
+          <button className="viewLabel" onClick={() => viewReservationOnClick(resId)}>View</button>
+          <Modify className="editSVG" onClick={() => modifyReservationOnClick(resId)} />
+          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(resId)} />
         </div>
       </div>
     )
   }
 
-  function deleteReservationOnClick(reservationID: String) {
-    console.log("would be deleted")
-    // axios
-    //   .delete("http://localhost:8080/reservations/"+reservationID)
-    //   .then((res) => {
-    //     location.reload();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
+  function deleteReservationOnClick(resId: String) {
+    console.log(resId+" would be deleted")
+    axios
+      .delete("http://localhost:8080/reservations/"+resId)
+      .then((res) => {
+        // location.reload();
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   function viewReservationOnClick(reservationID: String) {
@@ -71,17 +72,6 @@ export default function ViewReservation() {
       console.error("Error:", error);
     });
   
-
-    //.get("http://localhost:8080/reservations/"+userId)
-    // axios
-    //   .get("http://localhost:8080/reservations")
-    //   .then((res) => {
-    //     setReservations(res.data)
-    //     setIsEmpty(res.data.length === 0)
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
   }
 
   useEffect(() => {
@@ -100,8 +90,8 @@ export default function ViewReservation() {
       </>
       :
       <>
-      {reservations.map(reservation =>
-        <Reservation key={reservation._id} res={reservation} />
+      {reservations.map(resId =>
+        <Reservation key={resId} resId={resId} />
       )}
       </>
       }
@@ -113,8 +103,8 @@ export default function ViewReservation() {
       </>
       :
       <>
-      {reservations.map(reservation =>
-        <Reservation key={reservation._id} res={reservation} />
+      {reservations.map(resId =>
+        <Reservation key={resId} resId={resId} />
       )}
       </>
       }

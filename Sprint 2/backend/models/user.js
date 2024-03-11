@@ -84,6 +84,13 @@ class UserDB {
       { new: true }
     );
   }
+  static removeReservation(id, reservationId) {
+    return User.findByIdAndUpdate(
+      id,
+      { $pull: { reservations: reservationId } },
+      { new: true }
+    );
+  }
 
   static deleteUser(id) {
     return User.findByIdAndDelete(id);

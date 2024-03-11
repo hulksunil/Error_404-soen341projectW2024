@@ -57,6 +57,14 @@ class VehicleDB {
     );
   }
 
+  static removeReservation(id, reservationId) {
+    return Vehicle.findByIdAndUpdate(
+      id,
+      { $pull: { reservations: reservationId } },
+      { new: true }
+    );
+  }
+
   static deleteVehicle(id) {
     return Vehicle.findByIdAndDelete(id);
   }
