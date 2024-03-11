@@ -122,7 +122,12 @@ app.delete("/users/:id", (req, res) => {
 
   deletedUser
     .then((result) => {
-      res.send(result);
+      // find all reservations with this user id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingUser(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -245,7 +250,6 @@ app.put("/UpdateReservation/:id", (req, res) => {
     });
 });
 
-
 // Deleting a reservation by ID
 app.delete("/reservations/:id", (req, res) => {
   const id = req.params.id;
@@ -338,7 +342,12 @@ app.delete("/vehicles/:id", (req, res) => {
 
   deleteVehicle
     .then((result) => {
-      res.send(result);
+      // find all reservations with this vehicle id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingVehicle(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
