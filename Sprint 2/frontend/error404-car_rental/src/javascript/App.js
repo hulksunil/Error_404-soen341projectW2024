@@ -9,6 +9,7 @@ import TransactionApproved from "../Transaction_approved.js";
 import Payment from "../Payment_form.js";
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
+import ModifyReservations from "../ModifyReservartions.tsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           />
           <Route path="/adminview" element={<AdminView />} />
           <Route path="/modifyusers" element={<ModifyUsers />} />
+          <Route path="/modifyreservations" element={<ModifyReservations />} />
           <Route path="/modifycars" />
         </Routes>
       </BrowserRouter>
