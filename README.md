@@ -30,3 +30,6 @@ The basic rules for this repo can be found <a href="https://github.com/hulksunil
 - 40244003, Marco Sicoli, Role: Backend
 - 40176937, Sumit Patel, Role: Frontend
 - 40044952, Seb Iaricci, Role: Backend
+
+
+link to short demo: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)
