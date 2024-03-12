@@ -9,12 +9,12 @@ This car rental application is used to facilitate users renting vehicles for sho
 
 
 #### <ins>Frontend </ins>
-In frontend folder,  
+In frontend folder,  _(Sprint 2/frontend/error404-car_rental/)_  
 ``npm install``  
 ``npm start``
 
 #### <ins>Backend </ins>
-In backend folder,  
+In backend folder,  _(Sprint 2/backend/)_  
 ``npm install``  
 ``npm start``
 
