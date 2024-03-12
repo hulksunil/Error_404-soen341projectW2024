@@ -12,17 +12,11 @@ const getCurrentDate = () => {
 
 const CarRentalReservation = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    licenseNumber: "",
-    licenseExpiryDate: "",
-    pickupDate: getCurrentDate(),
+    userID:"",
+    carID:"",
+    ReservationDate: getCurrentDate(),
     returnDate: getCurrentDate(),
-    pickupLocation: "",
-    returnLocation: ""
+    location:"",
   });
 
   const handleChange = (e) => {
@@ -53,40 +47,38 @@ const CarRentalReservation = () => {
       <form action="/payment">
         <table className="reservationTable">
           <tr>
-            <th>First Name:</th>
+            <th>UserID: </th>
+            <td>
+            <input
+                type="text"
+                name="userID"
+                value={formData.userID}
+                onChange={handleChange}
+                className="outlined_fields"
+                required
+              />
+            </td>
           </tr>
           <br />
           <tr>
-            <th>Last Name:</th>
+            <th> CarID: </th>
+            <td><input
+                type="text"
+                name="carID"
+                value={formData.carID}
+                onChange={handleChange}
+                className="outlined_fields"
+                required
+              /></td>
           </tr>
           <br />
           <tr>
-            <th>Email:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Phone number:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Address:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Driver's License Number:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Driver's License Expiry Date:</th>
-          </tr>
-          <br />
-          <tr>
-            <th>Pickup Date:</th>
+            <th>Reservation Date:</th>
             <td>
               <input
                 type="date"
-                name="pickupDate"
-                value={formData.pickupDate}
+                name="ReservationDate"
+                value={formData.ReservationDate}
                 onChange={handleChange}
                 className="outlined_fields"
                 min={getCurrentDate()}
@@ -111,26 +103,12 @@ const CarRentalReservation = () => {
           </tr>
           <br />
           <tr>
-            <th>Pickup location:</th>
+            <th>location:</th>
             <td>
               <input
                 type="text"
-                name="pickupLocation"
-                value={formData.pickupLocation}
-                onChange={handleChange}
-                className="outlined_fields"
-                required
-              />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Return location:</th>
-            <td>
-              <input
-                type="text"
-                name="returnLocation"
-                value={formData.returnLocation}
+                name="location"
+                value={formData.location}
                 onChange={handleChange}
                 className="outlined_fields"
                 required
