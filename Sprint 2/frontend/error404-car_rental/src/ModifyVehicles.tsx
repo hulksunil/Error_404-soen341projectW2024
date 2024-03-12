@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import Navbar from "./components/Navbar/navbar";
 import "./components/Navbar/navbar.css"
+import "./styles/ModifyUsers.css";
+
 
 export default function ModifyVehicles(){
     type vehicle={
@@ -51,7 +53,7 @@ export default function ModifyVehicles(){
             })
     }
 
-    function VehicleRow({vehicleInfo}){
+    function VehicleRow(vehicleInfo){
         let updatedVehicleInfo:vehicle=vehicleInfo;
         console.log(updatedVehicleInfo)
 
@@ -60,13 +62,17 @@ export default function ModifyVehicles(){
                 <tr>
                     <td className="hiddenForm"><form id={vehicleInfo._id} onSubmit={(e) => handleSubmit(e, updatedVehicleInfo)} /></td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.type} className="inputBoxes" form={vehicleInfo._id} name="type" onChange={(e) => updatedVehicleInfo.type = e.target.value} />
-                    </td>
-                    <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.model} className="inputBoxes" form={vehicleInfo._id} name="model" onChange={(e) => updatedVehicleInfo.model = e.target.value} />
                     </td>
                     <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.type} className="inputBoxes" form={vehicleInfo._id} name="type" onChange={(e) => updatedVehicleInfo.type = e.target.value} />
+                    </td>
+                    <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.transmission} className="inputBoxes" form={vehicleInfo._id} name="transmission" onChange={(e) => updatedVehicleInfo.transmission = e.target.value} />
+                    </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.numberOfSeats} className="inputBoxes" form={vehicleInfo._id} name="numberOfSeats" onChange={(e) => updatedVehicleInfo.numberOfSeats = e.target.value} />
+                    </td>
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.fuelType} className="inputBoxes" form={vehicleInfo._id} name="fuelType" onChange={(e) => updatedVehicleInfo.fuelType = e.target.value} />
                     </td>
@@ -86,7 +92,7 @@ export default function ModifyVehicles(){
             .get("http://localhost:8080/vehicles")
             .then((res) => {
                 if (res.status === 200) {
-                    // setAllVehicles(res.data);
+                    setAllVehicles(res.data);
                     console.log(res.data);
                 }
             })
@@ -103,12 +109,11 @@ export default function ModifyVehicles(){
             <table className="vehicleTable">
                 <thead>
                     <tr>
-                        <th>Type</th>
                         <th>Model</th>
+                        <th>Type</th>
                         <th>Transmission</th>
                         <th>Number of Seats</th>
                         <th>Fuel Type</th>
-                        <th>Password</th>
                     </tr>
                 </thead>
                 <tbody>
