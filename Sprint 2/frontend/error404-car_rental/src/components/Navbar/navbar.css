@@ -78,7 +78,34 @@
 
 .welcomeUser{
     position: absolute;
-    right: 15px;
+    right: 90px;
     bottom: 40%;
     margin: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 260px;
+    text-wrap: nowrap;
+}
+
+.SignOutBtn {
+    position: absolute;
+    right: 10px;
+    bottom: 30%;
+    margin: 0;
+
+    background-color: #F1FAEE;
+    color: #000000;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+     
+}
+
+.SignOutBtn:hover{
+    background-color: #354AF2;
+    color: #FFFEE0;
+    
 }
