@@ -13,7 +13,7 @@ export default function ModifyVehicles(){
         numberOfSeats: String,
         fuelType: String,
         __v: string,
-        _id: String,
+        _id: string,
     }
 
     const [allVehicles, setAllVehicles]= useState<vehicle[]>([]);
@@ -22,13 +22,10 @@ export default function ModifyVehicles(){
         return <title>Modify Vehicles</title>
     }
 
-    function updateVehicle(vehicleInfo){
-        console.log(vehicleInfo)
-    }
 
     function deleteVehicle(vehicleInfo){
         axios
-        .delete("http.//localhost:8080/vehicles/"+ vehicleInfo._id)
+        .delete("http://localhost:8080/vehicles/"+ vehicleInfo._id)
         .then((res)=>{
             if(res.status == 200){
 
@@ -41,11 +38,12 @@ export default function ModifyVehicles(){
 
     function handleSubmit(event: React.FormEvent, newVehicleInfo){
         event.preventDefault();
-        console.log(newVehicleInfo);
-        axios.post("https://localhost:8080/udateVehicle", newVehicleInfo)
+
+        axios.post("http://localhost:8080/updateVehicle", newVehicleInfo)
             .then((res)=>{
                 if(res.status===200){
                     console.log(res);
+                    window.location.reload();
                 }
             })
             .catch((error)=>{
@@ -53,28 +51,27 @@ export default function ModifyVehicles(){
             })
     }
 
-    function VehicleRow(vehicleInfo){
+    function VehicleRow({vehicleInfo}){
         let updatedVehicleInfo:vehicle=vehicleInfo;
-        console.log(updatedVehicleInfo)
 
         return (
             <>
                 <tr>
                     <td className="hiddenForm"><form id={vehicleInfo._id} onSubmit={(e) => handleSubmit(e, updatedVehicleInfo)} /></td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.model} className="inputBoxes" form={vehicleInfo._id} name="model" onChange={(e) => updatedVehicleInfo.model = e.target.value} />
+                        <input type="text" placeholder={vehicleInfo.model} className="inputBoxes" form={vehicleInfo._id} name="model" onChange={(e) => updatedVehicleInfo.model = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.type} className="inputBoxes" form={vehicleInfo._id} name="type" onChange={(e) => updatedVehicleInfo.type = e.target.value} />
+                        <input type="text" placeholder={vehicleInfo.type} className="inputBoxes" form={vehicleInfo._id} name="type" onChange={(e) => updatedVehicleInfo.type = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.transmission} className="inputBoxes" form={vehicleInfo._id} name="transmission" onChange={(e) => updatedVehicleInfo.transmission = e.target.value} />
+                        <input type="text" placeholder={vehicleInfo.transmission} className="inputBoxes" form={vehicleInfo._id} name="transmission" onChange={(e) => updatedVehicleInfo.transmission = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.numberOfSeats} className="inputBoxes" form={vehicleInfo._id} name="numberOfSeats" onChange={(e) => updatedVehicleInfo.numberOfSeats = e.target.value} />
+                        <input type="text" placeholder={vehicleInfo.numberOfSeats} className="inputBoxes" form={vehicleInfo._id} name="numberOfSeats" onChange={(e) => updatedVehicleInfo.numberOfSeats = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.fuelType} className="inputBoxes" form={vehicleInfo._id} name="fuelType" onChange={(e) => updatedVehicleInfo.fuelType = e.target.value} />
+                        <input type="text" placeholder={vehicleInfo.fuelType} className="inputBoxes" form={vehicleInfo._id} name="fuelType" onChange={(e) => updatedVehicleInfo.fuelType = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="confirmation">
                         <input type="submit" className="submitButton" id="updateButton" form={vehicleInfo._id} value="Update" />
@@ -93,7 +90,6 @@ export default function ModifyVehicles(){
             .then((res) => {
                 if (res.status === 200) {
                     setAllVehicles(res.data);
-                    console.log(res.data);
                 }
             })
             .catch((error) => {
@@ -118,7 +114,7 @@ export default function ModifyVehicles(){
                 </thead>
                 <tbody>
                     {allVehicles.map(vehicle =>
-                        <VehicleRow key={vehicle._id} userInfo={vehicle} />
+                        <VehicleRow key={vehicle._id} vehicleInfo={vehicle} />
                     )}
                 </tbody>
             </table>
