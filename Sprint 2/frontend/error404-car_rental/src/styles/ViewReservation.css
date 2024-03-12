@@ -55,3 +55,16 @@
     border: none;
     background-color: #ADADFF;
 }
+
+.tableToUpdate {
+    display:inline-block;
+}
+
+.formToUpdate {
+    background-color: #7A7AFF;
+    width: fit-content;
+    margin-left: auto;
+    margin-right:auto;
+    padding: 1em;
+    border-radius: 20px;
+}

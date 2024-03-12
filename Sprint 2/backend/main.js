@@ -5,7 +5,6 @@ const cors = require("cors"); // This solves an error of cross site scripting
 const bodyParser = require("body-parser"); // This allows the data to be taken
 const crypto = require("crypto"); // this is for hashing the password
 
-
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const app = express();
@@ -23,10 +22,20 @@ const dbURI =
 // Connecting to the database
 mongoose
   .connect(dbURI)
-  .then(() => console.log("Connected to DB"))
+  .then(() => {
+    console.log("Connected to DB");
+    app.listen(PORT, () => {
+      console.log(
+        `Go to http://localhost:${PORT}/mainBackend to see the server running`
+      );
+
+      console.log(`Press CTRL + C to stop server`);
+    });
+  })
   .catch((err) => console.log(err));
 
 // ROUTES
+// ======================================================== USER ROUTES ========================================================
 // Creating a user when the user goes to /createUser url
 app.post("/createUser", (req, res) => {
   //check if the user email exsists already in the db
@@ -126,7 +135,12 @@ app.delete("/users/:id", (req, res) => {
 
   deletedUser
     .then((result) => {
-      res.send(result);
+      // find all reservations with this user id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingUser(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -162,22 +176,43 @@ app.post("/findUserByEmail", (req, res) => {
   });
 });
 
-const userM = new mongoose.Types.ObjectId(123);
-const idM = new mongoose.Types.ObjectId(123456);
+// ======================================================== RESERVATION ROUTES ========================================================
+const mockUserId = new mongoose.Types.ObjectId("65ee0f0f1fd06cc2bafdaeb2");
+const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
-app.get("/CreateReservation", (req, res) => {
+app.post("/CreateReservation", (req, res) => {
+  // Extract reservation data from request body
+  const { userId, carId, reservationDate, returnDate, location } = req.body;
+  console.log("Received reservation data:", req.body);
+  // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
-    userM,
-    idM,
-    new Date(2024, 2, 28, 13, 30),
-    new Date(2024, 3, 5, 18, 40),
-    "Montreal"
+    userId,
+    carId,
+    reservationDate,
+    returnDate,
+    location
   );
-  createdReservation.then((result) => {
-    console.log(result);
-    res.send(result);
-  });
+
+  // Handle promise result
+  createdReservation
+    .then((result) => {
+      UserDB.addReservation(userId, result._id).then((newUser) => {
+        VehicleDB.addReservation(carId, result._id).then((newVehicle) => {
+          // console.log(newUser);
+          // console.log(newVehicle);
+
+          // Send success response to client
+          res.send(result);
+        });
+      });
+    })
+    .catch((error) => {
+      // Handle error
+      console.error("Error creating reservation:", error);
+      res.status(500).send("Error creating reservation.");
+    });
 });
+
 // Get reservations
 app.get("/reservations", (req, res) => {
   reservations = ReservationDB.findAllReservations();
@@ -204,22 +239,27 @@ app.get("/reservations/:id", (req, res) => {
 });
 
 // Update a reservation by ID
-app.put("/UpdateReservation", (req, res) => {
-  const id = req.body.id;
+app.put("/UpdateReservation/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedReservationData = req.body; // Data sent from the frontend
+
+  // Call the updateReservation function with the received data
   updatedReservation = ReservationDB.updateReservation(
     id,
-    userM,
-    idM,
-    new Date(2024, 3, 20, 14, 20),
-    new Date(2024, 4, 10, 8, 30),
-    "Montreal"
+    updatedReservationData.userId,
+    updatedReservationData.carId,
+    updatedReservationData.reservationDate,
+    updatedReservationData.returnDate,
+    updatedReservationData.location
   );
+
   updatedReservation
     .then((result) => {
       res.send(result);
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).send("Error updating reservation.");
     });
 });
 
@@ -230,34 +270,22 @@ app.delete("/reservations/:id", (req, res) => {
 
   deletedReservation
     .then((result) => {
-      res.send(result);
+      UserDB.removeReservation(result.userId, id).then(
+        (deletedReservationUserId) => {
+          VehicleDB.removeReservation(result.carId, id).then(
+            (deletedReservationVehicleId) => {
+              res.send(result);
+            }
+          );
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
     });
 });
 
-// Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
-app.listen(PORT, () => {
-  console.log(
-    `Go to http://localhost:${PORT}/mainBackend to see the server running`
-  );
-
-  console.log(`Press CTRL + C to stop server`);
-});
-
-// ========================================================
-// SOME TEST CODE (Can ignore if you want)
-app.get("/mainBackend", (req, res) => {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.end("Congrats, you got node.js to run on port 3000");
-});
-
-app.post("/mainBackend", (req, res) => {
-  console.log(req);
-  res.send("Data received. You sent a post to the server at /mainBackend");
-});
-
+// ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
 app.get("/createVehicle", (req, res) => {
   const createVehicle = VehicleDB.createVehicle(
@@ -327,9 +355,26 @@ app.delete("/vehicles/:id", (req, res) => {
 
   deleteVehicle
     .then((result) => {
-      res.send(result);
+      // find all reservations with this vehicle id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingVehicle(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
     });
+});
+
+// ========================================================
+// SOME TEST CODE (Can ignore if you want)
+app.get("/mainBackend", (req, res) => {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.end("Congrats, you got node.js to run on port 3000");
+});
+
+app.post("/mainBackend", (req, res) => {
+  console.log(req);
+  res.send("Data received. You sent a post to the server at /mainBackend");
 });
