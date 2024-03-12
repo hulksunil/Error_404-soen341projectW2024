@@ -22,7 +22,16 @@ const dbURI =
 // Connecting to the database
 mongoose
   .connect(dbURI)
-  .then(() => console.log("Connected to DB"))
+  .then(() => {
+    console.log("Connected to DB");
+    app.listen(PORT, () => {
+      console.log(
+        `Go to http://localhost:${PORT}/mainBackend to see the server running`
+      );
+
+      console.log(`Press CTRL + C to stop server`);
+    });
+  })
   .catch((err) => console.log(err));
 
 // ROUTES
@@ -113,7 +122,12 @@ app.delete("/users/:id", (req, res) => {
 
   deletedUser
     .then((result) => {
-      res.send(result);
+      // find all reservations with this user id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingUser(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -236,7 +250,6 @@ app.put("/UpdateReservation/:id", (req, res) => {
     });
 });
 
-
 // Deleting a reservation by ID
 app.delete("/reservations/:id", (req, res) => {
   const id = req.params.id;
@@ -244,7 +257,15 @@ app.delete("/reservations/:id", (req, res) => {
 
   deletedReservation
     .then((result) => {
-      res.send(result);
+      UserDB.removeReservation(result.userId, id).then(
+        (deletedReservationUserId) => {
+          VehicleDB.removeReservation(result.carId, id).then(
+            (deletedReservationVehicleId) => {
+              res.send(result);
+            }
+          );
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -321,20 +342,16 @@ app.delete("/vehicles/:id", (req, res) => {
 
   deleteVehicle
     .then((result) => {
-      res.send(result);
+      // find all reservations with this vehicle id and mark them as deleted
+      ReservationDB.deleteReservationsMatchingVehicle(id).then(
+        (deletedReservations) => {
+          res.send(result);
+        }
+      );
     })
     .catch((err) => {
       console.log(err);
     });
-});
-
-// Listening to the server (might need to place into the then() of the connect method to ensure the server only starts after the database is connected)
-app.listen(PORT, () => {
-  console.log(
-    `Go to http://localhost:${PORT}/mainBackend to see the server running`
-  );
-
-  console.log(`Press CTRL + C to stop server`);
 });
 
 // ========================================================
