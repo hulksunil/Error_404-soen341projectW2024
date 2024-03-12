@@ -16,7 +16,7 @@ In frontend folder,
 #### <ins>Backend </ins>
 In backend folder,  
 ``npm install``
-``node main.js``
+``npm start``
 
 
 ## Usage Guidelines
