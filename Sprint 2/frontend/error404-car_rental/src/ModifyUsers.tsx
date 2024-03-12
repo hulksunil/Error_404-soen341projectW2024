@@ -4,6 +4,7 @@ import "./styles/ModifyUsers.css";
 import "./styles/CreateUser.css";
 import Navbar from "./components/Navbar/navbar";
 import "./components/Navbar/navbar.css"
+import CreateUser from "./CreateUser.tsx";
 
 export default function ModifyUsers() {
     type user = {
@@ -20,6 +21,7 @@ export default function ModifyUsers() {
     }
 
     const [allUsers, setAllUsers] = useState<user[]>([]);
+    const [createUserModal, setCreateUserModal] = useState(false);
 
     function pageTitle() {
         return <title>Modify Users</title>;
@@ -51,6 +53,10 @@ export default function ModifyUsers() {
                 console.error("Error:", error);
             })
     }
+
+    function toggleCreateUserModal() {
+          setCreateUserModal(!createUserModal);
+      }
 
     function UserRow({ userInfo }) {
         userInfo.newPass = "";
@@ -118,7 +124,8 @@ export default function ModifyUsers() {
         <>
             <Navbar />
             {pageTitle()}
-            <h1>{document.title}</h1>
+            <h1>{document.title}</h1> 
+            <button className='LogBtn' onClick={toggleCreateUserModal}>Create Account</button>
             <table className="userTable">
                 <thead>
                     <tr>
@@ -138,6 +145,18 @@ export default function ModifyUsers() {
                     )}
                 </tbody>
             </table>
+
+            {createUserModal && (
+        <>
+          <div className="overlay" onClick={toggleCreateUserModal} />
+          <div className="modal-content2">
+            <CreateUser
+              toggleModal={toggleCreateUserModal}
+              isAdmin = {true}
+            />
+          </div>
+        </>
+      )}
         </>
     );
 }

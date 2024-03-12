@@ -104,13 +104,16 @@ export default function CreateUser(props) {
             status: true,
           }));
 
+          if(!props.isAdmin){
           //Setting props to be read in the previous page, NavBar.tsx
           props.setUserInfo(res.data);
           storeCookies("username",res.data.firstName + " " + res.data.lastName);
           storeCookies("userid",res.data._id);
 
           props.setIsLoggedIn(true);
+          }
           props.toggleModal();
+          window.location.reload();
         } 
         else {
           setErrorVisibility((errorVisibility) => ({
