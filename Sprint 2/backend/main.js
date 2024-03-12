@@ -95,6 +95,19 @@ app.post("/updateUser", (req, res) => {
   const id = req.body._id;
   const newUserInfo = req.body;
 
+  const newPassword = newUserInfo.newPass;
+  
+  if(newPassword.length != 0){ 
+    // if the newPassword is defined, hash it, determine if its the same as prev then assign it if its new
+    
+    const hash = crypto.createHash("sha256");
+    hash.update(newPassword);
+    const newHashedPassword = hash.digest("hex");
+    if(newUserInfo.hashedPass !== newHashedPassword){
+      newUserInfo.hashedPass = newHashedPassword;
+    }
+  }
+  
   updatedUser = UserDB.updateUser(
     id,
     newUserInfo.firstName,
