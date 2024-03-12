@@ -11,13 +11,14 @@ This car rental application is used to facilitate users renting vehicles for sho
 #### <ins>Frontend </ins>
 In frontend folder,  
 ``npm install``  
-``npm run start``
+``npm start``
 
 #### <ins>Backend </ins>
 In backend folder,  
-``npm install``
+``npm install``  
 ``npm start``
 
+In your browser, go to [http://localhost:3000/](http://localhost:3000/)
 
 ## Usage Guidelines
 The basic rules for this repo can be found <a href="https://github.com/hulksunil/Error_404-soen341projectW2024/wiki/Git-Rules">here</a> 
