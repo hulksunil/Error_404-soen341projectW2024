@@ -34,7 +34,7 @@ export default function ModifyReservations() {
   }, []);
 
   function updateReservation(reservationId: string, updatedReservation: Partial<Reservation>) {
-    axios.put(`http://localhost:8081/UpdateReservation/${reservationId}`, updatedReservation)
+    axios.put(`http://localhost:8080/UpdateReservation/${reservationId}`, updatedReservation)
       .then((res) => {
         if (res.status === 200) {
           // Handle success
