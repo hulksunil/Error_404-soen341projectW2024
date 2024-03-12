@@ -289,11 +289,11 @@ app.delete("/reservations/:id", (req, res) => {
 //Creating a vehicle
 app.get("/createVehicle", (req, res) => {
   const createVehicle = VehicleDB.createVehicle(
-    "Subaru",
-    "Hatchback",
+    "Ferrari SF90",
+    "Sports Car",
     "Manual",
-    "5",
-    "Gas"
+    "2",
+    "Hybrid"
   );
 
   // Saving the vehicle to the database
@@ -329,16 +329,17 @@ app.get("/vehicles", (req, res) => {
     });
 });
 
-app.get("/updateVehicle", (req, res) => {
+app.post("/updateVehicle", (req, res) => {
   // Update the vehicle with the given id
-  const id = req.body.id;
+  const newVehicleInfo = req.body;
+  
   updateVehicle = VehicleDB.updateVehicle(
-    id,
-    "Tesla",
-    "Sedan",
-    "Automatic",
-    "2",
-    "Electric"
+    newVehicleInfo._id,
+    newVehicleInfo.model,
+    newVehicleInfo.type,
+    newVehicleInfo.transmission,
+    newVehicleInfo.numberOfSeats,
+    newVehicleInfo.fuelType
   );
   updateVehicle
     .then((result) => {
