@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './navbar.css';
 import { Link } from 'react-router-dom';
-import { getCookie,storeCookies } from '../../CookieManager.ts';
+import { clearCookies, getCookie,storeCookies } from '../../CookieManager.ts';
 import LogIn from "../../LogIn.tsx";
 import CreateUser from "../../CreateUser.tsx";
 import axios from "axios";
@@ -68,6 +68,12 @@ function Navbar() {
         {isLoggedIn ?
           <>
             <p className="welcomeUser">Welcome back {userInfo.firstName} {userInfo.lastName}</p>
+            <button className="SignOutBtn" onClick={() => {
+              setIsLoggedIn(false);
+              setUserInfo({});
+              clearCookies("username");
+              clearCookies("userid");
+            }}>Sign Out</button>
           </>
           :
           <> {/* If the user is not logged in display this*/}

@@ -39,6 +39,9 @@
 .rentBtn{
     text-align: center;
     border-radius: 20%;
+    background-color: #ADADFF;
+    width: 50px;  
+    margin: 15px;
     
 }
 
