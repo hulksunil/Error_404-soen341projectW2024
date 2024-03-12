@@ -28,11 +28,7 @@ export default function ModifyUsers() {
             .delete("http://localhost:8080/users/" + userInfo._id)
             .then((res) => {
                 if (res.status === 200) {
-<<<<<<< HEAD
                    // location.reload();
-=======
-                    window.location.reload();
->>>>>>> 0317e5b8fb83fcff03bd5399438f0f3f46f6d6dd
                 }
             })
             .catch((error) => {
