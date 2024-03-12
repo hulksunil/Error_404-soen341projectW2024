@@ -1,15 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles/create_a_reservation&payment.css";
 
 const getCurrentDate = () => {
   const today = new Date();
   const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+  const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
 const CarRentalReservation = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    licenseNumber: "",
+    licenseExpiryDate: "",
+    pickupDate: getCurrentDate(),
+    returnDate: getCurrentDate(),
+    pickupLocation: "",
+    returnLocation: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    const sendReservationData = async () => {
+      try {
+        const response = await axios.post("/CreateReservation", formData);
+        console.log("Reservation submitted successfully:", response.data);
+      } catch (error) {
+        console.error("Error submitting reservation:", error);
+      }
+    };
+
+    sendReservationData();
+  }, [formData]);
+
   return (
     <div className="background_reserve">
       <h1>Car Rental Reservation</h1>
@@ -29,31 +61,63 @@ const CarRentalReservation = () => {
           </tr>
           <br />
           <tr>
-            <th>Email: </th>
+            <th>Email:</th>
           </tr>
           <br />
           <tr>
-            <th>Phone number: </th>
+            <th>Phone number:</th>
           </tr>
           <br />
           <tr>
-            <th>Address: </th>
+            <th>Address:</th>
           </tr>
           <br />
           <tr>
-            <th>Driver's License Number: </th>
+            <th>Driver's License Number:</th>
           </tr>
           <br />
           <tr>
-            <th>Driver's License Expiry Date: </th>
+            <th>Driver's License Expiry Date:</th>
           </tr>
           <br />
           <tr>
-            <th>Pickup Date: </th>
+            <th>Pickup Date:</th>
             <td>
               <input
                 type="date"
+                name="pickupDate"
+                value={formData.pickupDate}
+                onChange={handleChange}
+                className="outlined_fields"
                 min={getCurrentDate()}
+                required
+              />
+            </td>
+          </tr>
+          <br />
+          <tr>
+            <th>Return Date:</th>
+            <td>
+              <input
+                type="date"
+                name="returnDate"
+                value={formData.returnDate}
+                onChange={handleChange}
+                className="outlined_fields"
+                min={getCurrentDate()}
+                required
+              />
+            </td>
+          </tr>
+          <br />
+          <tr>
+            <th>Pickup location:</th>
+            <td>
+              <input
+                type="text"
+                name="pickupLocation"
+                value={formData.pickupLocation}
+                onChange={handleChange}
                 className="outlined_fields"
                 required
               />
@@ -61,34 +125,26 @@ const CarRentalReservation = () => {
           </tr>
           <br />
           <tr>
-            <th>Return Date: </th>
+            <th>Return location:</th>
             <td>
               <input
-                type="date"
-                min={getCurrentDate()}
+                type="text"
+                name="returnLocation"
+                value={formData.returnLocation}
+                onChange={handleChange}
                 className="outlined_fields"
                 required
               />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Pickup location: </th>
-            <td>
-              <input type="text" className="outlined_fields" required />
-            </td>
-          </tr>
-          <br />
-          <tr>
-            <th>Return location: </th>
-            <td>
-              <input type="text" className="outlined_fields" required />
             </td>
           </tr>
         </table>
         <br />
         <div>
-          <input type="submit" value="Submit Reservation" className="submit" />
+          <input
+            type="submit"
+            value="Submit Reservation"
+            className="submit"
+          />
           <input type="reset" value="Reset" className="reset" />
         </div>
       </form>

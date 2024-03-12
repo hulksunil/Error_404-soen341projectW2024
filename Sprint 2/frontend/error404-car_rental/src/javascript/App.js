@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import "../styles/App.css";
 import Home from "../Home.tsx";
 import Browse from "../Browse.tsx";
@@ -6,7 +6,6 @@ import ViewRes from "../ViewReservation.tsx";
 import CarRentalPayment from "../Payment_form.js";
 import CarRentalReservation from "../create_a_reservation.js";
 import TransactionApproved from "../Transaction_approved.js";
-import Payment from "../Payment_form.js";
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 
