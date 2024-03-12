@@ -46,7 +46,7 @@ export default function ModifyUsers() {
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res);
-                    location.reload();
+                    window.location.reload();
                 }
             })
             .catch((error) => {
