@@ -96,7 +96,7 @@ const CarRentalReservation = () => {
           </tr>
           <br />
           <tr>
-            <th>Location:</th>
+            <th>Pickup Location:</th>
             <td>
               <input
                 type="text"
@@ -108,6 +108,20 @@ const CarRentalReservation = () => {
               />
             </td>
           </tr>
+          {/* <br />
+          <tr>
+            <th>Return Location:</th>
+            <td>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                className="outlined_fields"
+                required
+              />
+            </td>
+          </tr> */}
         </table>
         <br />
         <div>
