@@ -1,24 +1,29 @@
 import React from 'react';
 import './cardbrowse.css';
+import { Link } from "react-router-dom";
 
 function CardBrowse(props) {
-  const { titleName, imageUrl, CarType, NoOfPass, PTrain } = props;
+  const { model,type,transmission,numberOfSeats,fuelType} = props;
   return (
     <div className='card-container'>
       <div className="image-container">
-        <img src={imageUrl} alt="" />
+        <img src="https://media.wired.com/photos/5cf0413114e889d1d895c5d9/master/pass/techintwo_Ferrari.jpg" alt="" />
       </div>
 
       <div className="card-content">
-        <div className="card-title"><h2>{titleName}</h2></div>
+        <div className="card-title"><h2>{model}</h2></div>
         <div className="card-body">
-          <div>Type: {CarType}</div>
+          <div>Type: {type}</div>
           <br />
-          <div>No. of passengers: {NoOfPass}</div>
+          <div>No. of Seats: {numberOfSeats}</div>
           <br />
-          <div>Powertrain: {PTrain}</div>
+          <div>Fuel TYpe: {fuelType}</div>
+          <br />
+          <div>Transmission: {transmission}</div>
         </div>
-        <div className="rentBtn"><button>Rent</button></div>
+        <div className="rentBtn" >
+          <Link to='/reservation?carID=${_id}'>Rent</Link>
+        </div>
       </div>
 
       

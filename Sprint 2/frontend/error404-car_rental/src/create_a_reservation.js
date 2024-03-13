@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { getCookie } from "./CookieManager.ts"; 
 import "./styles/create_a_reservation&payment.css";
 
 const getCurrentDate = () => {
@@ -12,12 +14,19 @@ const getCurrentDate = () => {
 
 const CarRentalReservation = () => {
   const [formData, setFormData] = useState({
-    userID:"",
-    carID:"",
+    userID: getCookie("userID"), 
+    carID: "",
     ReservationDate: getCurrentDate(),
     returnDate: getCurrentDate(),
-    location:"",
+    location: "",
   });
+
+  const location = useLocation();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const carID = searchParams.get("carID");
+    setFormData({ ...formData, carID: carID });
+  }, [location]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,29 +56,13 @@ const CarRentalReservation = () => {
       <form action="/payment">
         <table className="reservationTable">
           <tr>
-            <th>UserID: </th>
-            <td>
-            <input
-                type="text"
-                name="userID"
-                value={formData.userID}
-                onChange={handleChange}
-                className="outlined_fields"
-                required
-              />
-            </td>
+            <th>UserID:</th>
+            <td>{formData.userID}</td>
           </tr>
           <br />
           <tr>
-            <th> CarID: </th>
-            <td><input
-                type="text"
-                name="carID"
-                value={formData.carID}
-                onChange={handleChange}
-                className="outlined_fields"
-                required
-              /></td>
+            <th>CarID:</th>
+            <td>{formData.carID}</td>
           </tr>
           <br />
           <tr>
@@ -103,7 +96,7 @@ const CarRentalReservation = () => {
           </tr>
           <br />
           <tr>
-            <th>location:</th>
+            <th>Location:</th>
             <td>
               <input
                 type="text"

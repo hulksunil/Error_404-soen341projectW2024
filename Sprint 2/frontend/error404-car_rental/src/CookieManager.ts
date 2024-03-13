@@ -18,3 +18,7 @@ export function getCookie(cookieName: String){ // from chatGPT test
     }
     return null;
 }
+
+export function clearCookies(cookieName: String){
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
