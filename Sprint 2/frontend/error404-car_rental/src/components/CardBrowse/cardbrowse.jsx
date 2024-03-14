@@ -22,7 +22,7 @@ function CardBrowse(props) {
           <div>Transmission: {transmission}</div>
         </div>
         <div className="rentBtn" >
-          <Link to='/reservation?carID=${carID}'>Rent</Link>
+          <Link to={`/reservation?carID=${carID}`}>Rent</Link>
         </div>
       </div>
 

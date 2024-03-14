@@ -5,9 +5,10 @@ const reservationSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
   userId: mongoose.Schema.Types.ObjectId,
   carId: mongoose.Schema.Types.ObjectId,
-  reservationDate: Date,
+  pickupDate: Date,
   returnDate: Date,
-  location: String,
+  pickupLocation: String, 
+  returnLocation: String, 
 });
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
@@ -16,20 +17,23 @@ class ReservationDB {
   static createReservation(
     userId,
     carId,
-    reservationDate,
+    pickupDate,
     returnDate,
-    location
+    pickupLocation, 
+    returnLocation
   ) {
-    if (returnDate <= reservationDate) {
-      throw new Error("Return date must be after reservation date");
+    if (returnDate <= pickupDate) {
+      throw new Error("Return date must be after pickup date");
     }
     const reservation = new Reservation({
       _id: new mongoose.Types.ObjectId(),
       userId: userId,
       carId: carId,
-      reservationDate: reservationDate,
+      pickupDate: pickupDate,
       returnDate: returnDate,
-      location: location,
+      pickupLocation: pickupLocation, 
+      returnLocation: returnLocation
+      
     });
     return reservation.save();
   }
@@ -48,7 +52,8 @@ class ReservationDB {
     carId,
     reservationDate,
     returnDate,
-    location
+    pickupLocation,
+    returnLocation
   ) {
     return Reservation.findByIdAndUpdate(
       id,
@@ -57,7 +62,8 @@ class ReservationDB {
         carId: carId,
         reservationDate: reservationDate,
         returnDate: returnDate,
-        location: location,
+        pickupLocation: pickupLocation, 
+        returnLocation: returnLocation
       },
       { new: true }
     );

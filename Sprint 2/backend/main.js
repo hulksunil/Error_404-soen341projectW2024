@@ -182,15 +182,16 @@ const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
-  const { userId, carId, reservationDate, returnDate, location } = req.body;
+  const { userId, carId, pickupDate, returnDate, pickuplocation,returnlocation} = req.body;
   console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
     userId,
     carId,
-    reservationDate,
+    pickupDate,
     returnDate,
-    location
+    pickuplocation,
+    returnlocation
   );
 
   // Handle promise result
@@ -248,9 +249,10 @@ app.put("/UpdateReservation/:id", (req, res) => {
     id,
     updatedReservationData.userId,
     updatedReservationData.carId,
-    updatedReservationData.reservationDate,
+    updatedReservationData.pickupDate,
     updatedReservationData.returnDate,
-    updatedReservationData.location
+    updatedReservationData.pickuplocation,
+    updatedReservationData.returnlocation
   );
 
   updatedReservation

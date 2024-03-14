@@ -25,11 +25,12 @@ test("Create a reservation", async () => {
 
   
  createdReservation = await ReservationDB.createReservation(
-  userM,
-  idM,
+    userM,
+    idM,
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
-    "Montreal"
+    "Montreal",
+    "Toronto"
   );
 
   
@@ -37,9 +38,10 @@ test("Create a reservation", async () => {
 
   expect(createdReservation.userId).toBe(userM);
   expect(createdReservation.carId).toBe(idM);
-  expect(createdReservation.reservationDate).toStrictEqual(new Date(2024,2,28, 13, 20));
+  expect(createdReservation.pickupDate).toStrictEqual(new Date(2024,2,28, 13, 20));
   expect(createdReservation.returnDate).toStrictEqual(new Date(2024, 3, 5, 14, 40),);
-  expect(createdReservation.location).toEqual("Montreal");
+  expect(createdReservation.pickupLocation).toEqual("Montreal");
+  expect(createdReservation.returnLocation).toEqual("Toronto");
 });
 
 test("Find all reservations", async () => {
@@ -51,14 +53,16 @@ test("Find all reservations", async () => {
     idMM, 
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
-    "Montreal"
+    "Montreal",
+    "Toronto"
   );
   createdReservation2= await ReservationDB.createReservation(
     userMM2,
     idMM,
     new Date(2024, 2, 28, 13, 20),
     new Date(2024, 3, 5, 14, 40),
-    "Montreal"
+    "Montreal",
+    "Toronto"
   );
   const myRes=[createdReservation1,createdReservation2];
   const foundRes=await ReservationDB.findAllReservations();
@@ -73,7 +77,8 @@ test("Find a reservation by ID", async () => {
       idM,
         new Date(2024, 2, 28, 13, 20),
         new Date(2024, 3, 5, 14, 40),
-        "Montreal"
+        "Montreal",
+        "Toronto"
       );
       const foundRes=await ReservationDB.findReservationById(createdReservation._id);
       expect(foundRes.userId).toStrictEqual(createdReservation.userId);
@@ -85,19 +90,21 @@ test("Update a reservation", async () => {
       idM,
         new Date(2024, 2, 28, 13, 20),
         new Date(2024, 3, 5, 14, 40),
-        "Montreal"
+        "Montreal",
+        "Toronto"
       );
       updatedReservation = await ReservationDB.createReservation(
         
         userM,
-  idM,
+        idM,
         new Date(2024, 3, 20, 17, 20),
         new Date(2024, 4, 10, 18, 20),
-        "Montreal"
+        "Montreal",
+        "Toronto"
       );
       expect(updatedReservation.userId).toBe(userM);
       expect(updatedReservation.carId).toBe(idM);
-      expect(updatedReservation.reservationDate).toEqual(new Date(2024, 3, 20, 17, 20));
+      expect(updatedReservation.pickupDate).toEqual(new Date(2024, 3, 20, 17, 20));
       expect(updatedReservation.returnDate).toEqual (new Date(2024, 4, 10, 18, 20));
 
 });
@@ -106,16 +113,18 @@ test("Delete a reservation", async () => {
     createdReservation = await ReservationDB.createReservation(
       userM,
       idM,
-        new Date(2024, 2, 28, 13, 20),
-    new Date(2024, 3, 5, 14, 40),
-        "Montreal"
+      new Date(2024, 2, 28, 13, 20),
+      new Date(2024, 3, 5, 14, 40),
+      "Montreal",
+      "Toronto"
       );
       deletedReservation=await ReservationDB.deleteReservation(createdReservation._id);
       expect(deletedReservation.userId).toEqual(createdReservation.userId);
   expect(deletedReservation.carId).toEqual(createdReservation.carId);
-  expect(deletedReservation.reservationDate).toEqual(createdReservation.reservationDate);
+  expect(deletedReservation.pickupDate).toEqual(createdReservation.pickupDate);
   expect(deletedReservation.returnDate).toEqual(createdReservation.returnDate);
-  expect(deletedReservation.location).toEqual(createdReservation.location);
+  expect(deletedReservation.pickupLocation).toEqual(createdReservation.pickupLocation);
+  expect(deletedReservation.returnLocation).toEqual(createdReservation.returnLocation);
   const foundRes= await ReservationDB.findReservationById(createdReservation._id);
   expect(foundRes).toEqual(null);
 });
