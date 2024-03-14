@@ -13,6 +13,8 @@ interface Filters {
   powertrain: string[];
 }
 
+
+
 export default function Browse() {
 
   type Car = {
@@ -82,6 +84,7 @@ export default function Browse() {
             transmission={Car.transmission}
             numberOfSeats={Car.numberOfSeats}
             fuelType={Car.fuelType}
+            carID={Car._id}
           />
 
        )}

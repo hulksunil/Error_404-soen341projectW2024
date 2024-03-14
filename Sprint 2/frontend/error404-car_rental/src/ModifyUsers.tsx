@@ -4,6 +4,7 @@ import "./styles/ModifyUsers.css";
 import "./styles/CreateUser.css";
 import Navbar from "./components/Navbar/navbar";
 import "./components/Navbar/navbar.css"
+import CreateUser from "./CreateUser.tsx";
 
 export default function ModifyUsers() {
     type user = {
@@ -13,25 +14,25 @@ export default function ModifyUsers() {
         hashedPass: string,
         lastName: string,
         __v: string,
-        _id: string
+        _id: string,
+        licenseNum: string,
+        dob:string,
+        newPass:string,
     }
 
     const [allUsers, setAllUsers] = useState<user[]>([]);
+    const [createUserModal, setCreateUserModal] = useState(false);
 
     function pageTitle() {
         return <title>Modify Users</title>;
     }
-
-    function updateUser(userInfo) {
-        console.log(userInfo)
-    }
-
+    
     function deleteUser(userInfo) {
         axios
             .delete("http://localhost:8080/users/" + userInfo._id)
             .then((res) => {
                 if (res.status === 200) {
-                    location.reload();
+                    window.location.reload();
                 }
             })
             .catch((error) => {
@@ -41,11 +42,11 @@ export default function ModifyUsers() {
 
     function handleSubmit(event: React.FormEvent, newUserInfo) {
         event.preventDefault();
-        console.log(newUserInfo);
         axios.post("http://localhost:8080/updateUser", newUserInfo)
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res);
+                    window.location.reload();
                 }
             })
             .catch((error) => {
@@ -53,32 +54,35 @@ export default function ModifyUsers() {
             })
     }
 
-    function UserRow({ userInfo }) {
+    function toggleCreateUserModal() {
+          setCreateUserModal(!createUserModal);
+      }
 
+    function UserRow({ userInfo }) {
+        userInfo.newPass = "";
         let updatedUserInfo: user = userInfo;
-        console.log(updatedUserInfo)
 
         return (
             <>
                 <tr>
                     <td className="hiddenForm"><form id={userInfo._id} onSubmit={(e) => handleSubmit(e, updatedUserInfo)} /></td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.firstName} className="inputBoxes" form={userInfo._id} name="firstName" onChange={(e) => updatedUserInfo.firstName = e.target.value} />
+                        <input type="text" placeholder={userInfo.firstName} className="inputBoxes" form={userInfo._id} name="firstName" onChange={(e) => updatedUserInfo.firstName = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.lastName} className="inputBoxes" form={userInfo._id} name="lastName" onChange={(e) => updatedUserInfo.lastName = e.target.value} />
+                        <input type="text" placeholder={userInfo.lastName} className="inputBoxes" form={userInfo._id} name="lastName" onChange={(e) => updatedUserInfo.lastName = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.email} className="inputBoxes" form={userInfo._id} name="email" onChange={(e) => updatedUserInfo.email = e.target.value} />
+                        <input type="text" placeholder={userInfo.email} className="inputBoxes" form={userInfo._id} name="email" onChange={(e) => updatedUserInfo.email = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" className="inputBoxes" form={userInfo._id} /> {/*Date of birth*/}
+                        <input type="text" placeholder={userInfo.dob} className="inputBoxes" form={userInfo._id} name="dob" onChange={(e) => updatedUserInfo.dob = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" className="inputBoxes" form={userInfo._id} /> {/*License*/}
+                        <input type="text" placeholder={userInfo.licenseNum} className="inputBoxes" form={userInfo._id} name="licenseNum" onChange={(e) => updatedUserInfo.licenseNum = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={userInfo.hashedPass} className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.hashedPass = e.target.value} />
+                        <input type="text" placeholder="Enter a new password" className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.newPass = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
                         <select
@@ -120,7 +124,8 @@ export default function ModifyUsers() {
         <>
             <Navbar />
             {pageTitle()}
-            <h1>{document.title}</h1>
+            <h1>{document.title}</h1> 
+            <button className='LogBtn' onClick={toggleCreateUserModal}>Create Account</button>
             <table className="userTable">
                 <thead>
                     <tr>
@@ -129,7 +134,7 @@ export default function ModifyUsers() {
                         <th>Email</th>
                         <th>Date of birth</th>
                         <th>License #</th>
-                        <th>Password</th>
+                        <th>New Password</th>
                         <th>Account Type</th>
                         <th>Confirm</th>
                     </tr>
@@ -140,6 +145,18 @@ export default function ModifyUsers() {
                     )}
                 </tbody>
             </table>
+
+            {createUserModal && (
+        <>
+          <div className="overlay" onClick={toggleCreateUserModal} />
+          <div className="modal-content2">
+            <CreateUser
+              toggleModal={toggleCreateUserModal}
+              isAdmin = {true}
+            />
+          </div>
+        </>
+      )}
         </>
     );
 }

@@ -3,33 +3,28 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: mongoose.Schema.Types.ObjectId, 
   carId: mongoose.Schema.Types.ObjectId,
   reservationDate: Date,
   returnDate: Date,
   location: String,
 });
 
+
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
 class ReservationDB {
-  static createReservation(
-    userId,
-    carId,
-    reservationDate,
-    returnDate,
-    location
-  ) {
+  static createReservation(userId, carId, reservationDate, returnDate, location) {
     if (returnDate <= reservationDate) {
-      throw new Error("Return date must be after reservation date");
-    }
+        throw new Error("Return date must be after reservation date");
+      }
     const reservation = new Reservation({
       _id: new mongoose.Types.ObjectId(),
       userId: userId,
       carId: carId,
       reservationDate: reservationDate,
       returnDate: returnDate,
-      location: location,
+      location: location, 
     });
     return reservation.save();
   }
@@ -42,22 +37,15 @@ class ReservationDB {
     return Reservation.find();
   }
 
-  static updateReservation(
-    id,
-    userId,
-    carId,
-    reservationDate,
-    returnDate,
-    location
-  ) {
+  static updateReservation(id, userId, carId, reservationDate, returnDate, location) {
     return Reservation.findByIdAndUpdate(
       id,
       {
         userId: userId,
-        carId: carId,
+      carId: carId,
         reservationDate: reservationDate,
         returnDate: returnDate,
-        location: location,
+        location: location, 
       },
       { new: true }
     );
@@ -66,14 +54,6 @@ class ReservationDB {
   static deleteReservation(id) {
     return Reservation.findByIdAndDelete(id);
   }
-
-  static deleteReservationsMatchingVehicle(carId) {
-    return Reservation.deleteMany({ carId: carId });
-  }
-
-  static deleteReservationsMatchingUser(userId) {
-    return Reservation.deleteMany({ userId: userId });
-  }
 }
 
-module.exports = ReservationDB;
+module.exports = { Reservation, ReservationDB };

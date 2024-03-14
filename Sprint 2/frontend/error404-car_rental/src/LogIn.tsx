@@ -46,6 +46,7 @@ export default function LogIn(props) {
 
           props.setIsLoggedIn(true);
           props.toggleModal();
+          window.location.reload();
 
         } else {
           setIncorrect(true)

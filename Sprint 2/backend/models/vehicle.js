@@ -8,7 +8,6 @@ const vehicleSchema = new Schema({
     transmission: String,
     numberOfSeats: String,
     fuelType: String,
-    baggageSpace: String,
   });
   
   const Vehicle = mongoose.model("Vehicle", vehicleSchema);
@@ -33,7 +32,7 @@ const vehicleSchema = new Schema({
       return Vehicle.find();
     }
   
-   static updateVehicle(model, type, transmission, numberOfSeats, fuelType, ) {
+   static updateVehicle(id,model, type, transmission, numberOfSeats, fuelType, ) {
       return Vehicle.findByIdAndUpdate(
         id,
         {

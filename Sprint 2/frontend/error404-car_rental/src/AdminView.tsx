@@ -27,7 +27,9 @@ export default function AdminView() {
                 <button className="buttonContainer">
                     <Link to="/modifycars" className="centeredText">Modify Cars</Link>
                 </button>
-
+                <button className="buttonContainer">
+                    <Link to="/modifyreservations" className="centeredText">Modify Reservations</Link>
+                </button>
                 {/* This creates a link on the page that will route 
             to the specified element, CreateUser.tsx, page and will display the 
             specified path in the search bar. The route is specified in the App.js page */}

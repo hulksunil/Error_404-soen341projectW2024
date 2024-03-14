@@ -9,15 +9,16 @@ This car rental application is used to facilitate users renting vehicles for sho
 
 
 #### <ins>Frontend </ins>
-In frontend folder,  
+In frontend folder,  _(Sprint 2/frontend/error404-car_rental/)_  
 ``npm install``  
-``npm run start``
+``npm start``
 
 #### <ins>Backend </ins>
-In backend folder,  
-``npm install``
-``node main.js``
+In backend folder,  _(Sprint 2/backend/)_  
+``npm install``  
+``npm start``
 
+In your browser, go to [http://localhost:3000/](http://localhost:3000/)
 
 ## Usage Guidelines
 The basic rules for this repo can be found <a href="https://github.com/hulksunil/Error_404-soen341projectW2024/wiki/Git-Rules">here</a> 
@@ -29,3 +30,6 @@ The basic rules for this repo can be found <a href="https://github.com/hulksunil
 - 40244003, Marco Sicoli, Role: Backend
 - 40176937, Sumit Patel, Role: Frontend
 - 40044952, Seb Iaricci, Role: Backend
+
+
+link to short demo: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)
