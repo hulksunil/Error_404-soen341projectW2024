@@ -79,8 +79,8 @@ export default function ModifyReservations() {
   
     const handleUpdate = () => {
         const updatedFields = {
-          userId: editableReservation.userID,
-          carId: editableReservation.carID,
+          userID: editableReservation.userID,
+          carID: editableReservation.carID,
           pickupDate: editableReservation.pickupDate,
           returnDate: editableReservation.returnDate,
           pickuplocation: editableReservation.pickuplocation,
