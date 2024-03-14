@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  userId: mongoose.Schema.Types.ObjectId,
-  carId: mongoose.Schema.Types.ObjectId,
+  userID: mongoose.Schema.Types.ObjectId, 
+  carID: mongoose.Schema.Types.ObjectId, 
   pickupDate: Date,
   returnDate: Date,
   pickupLocation: String, 
@@ -15,28 +15,28 @@ const Reservation = mongoose.model("Reservation", reservationSchema);
 
 class ReservationDB {
   static createReservation(
-    userId,
-    carId,
+    userID,
+    carID,
     pickupDate,
     returnDate,
-    pickupLocation, 
+    pickupLocation,
     returnLocation
-  ) {
+) {
     if (returnDate <= pickupDate) {
-      throw new Error("Return date must be after pickup date");
+        throw new Error("Return date must be after pickup date");
     }
     const reservation = new Reservation({
       _id: new mongoose.Types.ObjectId(),
-      userId: userId,
-      carId: carId,
+      userID: userID, 
+      carID: carID, 
       pickupDate: pickupDate,
       returnDate: returnDate,
-      pickupLocation: pickupLocation, 
+      pickupLocation: pickupLocation,
       returnLocation: returnLocation
-      
-    });
+  });
+  
     return reservation.save();
-  }
+}
 
   static findReservationById(id) {
     return Reservation.findById(id);
@@ -48,19 +48,19 @@ class ReservationDB {
 
   static updateReservation(
     id,
-    userId,
-    carId,
-    reservationDate,
+    userID,
+    carID,
+    pickupDate,
     returnDate,
-    pickupLocation,
+    pickupLocation, 
     returnLocation
   ) {
     return Reservation.findByIdAndUpdate(
       id,
       {
-        userId: userId,
-        carId: carId,
-        reservationDate: reservationDate,
+        userID: userID,
+        carID: carID,
+        pickupDate: pickupDate,
         returnDate: returnDate,
         pickupLocation: pickupLocation, 
         returnLocation: returnLocation
@@ -73,12 +73,12 @@ class ReservationDB {
     return Reservation.findByIdAndDelete(id);
   }
 
-  static deleteReservationsMatchingVehicle(carId) {
-    return Reservation.deleteMany({ carId: carId });
+  static deleteReservationsMatchingVehicle(carID) {
+    return Reservation.deleteMany({ carID: carID });
   }
 
-  static deleteReservationsMatchingUser(userId) {
-    return Reservation.deleteMany({ userId: userId });
+  static deleteReservationsMatchingUser(userID) {
+    return Reservation.deleteMany({ userID: userID });
   }
 }
 

@@ -23,16 +23,11 @@ function App() {
           <Route path="/viewreservation" element={<ViewRes />} />
           <Route path="/payment" element={<CarRentalPayment />} />
           <Route path="/reservation" element={<CarRentalReservation />} />
-          <Route
-            path="/transactionapproved"
-            element={<TransactionApproved />}
-          />
+          <Route path="/transactionapproved"element={<TransactionApproved />}/>
           <Route path="/adminview" element={<AdminView />} />
           <Route path="/modifyusers" element={<ModifyUsers />} />
           <Route path="/modifycars" element={<ModifyVehicles />}/>
           <Route path="/modifyreservations" element={<ModifyReservations />} />
-        
-
         </Routes>
       </BrowserRouter>
     </div>

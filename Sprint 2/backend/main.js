@@ -177,17 +177,17 @@ app.post("/findUserByEmail", (req, res) => {
 });
 
 // ======================================================== RESERVATION ROUTES ========================================================
-const mockUserId = new mongoose.Types.ObjectId("65ee0f0f1fd06cc2bafdaeb2");
-const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
+const mockUserID = new mongoose.Types.ObjectId("65ee0f0f1fd06cc2bafdaeb2");
+const mockCarID = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
-  const { userId, carId, pickupDate, returnDate, pickuplocation,returnlocation} = req.body;
+  const { userID, carID, pickupDate, returnDate, pickuplocation,returnlocation} = req.body;
   console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
-    userId,
-    carId,
+    userID,
+    carID,
     pickupDate,
     returnDate,
     pickuplocation,
@@ -197,8 +197,8 @@ app.post("/CreateReservation", (req, res) => {
   // Handle promise result
   createdReservation
     .then((result) => {
-      UserDB.addReservation(userId, result._id).then((newUser) => {
-        VehicleDB.addReservation(carId, result._id).then((newVehicle) => {
+      UserDB.addReservation(userID, result._id).then((newUser) => {
+        VehicleDB.addReservation(carID, result._id).then((newVehicle) => {
           // console.log(newUser);
           // console.log(newVehicle);
 
@@ -247,8 +247,8 @@ app.put("/UpdateReservation/:id", (req, res) => {
   // Call the updateReservation function with the received data
   updatedReservation = ReservationDB.updateReservation(
     id,
-    updatedReservationData.userId,
-    updatedReservationData.carId,
+    updatedReservationData.userID,
+    updatedReservationData.carID,
     updatedReservationData.pickupDate,
     updatedReservationData.returnDate,
     updatedReservationData.pickuplocation,
@@ -272,9 +272,9 @@ app.delete("/reservations/:id", (req, res) => {
 
   deletedReservation
     .then((result) => {
-      UserDB.removeReservation(result.userId, id).then(
+      UserDB.removeReservation(result.userID, id).then(
         (deletedReservationUserId) => {
-          VehicleDB.removeReservation(result.carId, id).then(
+          VehicleDB.removeReservation(result.carID, id).then(
             (deletedReservationVehicleId) => {
               res.send(result);
             }

@@ -39,9 +39,9 @@ const CarRentalReservation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/CreateReservation", formData);
+      const response = await axios.post("/CreateReservation",formData);
       console.log("Reservation submitted successfully:", response.data);
-      window.location.href = "/payment";
+      window.location.href="/payment"
     } catch (error) {
       console.error("Error submitting reservation:", error);
     }
@@ -59,12 +59,27 @@ const CarRentalReservation = () => {
         <table className="reservationTable">
           <tr>
             <th>UserID:</th>
-            <td>{formData.userID}</td>
+            <td>
+              <input
+            type="text"
+            name="userID"
+            value={formData.userID}
+            className="outlined_fields"
+            disabled
+          />
+        </td>
           </tr>
           <br />
           <tr>
             <th>CarID:</th>
-            <td>{formData.carID}</td>
+            <td>
+              <input
+              type="text"
+              name="carID"
+              value={formData.carID}
+              className="outlined_fields"
+              disabled
+        /></td>
           </tr>
           <br />
           <tr>
