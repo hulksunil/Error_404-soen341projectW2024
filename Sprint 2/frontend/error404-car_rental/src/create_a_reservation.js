@@ -41,7 +41,6 @@ const CarRentalReservation = () => {
     try {
       const response = await axios.post("/CreateReservation",formData);
       console.log("Reservation submitted successfully:", response.data);
-      window.location.href="/payment"
     } catch (error) {
       console.error("Error submitting reservation:", error);
     }
@@ -141,6 +140,7 @@ const CarRentalReservation = () => {
             </tr>
         </table>
         <br />
+        <p><strong>Attention!!</strong> Please make sure to submit the reservation before proceeding to payment</p>
         <div>
           <input
             type="submit"
@@ -159,6 +159,15 @@ const CarRentalReservation = () => {
           returnlocation: ""
           });
         }} />
+        <button
+          type="button" className="redirect-button"
+          onClick={() => {
+          handleSubmit();
+          window.location.href = "/payment";
+          }}
+        >
+          Proceed to Payment
+      </button>
         </div>
       </form>
     </div>

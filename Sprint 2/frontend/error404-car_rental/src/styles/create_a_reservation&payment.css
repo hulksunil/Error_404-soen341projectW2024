@@ -30,6 +30,15 @@
   color: white;
   font-weight: bold;
 }
+.redirect-button{
+  border: 1px solid #aaa; 
+  border-radius: 10px; 
+  padding: 8px; 
+  outline: none;
+  background-color: darkblue ;
+  color: white;
+  font-weight: bold;
+}
 .reservationImage{
     height: 250px;
     float: left;

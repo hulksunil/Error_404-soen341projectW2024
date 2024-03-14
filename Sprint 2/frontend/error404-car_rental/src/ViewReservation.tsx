@@ -13,9 +13,10 @@ import Navbar from "./components/Navbar/navbar";
 export default function ViewReservation() {
   type reservation = {
     _id: string
-    location: string,
-    carId:string, 
-    reservationDate: string,
+    returnlocation: string,
+    pickuplocation: string,
+    carID:string, 
+    pickupDate: string,
     returnDate: string,
 }
   const [reservations, setReservations] = useState<string[]>([])
@@ -70,11 +71,11 @@ export default function ViewReservation() {
 
 
   function viewReservationOnClick(resId: String) {
-    let reservation: reservation={"location":"","carId":"", "reservationDate":"", "returnDate":"", "_id":""};
+    let reservation: reservation={"pickuplocation":"","returnlocation":"","carID":"", "pickupDate":"", "returnDate":"", "_id":""};
     axios
       .get("http://localhost:8080/reservations/" + resId)
       .then((res) => {
-        reservation = {"location":res.data.location, "reservationDate":res.data.reservationDate, "carId":res.data.carId, "returnDate":res.data.returnDate,"_id":res.data._id};
+        reservation = {"pickuplocation":res.data.pickuplocation,"returnlocation":res.data.returnlocation, "pickupDate":res.data.pickupDate, "carID":res.data.carID, "returnDate":res.data.returnDate,"_id":res.data._id};
         console.log(reservation);
         setSelectedReservation(reservation);
         return reservation;
@@ -168,7 +169,7 @@ export default function ViewReservation() {
                   type="date"
                   name="reservationDate"
                   defaultValue={reservationDate}
-                  onChange={(e) => updatedReservationInfo.reservationDate=e.target.value}
+                  onChange={(e) => updatedReservationInfo.pickupDate=e.target.value}
                   className="outlined_fields"
                   required
                 />
@@ -195,7 +196,20 @@ export default function ViewReservation() {
                   type="text"
                   name="location"
                   defaultValue={formData.location}
-                  onChange={(e) => updatedReservationInfo.location=e.target.value}
+                  onChange={(e) => updatedReservationInfo.pickuplocation=e.target.value}
+                  className="outlined_fields"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Location:</th>
+              <td>
+                <input
+                  type="text"
+                  name="location"
+                  defaultValue={formData.location}
+                  onChange={(e) => updatedReservationInfo.returnlocation=e.target.value}
                   className="outlined_fields"
                   required
                 />

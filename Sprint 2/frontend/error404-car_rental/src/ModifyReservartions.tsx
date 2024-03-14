@@ -6,11 +6,12 @@ import './AdminPage.css';
 export default function ModifyReservations() {
   type Reservation = {
     _id: string;
-    userId: string;
-    carId: string;
-    reservationDate: string;
+    userID: string;
+    carID: string;
+    pickupDate: string;
     returnDate: string;
-    location: string;
+    pickuplocation: string;
+    returnlocation: string;
   };
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -78,11 +79,12 @@ export default function ModifyReservations() {
   
     const handleUpdate = () => {
         const updatedFields = {
-          userId: editableReservation.userId,
-          carId: editableReservation.carId,
-          reservationDate: editableReservation.reservationDate,
+          userId: editableReservation.userID,
+          carId: editableReservation.carID,
+          pickupDate: editableReservation.pickupDate,
           returnDate: editableReservation.returnDate,
-          location: editableReservation.location
+          pickuplocation: editableReservation.pickuplocation,
+          returnlocation: editableReservation.returnlocation
         };
       
         updateReservation(editableReservation._id, updatedFields);
@@ -97,11 +99,12 @@ export default function ModifyReservations() {
   
     return (
       <tr>
-        <td><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} /></td>
-        <td><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} /></td>
-        <td><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
+        <td><input type="text" name="userID" value={editableReservation.userID} onChange={handleInputChange} /></td>
+        <td><input type="text" name="carID" value={editableReservation.carID} onChange={handleInputChange} /></td>
+        <td><input type="text" name="pickupDate" value={editableReservation.pickupDate} onChange={handleInputChange} /></td>
         <td><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
-        <td><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
+        <td><input type="text" name="pickuplocation" value={editableReservation.pickuplocation} onChange={handleInputChange} /></td>
+        <td><input type="text" name="returnlocation" value={editableReservation.returnlocation} onChange={handleInputChange} /></td>
         <td>
           <button onClick={handleUpdate}>Update</button>
           <button onClick={() => deleteReservation(reservation._id)}>Delete</button>
