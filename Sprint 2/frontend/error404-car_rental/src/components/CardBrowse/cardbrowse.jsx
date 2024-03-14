@@ -17,13 +17,13 @@ function CardBrowse(props) {
           <br />
           <div>No. of Seats: {numberOfSeats}</div>
           <br />
-          <div>Fuel TYpe: {fuelType}</div>
+          <div>Fuel Type: {fuelType}</div>
           <br />
           <div>Transmission: {transmission}</div>
         </div>
         <div className="rentBtn" >
           
-          <Link to='/reservation'>Rent</Link>
+          <Link to='/reservation' style={{textDecoration:'none',color:'#FFFEE0',fontWeight:'bolder'}}>Rent</Link>
         </div>
       </div>
 

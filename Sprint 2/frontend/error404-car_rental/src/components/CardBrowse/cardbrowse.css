@@ -36,15 +36,20 @@
     /*height: 400px;*/ /*to adjust the height of the box wothout changing the picture size*/
 }
 
-.rentBtn{
+.rentBtn {
+
     text-align: center;
-    border-radius: 20%;
+    border-radius: 20px;
     background-color: #ADADFF;
-    width: 50px;  
+    width: 70px;
     margin: 15px;
-    
+
 }
+
 
 .rentBtn :hover{
     cursor: pointer;
+    
 }
+
+

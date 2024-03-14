@@ -15,7 +15,7 @@
 }
 
 .navTitleName{
-    color: #000000;
+    z-index: 4;
 }
 
 .desktopMenu{
