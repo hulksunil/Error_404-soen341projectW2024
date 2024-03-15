@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/navbar';
-import './AdminPage.css';
+import "./components/Navbar/navbar.css"
+import "./styles/AdminPage.css";
 
 export default function ModifyReservations() {
   type Reservation = {
@@ -15,6 +17,7 @@ export default function ModifyReservations() {
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const history = useNavigate();
 
   function loadAllReservations() {
     axios
@@ -37,8 +40,8 @@ export default function ModifyReservations() {
     axios.put(`http://localhost:8080/UpdateReservation/${reservationId}`, updatedReservation)
       .then((res) => {
         if (res.status === 200) {
-          // Handle success
-          loadAllReservations(); // Reload reservations after update
+
+          loadAllReservations(); 
         }
       })
       .catch((error) => {
@@ -53,7 +56,6 @@ export default function ModifyReservations() {
       .delete(`http://localhost:8080/reservations/${reservationId}`)
       .then((res) => {
         if (res.status === 200) {
-          // Reload reservations after delete
           loadAllReservations();
         }
       })
@@ -93,7 +95,7 @@ export default function ModifyReservations() {
   
     useEffect(() => {
       setEditableReservation(reservation);
-    }, [reservation]); // Update editableReservation when the reservation prop changes
+    }, [reservation]); 
   
     return (
       <tr>
@@ -103,13 +105,15 @@ export default function ModifyReservations() {
         <td><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
         <td><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
         <td>
-          <button onClick={handleUpdate}>Update</button>
-          <button onClick={() => deleteReservation(reservation._id)}>Delete</button>
+        <button className="updateButton" onClick={handleUpdate}>Update</button>
+                <button className="deleteButton" onClick={() => deleteReservation(reservation._id)}>Delete</button>
         </td>
       </tr>
     );
   }
-  
+  function handleCreateReservation() {
+    history('/browse'); 
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -120,6 +124,7 @@ export default function ModifyReservations() {
       <Navbar />
       <title>Modify Reservations</title>
       <h1>Modify Reservations</h1>
+      <button onClick={handleCreateReservation}>Create a Reservation</button>
       <table className="reservationTable">
         <thead>
           <tr>

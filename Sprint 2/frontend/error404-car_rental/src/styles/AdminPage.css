@@ -1,0 +1,36 @@
+table th {
+    padding: 20px; 
+}
+
+table th {
+    font-size: 1.5rem; 
+}
+
+.container {
+    margin-top: 30px; 
+}
+
+.userTable, .vehicleTable {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.confirmation > button,
+.confirmation > input {
+    width: 6em; 
+    padding: 8px; 
+}
+
+.deleteButton {
+    background-color: red; 
+}
+
+.updateButton {
+    background-color: green; 
+    color: white; 
+}
+
+.hiddenForm {
+    background-color: red;
+    display: none;
+}

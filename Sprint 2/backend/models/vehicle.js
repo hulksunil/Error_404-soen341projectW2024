@@ -31,6 +31,20 @@ const vehicleSchema = new Schema({
     static findAllVehicles() {
       return Vehicle.find();
     }
+    static addReservation(id, reservationId) {
+      return Vehicle.findByIdAndUpdate(
+        id,
+        { $push: { reservations: reservationId } },
+        { new: true }
+      );
+    }
+    static removeReservation(id, reservationId) {
+      return Vehicle.findByIdAndUpdate(
+        id,
+        { $pull: { reservations: reservationId } },
+        { new: true }
+      );
+    }
   
    static updateVehicle(id,model, type, transmission, numberOfSeats, fuelType, ) {
       return Vehicle.findByIdAndUpdate(

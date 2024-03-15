@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import "./styles/create_a_reservation&payment.css";
+import { useNavigate } from 'react-router-dom';
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -25,7 +26,7 @@ const CarRentalReservation = () => {
     location: "",
     returnLocation: ""
   });
-
+  const history = useNavigate(); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -33,7 +34,7 @@ const CarRentalReservation = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/reservations', formData)
+    axios.post('http://localhost:8080/CreateReservation', formData)
       .then((res) => {
         console.log('Reservation created:', res.data);
         setFormData({
@@ -50,6 +51,7 @@ const CarRentalReservation = () => {
           location: "",
           returnLocation: ""
         });
+        history('/payment');
       })
       .catch((error) => {
         console.error('Error creating reservation:', error);
@@ -67,7 +69,7 @@ const CarRentalReservation = () => {
       <form onSubmit={handleSubmit}>
         <table className="reservationTable">
           <tbody>
-            {/* Input fields */}
+            {}
             <tr>
               <th>Reservation Date:</th>
               <td>
