@@ -4,6 +4,7 @@ import "./styles/create_a_reservation&payment.css";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "./CookieManager.ts";
 import { useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar/navbar.jsx";
 
 const userId = getCookie("userid");
 
@@ -75,81 +76,88 @@ const CarRentalReservation = () => {
   };
 
   return (
-    <div className="background_reserve">
-      <h1>Car Rental Reservation</h1>
-      <img
-        className="reservationImage"
-        src="https://robbreport.com/wp-content/uploads/2019/03/18c0771_007.jpg?w=1000"
-        alt="car"
-      ></img>
-      <form onSubmit={handleSubmit}>
-        <table className="reservationTable">
-          <tbody>
-            {}
-            <tr>
-              <th>Reservation Date:</th>
-              <td>
-                <input
-                  type="date"
-                  name="reservationDate"
-                  value={formData.reservationDate}
-                  onChange={handleChange}
-                  min={getCurrentDate()}
-                  max={formData.returnDate}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>Return Date:</th>
-              <td>
-                <input
-                  type="date"
-                  name="returnDate"
-                  value={formData.returnDate}
-                  onChange={handleChange}
-                  min={getTomorrowDate()}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>Location:</th>
-              <td>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <div>
-          <input type="submit" value="Submit Reservation" className="submit" />
-          <input
-            type="reset"
-            value="Reset"
-            className="reset"
-            onClick={() => {
-              setFormData({
-                ...formData,
-                reservationDate: getCurrentDate(),
-                returnDate: getTomorrowDate(),
-                location: "",
-                returnLocation: "",
-              });
-            }}
-          />
-        </div>
-      </form>
-    </div>
+    <>
+      <Navbar />
+      <div className="background_reserve">
+        <h1>Car Rental Reservation</h1>
+        <img
+          className="reservationImage"
+          src="https://robbreport.com/wp-content/uploads/2019/03/18c0771_007.jpg?w=1000"
+          alt="car"
+        ></img>
+        <form onSubmit={handleSubmit}>
+          <table className="reservationTable">
+            <tbody>
+              {}
+              <tr>
+                <th>Reservation Date:</th>
+                <td>
+                  <input
+                    type="date"
+                    name="reservationDate"
+                    value={formData.reservationDate}
+                    onChange={handleChange}
+                    min={getCurrentDate()}
+                    max={formData.returnDate}
+                    className="outlined_fields"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Return Date:</th>
+                <td>
+                  <input
+                    type="date"
+                    name="returnDate"
+                    value={formData.returnDate}
+                    onChange={handleChange}
+                    min={getTomorrowDate()}
+                    className="outlined_fields"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Location:</th>
+                <td>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    className="outlined_fields"
+                    required
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <div>
+            <input
+              type="submit"
+              value="Submit Reservation"
+              className="submit"
+            />
+            <input
+              type="reset"
+              value="Reset"
+              className="reset"
+              onClick={() => {
+                setFormData({
+                  ...formData,
+                  reservationDate: getCurrentDate(),
+                  returnDate: getTomorrowDate(),
+                  location: "",
+                  returnLocation: "",
+                });
+              }}
+            />
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
