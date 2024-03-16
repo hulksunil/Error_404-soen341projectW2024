@@ -5,7 +5,8 @@ A group project for SOEN 341
 This car rental application is used to facilitate users renting vehicles for short periods of time ranging from a couple hours to a couple weeks. It serves as an interface between the customers looking to rent vehicles and the car rental company offering those services. 
 
 ## Installation Instructions
-<a href="https://nodejs.org/en/download">install node.js</a> for your system 
+Install the latest version of <a href="https://nodejs.org/en/download">node.js</a> for your system 
+
 
 
 #### <ins>Frontend </ins>
