@@ -41,7 +41,6 @@ export default function ViewReservation() {
 
   function Reservation({ resId }) {
     
-
     return (
       <div className="reservationContainer">
         <img className="carImage" alt="the car in the reservation" />
@@ -77,7 +76,6 @@ export default function ViewReservation() {
         reservation = {"location":res.data.location, "reservationDate":res.data.reservationDate, "carId":res.data.carId, "returnDate":res.data.returnDate,"_id":res.data._id};
         console.log(reservation);
         setSelectedReservation(reservation);
-        return reservation;
       });
     
   }
@@ -90,7 +88,7 @@ export default function ViewReservation() {
       const user = res.data;
       setReservations(user.reservations);
       setIsEmpty(user.reservations.length === 0);
-      // console.log(res.data);
+      console.log(res.data);
     }).catch((error) => {
       console.error("Error:", error);
     });
@@ -138,7 +136,8 @@ export default function ViewReservation() {
   // }
 
   function Form({ formData }) {
-    let updatedReservationInfo:reservation = formData;
+    let updatedReservationInfo: reservation = formData;
+    console.log(updatedReservationInfo);
 
     let reservationDate = formData.reservationDate.substring(0, 10);
     let returnDate = formData.returnDate.substring(0, 10);

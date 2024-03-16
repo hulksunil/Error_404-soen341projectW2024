@@ -78,7 +78,8 @@ export default function Browse() {
       <div className="card-list">
        {AllVehicles.map(Car => 
           <CarBrowse 
-            key={Car._id} 
+           key={Car._id} 
+           carId={Car._id}
             model={Car.model} 
             type={Car.type} 
             transmission={Car.transmission}
