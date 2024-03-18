@@ -13,6 +13,7 @@ import ModifyVehicles from "../ModifyVehicles.tsx";
 import ModifyReservations from "../ModifyReservartions.tsx";
 import CheckOut from "../CheckOut.tsx";
 import CSRView from "../CSRVIew.tsx";
+import CheckoutRedirect from "../CheckoutRedirect.tsx";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/modifyreservations" element={<ModifyReservations />} />
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/csrview" element={<CSRView />} />
+          <Route path="/checkoutredirect/:reservationId" element={<CheckoutRedirect />} />
 
         </Routes>
       </BrowserRouter>
