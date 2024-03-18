@@ -30,10 +30,10 @@ function Navbar() {
   }
 
   useEffect(() => {
-    let username = getCookie("username");
     let userid = getCookie("userid");
 
     if (userid) {
+      // checkn the database if the user is valid
       axios.post("http://localhost:8080/users/" + userid)
         .then((res) => {
           if (res.status === 200) {
@@ -59,9 +59,9 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navTitleName"><h1>CARS R US</h1></div>
+      <Link to={"/"} className="navTitleName"><h1>CARS R US</h1></Link>
       <div className="desktopMenu">
-        <Link to="/" className="desktopMenuListItem">Home</Link>
+      <Link to="/" className="desktopMenuListItem">Home</Link>
         <Link to="/browse" className="desktopMenuListItem">Browse</Link>
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
         <Link className="desktopMenuListItem">About Us</Link>
@@ -70,15 +70,15 @@ function Navbar() {
       </div>
       <div>
         {isLoggedIn ?
-          <>
-            <p className="welcomeUser">Welcome back {userInfo.firstName} {userInfo.lastName}</p>
-            <button className="SignOutBtn" onClick={() => {
+          <div className="dropdownMenu">
+            <span className="welcomeUser">{userInfo.firstName} {userInfo.lastName}</span>
+            <button className="SignOutBtn dropdownContent" onClick={() => {
               setIsLoggedIn(false);
               setUserInfo({});
               clearCookies("username");
               clearCookies("userid");
             }}>Sign Out</button>
-          </>
+          </div>
           :
           <> {/* If the user is not logged in display this*/}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
