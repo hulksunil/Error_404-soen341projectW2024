@@ -98,15 +98,14 @@ export default function Browse() {
       <Navbar/>
       <Sidebar handleFilterChange={handleFilterChange}/>
       <div className="card-list">
-       {filteredVehicles.map(Car => 
+       {filteredVehicles.map(car => 
           <CarBrowse 
-           key={Car._id} 
-           carId={Car._id}
-            model={Car.model} 
-            type={Car.type} 
-            transmission={Car.transmission}
-            numberOfSeats={Car.numberOfSeats}
-            fuelType={Car.fuelType}
+            key={car._id} 
+            model={car.model} 
+            type={car.type} 
+            transmission={car.transmission}
+            numberOfSeats={car.numberOfSeats}
+            fuelType={car.fuelType}
           />
 
        )}

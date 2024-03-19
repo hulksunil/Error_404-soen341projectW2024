@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './cardbrowse.css';
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ function CardBrowse(props) {
           <br />
           <div>No. of Seats: {numberOfSeats}</div>
           <br />
-          <div>Fuel Type: {fuelType}</div>
+          <div>Fuel TYpe: {fuelType}</div>
           <br />
           <div>Transmission: {transmission}</div>
         </div>
