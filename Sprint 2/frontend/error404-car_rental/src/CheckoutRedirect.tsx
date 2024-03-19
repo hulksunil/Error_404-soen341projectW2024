@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/Navbar/navbar';
 import "./components/Navbar/navbar.css";
-
 
 export default function CheckoutRedirect() {
   const { reservationId } = useParams<{ reservationId: string }>();
   const [reservation, setReservation] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const history = useNavigate();
 
   useEffect(() => {
     axios
@@ -24,7 +24,18 @@ export default function CheckoutRedirect() {
   }, [reservationId]);
 
   function handleCheckoutConfirmation(trait: string, value: boolean) {
-    console.log(`Trait: ${trait}, Value: ${value}`);
+    axios.post('http://localhost:8080/CreateCheckout', {
+      reservationId: reservationId,
+      trait: trait,
+      action: value ? 'Yes' : 'No'
+    })
+    .then((res) => {
+      console.log('Confirmation data sent to the backend:', res.data);
+      history('/checkout');
+    })
+    .catch((error) => {
+      console.error('Error sending confirmation data to the backend:', error);
+    });
   }
 
   if (loading) {
@@ -64,9 +75,13 @@ export default function CheckoutRedirect() {
               <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', false)}>No</button></td>
             </tr>
-            
+           
           </tbody>
         </table>
+      </div>
+     
+      <div className="confirmButtonContainer">
+        <button onClick={() => history('/payment')}>Confirm</button>
       </div>
     </>
   );
