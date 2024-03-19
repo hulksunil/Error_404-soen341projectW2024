@@ -15,7 +15,8 @@
 }
 
 .navTitleName{
-    z-index: 4;
+    color: #000000;
+    text-decoration: none;
 }
 
 .desktopMenu{
@@ -36,7 +37,7 @@
     
 }
 
-.LogBtn,.SignBtn{
+.LogBtn,.SignBtn, .SignOutBtn{
     background-color: #F1FAEE;
     color: #000000;
     border: none;
@@ -48,7 +49,7 @@
 }
 
 
-.LogBtn:hover, .SignBtn:hover{
+.LogBtn:hover, .SignBtn:hover, .SignOutBtn:hover{
     background-color: #354AF2;
     color: #FFFEE0;
     
@@ -77,35 +78,23 @@
 }
 
 .welcomeUser{
-    position: absolute;
-    right: 90px;
-    bottom: 40%;
-    margin: 0;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 260px;
-    text-wrap: nowrap;
 }
 
-.SignOutBtn {
+
+.dropdownMenu {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdownContent {
+    display: none;
     position: absolute;
-    right: 10px;
-    bottom: 30%;
-    margin: 0;
-
-    background-color: #F1FAEE;
-    color: #000000;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-     
+    min-width: 160px;
+    z-index: 1;
+    margin: 0 -15px;
 }
-
-.SignOutBtn:hover{
-    background-color: #354AF2;
-    color: #FFFEE0;
-    
-}
+  
+  .dropdownMenu:hover .dropdownContent {
+    display: block;
+  }
