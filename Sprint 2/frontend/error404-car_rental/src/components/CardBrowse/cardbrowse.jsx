@@ -4,11 +4,11 @@ import './cardbrowse.css';
 import { Link } from "react-router-dom";
 
 function CardBrowse(props) {
-  const { carId, model,type,transmission,numberOfSeats,fuelType} = props;
+  const { carId, model,type,transmission,numberOfSeats,fuelType,url} = props;
   return (
     <div className='card-container'>
       <div className="image-container">
-        <img src="https://media.wired.com/photos/5cf0413114e889d1d895c5d9/master/pass/techintwo_Ferrari.jpg" alt="" />
+        <img src={url} alt="" />
       </div>
 
       <div className="card-content">

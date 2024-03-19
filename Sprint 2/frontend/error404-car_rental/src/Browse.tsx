@@ -25,7 +25,8 @@ export default function Browse() {
     transmission: string,
     numberOfSeats: string,
     fuelType: string,
-    _id:string
+    _id:string,
+    url: string
 
   }
 
@@ -106,10 +107,12 @@ export default function Browse() {
             transmission={car.transmission}
             numberOfSeats={car.numberOfSeats}
             fuelType={car.fuelType}
+            url={car.url}
           />
 
        )}
       </div>
+      
     </div>
   );
 }
