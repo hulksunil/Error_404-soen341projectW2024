@@ -27,6 +27,10 @@ export default function CSRView() {
                 <button className="buttonContainer">
                     <Link to="/checkout" className="centeredText">Check Out</Link>
                 </button>
+
+                <button className="buttonContainer">
+                    <Link to="/view-checkouts" className="centeredText">View Checkouts</Link>
+                </button>
                 
                
             </div>
