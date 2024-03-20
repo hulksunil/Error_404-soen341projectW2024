@@ -30,7 +30,7 @@ function CardBrowse(props) {
         <img src={url} alt="" />
       </div>
 
-      <div className="card-content" onClick={stopPropagation}>
+      <div className="card-content" onClick={handleCardClick}>
         <div className="card-title"><h2>{model}</h2></div>
         <div className="card-body">
           <div>Type: {type}</div>
