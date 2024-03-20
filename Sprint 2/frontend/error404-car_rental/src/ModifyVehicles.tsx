@@ -102,6 +102,7 @@ export default function ModifyVehicles(){
             <Navbar />
             {pageTitle()}
             <h1>{document.title}</h1>
+            <button className='LogBtn'>Create Vehicle</button>
             <table className="vehicleTable">
                 <thead>
                     <tr>

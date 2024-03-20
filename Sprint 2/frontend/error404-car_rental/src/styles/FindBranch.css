@@ -1,0 +1,17 @@
+.search{
+    width: 25em;
+}
+
+.searchButton{
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none; 
+    width: 6em;
+    padding: 8px 12px; 
+}
+
+#error{
+    text-align: center;
+}
