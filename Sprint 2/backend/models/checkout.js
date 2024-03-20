@@ -33,6 +33,9 @@ class CheckoutDB {
   static findAllCheckouts() {
     return Checkout.find();
   }
+  static deleteAllCheckouts() {
+    return Checkout.deleteMany({});
+  }
 }
 
 module.exports = CheckoutDB;

@@ -40,6 +40,7 @@ function App() {
           <Route path="/csrview" element={<CSRView />} />
           <Route path="/checkoutredirect/:reservationId" element={<CheckoutRedirect />} />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
+         
         </Routes>
       </BrowserRouter>
     </div>

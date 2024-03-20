@@ -418,6 +418,17 @@ app.get("/checkout/:id", (req, res) => {
     });
 });
 
+// Deleting all checkouts
+app.delete("/deleteCheckouts", (req, res) => {
+  CheckoutDB.deleteAllCheckouts()
+    .then(() => {
+      res.status(200).send("All checkouts deleted successfully.");
+    })
+    .catch((err) => {
+      console.error("Error deleting all checkouts:", err);
+      res.status(500).send("Error deleting all checkouts.");
+    });
+});
 
 
 
