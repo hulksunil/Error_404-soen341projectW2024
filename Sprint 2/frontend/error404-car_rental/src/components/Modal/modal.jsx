@@ -16,7 +16,7 @@ function Modal(props) {
             
           </div>
           <div className='modal-body'>
-            
+            <div className="imagemodal"><img src={car.url} alt="" /></div>
             <div>Type: {car.type}</div>
             <div>No. of Seats: {car.numberOfSeats}</div>
             <div>Fuel Type: {car.fuelType}</div>
