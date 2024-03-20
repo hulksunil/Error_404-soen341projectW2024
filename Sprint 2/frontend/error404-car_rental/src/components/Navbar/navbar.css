@@ -85,14 +85,19 @@
 .dropdownMenu {
     position: relative;
     display: inline-block;
+    padding: 1.6em 0;
+    /* width: 11em; */
+    min-width: 8em;
   }
 
 .dropdownContent {
     display: none;
     position: absolute;
-    min-width: 160px;
     z-index: 1;
-    margin: 0 -15px;
+    width: 6.9em;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
   
   .dropdownMenu:hover .dropdownContent {
