@@ -1,5 +1,6 @@
 .background_payment,.background_reserve,.background_confirm{
     background-color: #D8BFD8;
+    padding:1em;
 }
 .outlined_fields{
   border: 1px solid #aaa; 
