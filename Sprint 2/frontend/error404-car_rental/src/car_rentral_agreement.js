@@ -75,7 +75,7 @@ function RentalAgreement() {
                             <p>This Agreement constitutes the entire understanding between the parties concerning the subject matter hereof and supersedes all prior agreements and understandings, whether written or oral.</p>
                         <li className="li">Signatures</li>
                             <p>The parties hereto have executed this Agreement as of the date first written above.<br /><br />
-                             <form>
+                             <form action='/approved_check-in'>
                                 <b>Rental Company:</b> <br /><br />
                                 Print Name: <br /><br />
                                 Signature:  

@@ -40,14 +40,16 @@ const CarRentalReservation = () => {
     const { name, value } = e.target;
     if (name === "reservationDate") {
       const selectedDate = new Date(value);
-      const nextDay = new Date(selectedDate);
-      nextDay.setDate(selectedDate.getDate() + 1);
-      const nextDayString = nextDay.toISOString().split('T')[0]; // Convert to yyyy-mm-dd format
-      setFormData({
-        ...formData,
-        [name]: value,
-        returnDate: nextDayString
-      });
+      if (!isNaN(selectedDate.getTime())) {
+        const nextDay = new Date(selectedDate);
+        nextDay.setDate(selectedDate.getDate() + 1);
+        const nextDayString = nextDay.toISOString().split('T')[0];
+        setFormData({
+          ...formData,
+          [name]: value,
+          returnDate: nextDayString
+        });
+      }
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -94,7 +96,7 @@ const CarRentalReservation = () => {
             <tbody>
               {}
               <tr>
-                <th>Reservation Date:</th>
+                <th>Pickup Date:</th>
                 <td>
                   <input
                     type="date"
@@ -122,7 +124,7 @@ const CarRentalReservation = () => {
                 </td>
               </tr>
               <tr>
-                <th>Location:</th>
+                <th> Pickup location:</th>
                 <td>
                   <input
                     type="text"

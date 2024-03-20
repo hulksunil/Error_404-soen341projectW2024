@@ -8,10 +8,10 @@ h1{
     width: 1000px;
     margin: auto;
 }
-.body{
+.body,.ch_body,.conclude{
     background-color: #D8BFD8;
 }
-.approve{
+.approve,.agreed{
     border: 1px solid #aaa; 
     border-radius: 10px; 
     padding: 8px; 
@@ -25,4 +25,13 @@ h1{
     border-radius: 10px; 
     padding: 8px; 
     outline: none;
+}
+.not_agreed{
+    border: 1px solid #aaa; 
+    border-radius: 10px; 
+    padding: 8px; 
+    outline: none;
+    background-color: red;
+    color: white;
+    font-weight: bold; 
 }
