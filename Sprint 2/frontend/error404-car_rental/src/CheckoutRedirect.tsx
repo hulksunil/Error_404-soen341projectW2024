@@ -10,6 +10,7 @@ export default function CheckoutRedirect() {
   const { reservationId } = useParams<{ reservationId: string }>();
   const [reservation, setReservation] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [totalAmount, setTotalAmount] = useState<number>(0); 
   const history = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,29 @@ export default function CheckoutRedirect() {
   }, [reservationId]);
 
   function handleCheckoutConfirmation(trait: string, value: boolean) {
+    let amountToAdd = value ? (trait === '500$ Deposit Returned' ? 500 : 800) : 0;
+    if (trait.includes('Light Scratch')) {
+      amountToAdd = value ? 400 : 0; 
+    }
+    if (trait.includes('Medium Scratch')) {
+        amountToAdd = value ? 800 : 0; 
+      }
+      if (trait.includes('Large Scratch')) {
+        amountToAdd = value ? 1200 : 0; 
+      }
+      if (trait.includes('Interior Damage')) {
+        amountToAdd = value ? 1000 : 0; 
+      }
+      if (trait.includes('Unclean Interior')) {
+        amountToAdd = value ? 250 : 0; 
+      }
+      if (trait.includes('Eq')) {
+        amountToAdd = value ? 1200 : 0; 
+      }
+      if (trait.includes('Late Return')) {
+        amountToAdd = value ? 200: 0; 
+      }
+    setTotalAmount(prevAmount => prevAmount + amountToAdd);
     axios.post('http://localhost:8080/CreateCheckout', {
       reservationId: reservationId,
       trait: trait,
@@ -33,11 +57,18 @@ export default function CheckoutRedirect() {
     })
     .then((res) => {
       console.log('Confirmation data sent to the backend:', res.data);
-      history('/checkout');
     })
     .catch((error) => {
       console.error('Error sending confirmation data to the backend:', error);
     });
+  }
+  function handleCheckout() {
+    const finalAmount = totalAmount - 500;
+    if (finalAmount < 1) {
+      history('/transactionapproved');
+    } else {
+      history(`/payment?amount=${finalAmount}`);
+    }
   }
 
   if (loading) {
@@ -76,34 +107,39 @@ export default function CheckoutRedirect() {
           </thead>
           <tbody>
             <tr>
-              <td>Light Scratch/Dent</td>
+              <td>Light Scratch/Dent (400$)</td>
               <td><button onClick={() => handleCheckoutConfirmation('Light Scratch', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Light Scratch', false)}>No</button></td>
             </tr>
             <tr>
-              <td>Medium Scratch/Dent</td>
+              <td>Medium Scratch/Dent (800$)</td>
               <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch', false)}>No</button></td>
             </tr>
             <tr>
-              <td>Large Scratch/Dent</td>
+              <td>Large Scratch/Dent (1200$)</td>
               <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', false)}>No</button></td>
             </tr>
             <tr>
-              <td>Interior Damage/Dent</td>
+              <td>Interior Damage/Dent (1000$)</td>
               <td><button onClick={() => handleCheckoutConfirmation('Interior Damage', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Interior Damage', false)}>No</button></td>
             </tr>
             <tr>
-              <td>Clean Interior</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Clean Interior', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Clean Interior', false)}>No</button></td>
+              <td>Unclean Interior (250$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Unclean Interior', true)}>Yes</button></td>
+              <td><button onClick={() => handleCheckoutConfirmation('Unclean Interior', false)}>No</button></td>
             </tr>
             <tr>
-              <td>Equipment and Accesories present</td>
+              <td>Equipment and Accessories Missing/Damaged (1200$)</td>
               <td><button onClick={() => handleCheckoutConfirmation('Eq Ac', true)}>Yes</button></td>
               <td><button onClick={() => handleCheckoutConfirmation('Eq Ac', false)}>No</button></td>
+            </tr>
+            <tr>
+              <td>Late Return (200$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Late Return', true)}>Yes</button></td>
+              <td><button onClick={() => handleCheckoutConfirmation('Late Return', false)}>No</button></td>
             </tr>
           </tbody>
         </table></div>
@@ -125,7 +161,8 @@ export default function CheckoutRedirect() {
       </div>
      
       <div className="confirmButtonContainer">
-        <button onClick={() => history('/payment')}>Confirm</button>
+      <button onClick={handleCheckout}>Confirm</button>
+        
       </div>
     </>
   );
