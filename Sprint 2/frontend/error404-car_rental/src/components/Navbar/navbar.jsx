@@ -12,7 +12,7 @@ function Navbar() {
   const [loginModal, setLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const [isCSR, setIsCSR] = useState(false);
   const [userInfo, setUserInfo] = useState({});
 
   /*
@@ -43,7 +43,10 @@ function Navbar() {
             storeCookies("userid", res.data._id);
 
             setIsAdmin(res.data.accType === "admin");
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
+
+            setIsCSR(res.data.accType === "csr");
+            setIsLoggedIn(true);
           }
         })
         .catch((error) => {
@@ -63,10 +66,11 @@ function Navbar() {
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
         <Link className="desktopMenuListItem">About Us</Link>
         {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
+        {isCSR && (<Link to="/csrview" className="desktopMenuListItem">CSR Management</Link>)}
       </div>
-      <div>
+      <div className="dropdownMenu">
         {isLoggedIn ?
-          <div className="dropdownMenu">
+          <>
             <span className="welcomeUser">{userInfo.firstName} {userInfo.lastName}</span>
             <button className="SignOutBtn dropdownContent" onClick={() => {
               setIsLoggedIn(false);
@@ -74,15 +78,15 @@ function Navbar() {
               clearCookies("username");
               clearCookies("userid");
             }}>Sign Out</button>
-          </div>
-          :
-          <> {/* If the user is not logged in display this*/}
+            </>
+            :
+            <div> {/* If the user is not logged in display this*/}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
             <button className='SignBtn' onClick={toggleLoginModal}>Log in</button>
-          </>
+          </div>
         }
+        </div>
 
-      </div>
 
       {isLoggedIn && (
         <>
