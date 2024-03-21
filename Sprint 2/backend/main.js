@@ -344,6 +344,9 @@ app.post("/updateVehicle", (req, res) => {
     newVehicleInfo.rentalPrice,
     newVehicleInfo.hasBluetooth,
     newVehicleInfo.drivetrain,
+    newVehicleInfo.year,
+    newVehicleInfo.licensePlate,
+    newVehicleInfo.color,
   );
   updateVehicle
     .then((result) => {

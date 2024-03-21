@@ -111,8 +111,10 @@ export default function ModifyVehicles(){
                             defaultValue={vehicleInfo.hasBluetooth}>
                             <option value="yes">yes</option>
                             <option value="no">no</option>
-                            <option value="maybe?">maybe?</option>
                         </select>
+                    </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.year} className="inputBoxes" form={vehicleInfo._id} name="year" onChange={(e) => updatedVehicleInfo.year = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="confirmation">
                         <input type="submit" className="submitButton" id="updateButton" form={vehicleInfo._id} value="Update" />
