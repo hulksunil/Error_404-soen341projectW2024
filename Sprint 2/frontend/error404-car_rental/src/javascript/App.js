@@ -6,7 +6,6 @@ import ViewRes from "../ViewReservation.tsx";
 import CarRentalPayment from "../Payment_form.js";
 import CarRentalReservation from "../create_a_reservation.js";
 import TransactionApproved from "../Transaction_approved.js";
-import Payment from "../Payment_form.js";
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 import ModifyVehicles from "../ModifyVehicles.tsx";
@@ -15,6 +14,9 @@ import CheckOut from "../CheckOut.tsx";
 import CSRView from "../CSRVIew.tsx";
 import CheckoutRedirect from "../CheckoutRedirect.tsx";
 import ViewCheckouts from '../ViewCheckouts.tsx';
+import RentalAgreement from "../car_rentral_agreement.js";
+import CheckInForm from "../check-in.js"
+import CheckInApproved from "../check-in_approved.js"
 
 function App() {
   return (
@@ -40,7 +42,11 @@ function App() {
           <Route path="/csrview" element={<CSRView />} />
           <Route path="/checkoutredirect/:reservationId" element={<CheckoutRedirect />} />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
-         
+
+          <Route path="/car_rentral_agreement" element={<RentalAgreement />}/>
+          <Route path="/check_in" element={<CheckInForm />}/>
+          <Route path="/approved_check-in" element={<CheckInApproved />}/>
+
         </Routes>
       </BrowserRouter>
     </div>

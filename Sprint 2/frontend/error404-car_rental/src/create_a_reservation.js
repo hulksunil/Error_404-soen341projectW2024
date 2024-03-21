@@ -16,20 +16,12 @@ const getCurrentDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-const getTomorrowDate = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-  const day = String(today.getDate() + 1).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
 const CarRentalReservation = () => {
   const [formData, setFormData] = useState({
     userId: userId,
     carId: "",
-    reservationDate: getCurrentDate(),
-    returnDate: getTomorrowDate(),
+    reservationDate: "",
+    returnDate: "",
     location: "",
     returnLocation: "",
   });
@@ -46,10 +38,24 @@ const CarRentalReservation = () => {
   const history = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "reservationDate") {
+      const selectedDate = new Date(value);
+      if (!isNaN(selectedDate.getTime())) {
+        const nextDay = new Date(selectedDate);
+        nextDay.setDate(selectedDate.getDate() + 1);
+        const nextDayString = nextDay.toISOString().split('T')[0];
+        setFormData({
+          ...formData,
+          [name]: value,
+          returnDate: nextDayString
+        });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
-
-  const handleSubmit = (e) => {
+  
+    const handleSubmit = (e) => {
     e.preventDefault();
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
@@ -63,8 +69,8 @@ const CarRentalReservation = () => {
       .then((res) => {
         console.log("Reservation created:", res.data);
         setFormData({
-          reservationDate: getCurrentDate(),
-          returnDate: getTomorrowDate(),
+          reservationDate: "",
+          returnDate: "",
           location: "",
           returnLocation: "",
         });
@@ -115,7 +121,7 @@ history(`/payment?amount=${finalAmount}`);
             <tbody>
               {}
               <tr>
-                <th>Reservation Date:</th>
+                <th>Pickup Date:</th>
                 <td>
                   <input
                     type="date"
@@ -123,7 +129,6 @@ history(`/payment?amount=${finalAmount}`);
                     value={formData.reservationDate}
                     onChange={handleChange}
                     min={getCurrentDate()}
-                    max={formData.returnDate}
                     className="outlined_fields"
                     required
                   />
@@ -137,14 +142,14 @@ history(`/payment?amount=${finalAmount}`);
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
-                    min={getTomorrowDate()}
+                    min={formData.reservationDate ? formData.returnDate : getCurrentDate()}
                     className="outlined_fields"
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <th>Location:</th>
+                <th> Pickup location:</th>
                 <td>
                   <input
                     type="text"
@@ -173,8 +178,8 @@ history(`/payment?amount=${finalAmount}`);
               onClick={() => {
                 setFormData({
                   ...formData,
-                  reservationDate: getCurrentDate(),
-                  returnDate: getTomorrowDate(),
+                  reservationDate:"",
+                  returnDate: "",
                   location: "",
                   returnLocation: "",
                 }); 
