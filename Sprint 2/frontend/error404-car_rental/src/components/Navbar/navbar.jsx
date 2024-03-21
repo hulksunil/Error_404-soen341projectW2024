@@ -68,9 +68,9 @@ function Navbar() {
         {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
         {isCSR && (<Link to="/csrview" className="desktopMenuListItem">CSR Management</Link>)}
       </div>
-      <div>
+      <div className="dropdownMenu">
         {isLoggedIn ?
-          <div className="dropdownMenu">
+          <>
             <span className="welcomeUser">{userInfo.firstName} {userInfo.lastName}</span>
             <button className="SignOutBtn dropdownContent" onClick={() => {
               setIsLoggedIn(false);
@@ -78,15 +78,15 @@ function Navbar() {
               clearCookies("username");
               clearCookies("userid");
             }}>Sign Out</button>
-          </div>
-          :
-          <> {/* If the user is not logged in display this*/}
+            </>
+            :
+            <div> {/* If the user is not logged in display this*/}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
             <button className='SignBtn' onClick={toggleLoginModal}>Log in</button>
-          </>
+          </div>
         }
+        </div>
 
-      </div>
 
       {isLoggedIn && (
         <>
