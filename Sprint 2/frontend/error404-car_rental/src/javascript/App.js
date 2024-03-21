@@ -42,9 +42,11 @@ function App() {
           <Route path="/csrview" element={<CSRView />} />
           <Route path="/checkoutredirect/:reservationId" element={<CheckoutRedirect />} />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
+
           <Route path="/car_rentral_agreement" element={<RentalAgreement />}/>
           <Route path="/check_in" element={<CheckInForm />}/>
           <Route path="/approved_check-in" element={<CheckInApproved />}/>
+
         </Routes>
       </BrowserRouter>
     </div>

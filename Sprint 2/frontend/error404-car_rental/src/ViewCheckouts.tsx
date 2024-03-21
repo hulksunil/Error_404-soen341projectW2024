@@ -28,8 +28,8 @@ export default function ViewCheckouts() {
   }
   async function deleteAllCheckouts() {
     try {
-      await axios.delete('http://localhost:8080/checkout');
-      await fetchCheckouts();
+      await axios.delete('http://localhost:8080/deleteCheckouts');
+      await loadAllCheckouts();
     } catch (error) {
       console.error('Error clearing checkouts:', error);
     }

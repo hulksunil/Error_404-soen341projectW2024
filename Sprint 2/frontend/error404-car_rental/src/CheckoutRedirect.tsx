@@ -10,6 +10,7 @@ export default function CheckoutRedirect() {
   const { reservationId } = useParams<{ reservationId: string }>();
   const [reservation, setReservation] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [totalAmount, setTotalAmount] = useState<number>(0); 
   const history = useNavigate();
 
   useEffect(() => {
@@ -25,19 +26,50 @@ export default function CheckoutRedirect() {
       });
   }, [reservationId]);
 
-  function handleCheckoutConfirmation(trait: string, value: boolean) {
+  function handleCheckoutConfirmation(trait: string) {
+    let amountToAdd = trait === '500$ Deposit Returned' ? 500 : 800;
+    if (trait.includes('Light Scratch')) {
+      amountToAdd = 400; 
+    }
+    if (trait.includes('Medium Scratch')) {
+      amountToAdd = 800; 
+    }
+    if (trait.includes('Large Scratch')) {
+      amountToAdd = 1200; 
+    }
+    if (trait.includes('Interior Damage')) {
+      amountToAdd = 1000; 
+    }
+    if (trait.includes('Unclean Interior')) {
+      amountToAdd = 250; 
+    }
+    if (trait.includes('Eq')) {
+      amountToAdd = 1200; 
+    }
+    if (trait.includes('Late Return')) {
+      amountToAdd = 200; 
+    }
+    setTotalAmount(prevAmount => prevAmount + amountToAdd);
     axios.post('http://localhost:8080/CreateCheckout', {
       reservationId: reservationId,
       trait: trait,
-      action: value ? 'Yes' : 'No'
+      action: 'Yes'
     })
     .then((res) => {
       console.log('Confirmation data sent to the backend:', res.data);
-      history('/checkout');
     })
     .catch((error) => {
       console.error('Error sending confirmation data to the backend:', error);
     });
+  }
+
+  function handleCheckout() {
+    const finalAmount = totalAmount - 500;
+    if (finalAmount < 1) {
+      history('/transactionapproved');
+    } else {
+      history(`/payment?amount=${finalAmount}`);
+    }
   }
 
   if (loading) {
@@ -65,45 +97,42 @@ export default function CheckoutRedirect() {
           we kindly ask for your assistance in verifying the condition of the vehicle. 
           Below, you'll find a list of traits related to the car's condition. 
           Please review each trait carefully and indicate whether it applies to the 
-          vehicle you're returning by selecting "Yes" or "No".</div>
+          vehicle you're returning by selecting "Yes".</div>
           <table className="checkoutFormTable">
           <thead>
             <tr>
               <th>Trait</th>
               <th>Yes</th>
-              <th>No</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Light Scratch/Dent</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Light Scratch', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Light Scratch', false)}>No</button></td>
+              <td>Light Scratch/Dent (400$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Light Scratch')}>X</button></td>
             </tr>
             <tr>
-              <td>Medium Scratch/Dent</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch', false)}>No</button></td>
+              <td>Medium Scratch/Dent (800$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch')}>X</button></td>
             </tr>
             <tr>
-              <td>Large Scratch/Dent</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Large Scratch', false)}>No</button></td>
+              <td>Large Scratch/Dent (1200$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Large Scratch')}>X</button></td>
             </tr>
             <tr>
-              <td>Interior Damage/Dent</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Interior Damage', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Interior Damage', false)}>No</button></td>
+              <td>Interior Damage/Dent (1000$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Interior Damage')}>X</button></td>
             </tr>
             <tr>
-              <td>Clean Interior</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Clean Interior', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Clean Interior', false)}>No</button></td>
+              <td>Unclean Interior (250$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Unclean Interior')}>X</button></td>
             </tr>
             <tr>
-              <td>Equipment and Accesories present</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Eq Ac', true)}>Yes</button></td>
-              <td><button onClick={() => handleCheckoutConfirmation('Eq Ac', false)}>No</button></td>
+              <td>Equipment and Accessories Missing/Damaged (1200$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Eq Ac')}>X</button></td>
+            </tr>
+            <tr>
+              <td>Late Return (200$)</td>
+              <td><button onClick={() => handleCheckoutConfirmation('Late Return')}>X</button></td>
             </tr>
           </tbody>
         </table></div>
@@ -119,13 +148,13 @@ export default function CheckoutRedirect() {
 
           <input type="signature" />
           <br />
-          <button className='coBtn'> Check Out</button>
+          <button className='coBtn' onClick={handleCheckout}>Check Out</button>
           </div>
 
       </div>
      
       <div className="confirmButtonContainer">
-        <button onClick={() => history('/payment')}>Confirm</button>
+        
       </div>
     </>
   );
