@@ -53,6 +53,8 @@ app.post("/createUser", (req, res) => {
     userInfo.email,
     hashedPassword,
     userInfo.licenseNum,
+    userInfo.address,
+    userInfo.contactNum,
     userInfo.dob
   );
 
@@ -96,18 +98,18 @@ app.post("/updateUser", (req, res) => {
   const newUserInfo = req.body;
 
   const newPassword = newUserInfo.newPass;
-  
-  if(newPassword.length != 0){ 
+
+  if (newPassword.length != 0) {
     // if the newPassword is defined, hash it, determine if its the same as prev then assign it if its new
-    
+
     const hash = crypto.createHash("sha256");
     hash.update(newPassword);
     const newHashedPassword = hash.digest("hex");
-    if(newUserInfo.hashedPass !== newHashedPassword){
+    if (newUserInfo.hashedPass !== newHashedPassword) {
       newUserInfo.hashedPass = newHashedPassword;
     }
   }
-  
+
   updatedUser = UserDB.updateUser(
     id,
     newUserInfo.firstName,
@@ -116,6 +118,8 @@ app.post("/updateUser", (req, res) => {
     newUserInfo.email,
     newUserInfo.hashedPass,
     newUserInfo.licenseNum,
+    newUserInfo.address,
+    newUserInfo.contactNum,
     newUserInfo.dob,
     newUserInfo.reservations
   );
@@ -332,7 +336,7 @@ app.get("/vehicles", (req, res) => {
 app.post("/updateVehicle", (req, res) => {
   // Update the vehicle with the given id
   const newVehicleInfo = req.body;
-  
+
   updateVehicle = VehicleDB.updateVehicle(
     newVehicleInfo._id,
     newVehicleInfo.model,

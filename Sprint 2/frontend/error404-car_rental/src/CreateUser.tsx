@@ -12,6 +12,8 @@ export default function CreateUser(props) {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState(""); // [street, city, state, zip
+  const [contactNum, setContactNum] = useState("");
   const [dob, setDob] = useState("");
   const [license, setLicense] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +24,7 @@ export default function CreateUser(props) {
     email: false,
     dob: false,
     license: false,
+    contactNum: false,
     password: false,
     status: false,
   });
@@ -30,6 +33,7 @@ export default function CreateUser(props) {
   const emailRegEx = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"; // from chatGPT and tested
   const passwordRegEx =
     "^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$";
+  const phoneRegEx = "^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
   const maxDob = 20091231;
   const minDob = 19241231;
 
@@ -68,17 +72,23 @@ export default function CreateUser(props) {
       ...errorVisibility,
       license: license.length < 2,
     }));
+    setErrorVisibility((errorVisibility) => ({
+      ...errorVisibility,
+      contactNum: !RegExp(phoneRegEx).test(contactNum),
+    }));
 
     if (
       !errorVisibility.name &&
       !errorVisibility.password &&
       !errorVisibility.email &&
       !errorVisibility.dob &&
-      !errorVisibility.license
+      !errorVisibility.license &&
+      !errorVisibility.contactNum
     ) {
       submit();
     }
   }
+  
 
   function submit() {
     const userData = {
@@ -87,6 +97,8 @@ export default function CreateUser(props) {
       email: email,
       dob: dob,
       licenseNum: license,
+      address: address,
+      contactNum: contactNum,
       password: password,
       accType: accType,
     };
@@ -237,6 +249,30 @@ export default function CreateUser(props) {
               </tr>
 
               <tr>
+                <td className="fieldLabels">Address</td>
+                <td className="fieldInputs">
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    required
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td className="fieldLabels">Contact Number</td>
+                <td className="fieldInputs">
+                  <input
+                    type="tel"
+                    placeholder="Contact Number"
+                    required
+                    onChange={(e) => setContactNum(e.target.value)}
+                  />
+                </td>
+              </tr>
+
+              <tr>
                 <td className="fieldLabels">Password</td>
                 <td className="fieldInputs">
                   <input
@@ -263,7 +299,11 @@ export default function CreateUser(props) {
           </p>
           <p className={errorVisibility.license ? "errorVisible" : "error"}>
             {" "}
-            Verify that your lisence number is alphanumeric
+            Verify that your license number is alphanumeric
+          </p>
+          <p className={errorVisibility.contactNum ? "errorVisible" : "error"}>
+            {" "}
+            Verify that your contact number is in the correct format
           </p>
           <p className={errorVisibility.password ? "errorVisible" : "error"}>
             {" "}
