@@ -1,15 +1,14 @@
-h1{
-    text-align: center;
-}
-#li{
+.li{
     font-weight: bold;
 }
 .box{
-    width: 1000px;
-    margin: auto;
+    width: 80%;
+    margin: 0 auto;
+    text-align: left; 
 }
 .body,.ch_body,.conclude{
     background-color: #D8BFD8;
+    text-align: center;
 }
 .approve,.agreed{
     border: 1px solid #aaa; 
@@ -34,4 +33,8 @@ h1{
     background-color: red;
     color: white;
     font-weight: bold; 
+}
+.reservation_checkin {
+    width: 40%; 
+    margin: 0 auto; 
 }

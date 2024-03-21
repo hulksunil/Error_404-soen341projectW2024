@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./styles/agreement.css"
+import Navbar from "./components/Navbar/navbar.jsx";
 
 
 function RentalAgreement() {
@@ -9,15 +10,15 @@ function RentalAgreement() {
       const dd = String(today.getDate()).padStart(2, '0');
       const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
       const yyyy = today.getFullYear();
-      return `${mm}-${dd}-${yyyy}`;
+      return `${dd}-${mm}-${yyyy}`;
     };
 
-    // Get today's date
-    const currentDate = getTodayDate();
+    const [currentDate, setCurrentDate] = useState(getTodayDate());
 
     return (
         <>
-        <div className='body'>
+        <Navbar/>
+            <div className='body'>
                 <h1>Car rental agreement</h1>
                 <div className="box">
                     <p>
@@ -49,10 +50,9 @@ function RentalAgreement() {
                             Pick-up Location: <br />
                             Drop-off Location: <br />
                             Rental Period: <br />
-                            Mileage Limit (if applicable): <br />
+                            Mileage Limit (if applicable): none  <br />
                             Rental Rate: <br />
                             Additional Services (if any): <br />
-                            {/* insurance, global positioning system (GPS) navigation systems, entertainment systems, mobile phones, portable WiFi and child safety seats. */}
                         </p>
                         <li className="li">Rental Terms and Conditions:</li>
                             <ul style={{ listStyleType: 'disc' }}>
@@ -77,17 +77,20 @@ function RentalAgreement() {
                             <p>The parties hereto have executed this Agreement as of the date first written above.<br /><br />
                              <form action='/approved_check-in'>
                                 <b>Rental Company:</b> <br /><br />
-                                Print Name: <br /><br />
-                                Signature:  
+                                Print Name: CARS R US <br /><br />
+                                <label htmlFor="signature">Signature: </label>
+                                <input type="text" name="signature" id="signature" value="CARS R US" readOnly className='required_field' required />
+                                &nbsp;&nbsp;
                                 <label htmlFor='compagny_date'>Date: </label>
-                                <input type="date" name="compagny_date" id="compagny_date" value={currentDate} readOnly className='required_field' /> <br /><br />
+                                <input type="text" name="compagny_date" id="compagny_date" value={currentDate} readOnly className='required_field' /> <br /><br />
                                 <b>Renter:</b><br /><br />
-                                Print Name: <br />
+                                Print Name: <br /><br />
                                 <div>
                                     <label htmlFor="signature">Signature: </label>
                                     <input type="text" name="signature" id="signature" className='required_field' required />
+                                    &nbsp;&nbsp;
                                     <label htmlFor="date">Date: </label>
-                                    <input type="date" name="date" id="date" value={currentDate} readOnly className='required_field' />
+                                    <input type="text" name="date" id="date" value={currentDate} readOnly className='required_field' />
                                 </div>
                                 <br />
                                 <div>

@@ -95,6 +95,10 @@
     margin: 0 -15px;
 }
   
-  .dropdownMenu:hover .dropdownContent {
+.dropdownMenu:hover .dropdownContent {
     display: block;
-  }
+}
+
+.reservationTable td{
+    padding-bottom: 30px;
+}
