@@ -8,38 +8,52 @@ function Sidebar({ handleFilterChange }) {
         <h2 className='filterTitle'>Filter</h2>
         <div className="cartype">
           <h3 className='titlecheck'>Car Type:</h3>
-          <input type="checkbox" onChange={() => handleFilterChange('carType', 'SUV',)} className='typeinput'/> SUV
+          <input type="checkbox" onChange={() => handleFilterChange('type', 'SUV',)} className='typeinput'/> SUV
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('carType', 'Hatchback',)} className='typeinput'/> Hatchback
+          <input type="checkbox" onChange={() => handleFilterChange('type', 'Hatchback',)} className='typeinput'/> Hatchback
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('carType', 'Sedan',)} className='typeinput'/> Sedan
+          <input type="checkbox" onChange={() => handleFilterChange('type', 'Sedan',)} className='typeinput'/> Sedan
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('carType', 'Pick-Up',)} className='typeinput'/> Pick-Up
+          <input type="checkbox" onChange={() => handleFilterChange('type', 'Pick-Up',)} className='typeinput'/> Pick-Up
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('carType', 'Sports Car',)} className='typeinput'/> Sports Car
+          <input type="checkbox" onChange={() => handleFilterChange('type', 'Sports Car',)} className='typeinput'/> Sports Car
           <br />
         </div>
 
         <div className="nopassenger">
-          <h3 className='titlecheck'>No. of Seats</h3>
-          <input type="checkbox" onChange={() => handleFilterChange('passengers', '2')} className='typeinput'/> 2
+          <h3 className='titlecheck'>No. of Seats: </h3>
+          <input type="checkbox" onChange={() => handleFilterChange('numberOfSeats', '2')} className='typeinput'/> 2
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('passengers', '5')} className='typeinput'/> 5
+          <input type="checkbox" onChange={() => handleFilterChange('numberOfSeats', '5')} className='typeinput'/> 5
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('passengers', '7')} className='typeinput'/> 7
+          <input type="checkbox" onChange={() => handleFilterChange('numberOfSeats', '7')} className='typeinput'/> 7
           <br />
+          
+        </div>
+
+        <div className="transmission">
+          <h3 className='titlecheck'>Transmission:</h3>
+          <input type="checkbox" onChange={() => handleFilterChange('transmission', 'Automatic')} className='typeinput'/> Automatic
+          <br />
+          <input type="checkbox" onChange={() => handleFilterChange('transmission', 'Manual')} className='typeinput'/> Manual
+          <br />
+          
           
         </div>
     
         <div className="powertrain">
           <h3 className='titlecheck'>Fuel Type:</h3>
-          <input type="checkbox" onChange={() => handleFilterChange('powertrain', 'Gas')} className='typeinput'/> Gas
+          <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Gas')} className='typeinput'/> Gas
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('powertrain', 'Electric')} className='typeinput'/> Electric
+          <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Electric')} className='typeinput'/> Electric
           <br />
-          <input type="checkbox" onChange={() => handleFilterChange('powertrain', 'Hybrid')} className='typeinput'/> Hybrid
+          <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Hybrid')} className='typeinput'/> Hybrid
           <br />
         </div>
+
+        
+
+
     </div>
   );
 }

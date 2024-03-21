@@ -7,15 +7,17 @@ import Sidebar from "./components/Sidebar/sidebar"
 import axios from "axios";
 
 
-interface Filters {
-  carType: string[];
-  passengers: string[];
-  powertrain: string[];
-}
-
 
 
 export default function Browse() {
+
+  interface Filters {
+    type: string[];
+    numberOfSeats: string[];
+    transmission: string[];
+    fuelType: string[];
+  }
+  
 
   type Car = {
     model: string,
@@ -23,12 +25,20 @@ export default function Browse() {
     transmission: string,
     numberOfSeats: string,
     fuelType: string,
-    _id:string
+    _id:string,
+    url: string
 
   }
 
   //database
   const [AllVehicles, setAllVehicles] = useState<Car[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<Car[]>([]);
+  const [filters, setFilters] = useState<Filters>({
+    type: [],
+    numberOfSeats: [],
+    transmission: [],
+    fuelType: [],
+  });
 
   useEffect(() => {
     axios
@@ -36,6 +46,7 @@ export default function Browse() {
       .then((res) => {
           if(res.status === 200) {
             setAllVehicles(res.data);
+            setFilteredVehicles(res.data);
             console.log("Data received:", res.data);
           }
       })
@@ -45,13 +56,22 @@ export default function Browse() {
   }, []);
 
 
-  const [filters, setFilters] = useState<Filters>({
-    carType: [],
-    passengers: [],
-    powertrain: []
-  });
+  const applyFilters = () => {
+    let filtered = AllVehicles.filter((car) => {
+      return (
+        (filters.type.length === 0 || filters.type.includes(car.type)) &&
+        (filters.numberOfSeats.length === 0 ||
+          filters.numberOfSeats.includes(car.numberOfSeats)) &&
+        (filters.transmission.length === 0 ||
+          filters.transmission.includes(car.transmission)) &&
+        (filters.fuelType.length === 0 ||
+          filters.fuelType.includes(car.fuelType))
+      );
+    });
+    setFilteredVehicles(filtered);
+  };
 
-  const handleFilterChange = (filterType, value) => {
+  const handleFilterChange = (filterType: keyof Filters, value: string) => {
     setFilters(prevFilters => ({
       ...prevFilters,
       [filterType]: prevFilters[filterType].includes(value)
@@ -60,35 +80,39 @@ export default function Browse() {
     }));
   };
 
-  const filterCars = (car) => {
-    if (
-      (filters.carType.length === 0 || filters.carType.includes(car.CarType)) &&
-      (filters.passengers.length === 0 || filters.passengers.includes(car.NoOfPass)) &&
-      (filters.powertrain.length === 0 || filters.powertrain.includes(car.PTrain))
-    ) {
-      return true;
-    }
-    return false;
-  };
+
+  useEffect(() => {
+  const filtered = AllVehicles.filter((car) => {
+    return (
+      (filters.type.length === 0 || filters.type.includes(car.type)) &&
+      (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
+      (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
+      (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType))
+    );
+  });
+  setFilteredVehicles(filtered);
+}, [filters, AllVehicles]);
+
 
   return (
     <div className="mainBrowse">
       <Navbar/>
       <Sidebar handleFilterChange={handleFilterChange}/>
       <div className="card-list">
-       {AllVehicles.map(Car => 
+       {filteredVehicles.map(car => 
           <CarBrowse 
-           key={Car._id} 
-           carId={Car._id}
-            model={Car.model} 
-            type={Car.type} 
-            transmission={Car.transmission}
-            numberOfSeats={Car.numberOfSeats}
-            fuelType={Car.fuelType}
+            key={car._id} 
+            model={car.model} 
+            type={car.type} 
+            transmission={car.transmission}
+            numberOfSeats={car.numberOfSeats}
+            fuelType={car.fuelType}
+            url={car.url}
           />
 
        )}
       </div>
+      
     </div>
   );
 }
