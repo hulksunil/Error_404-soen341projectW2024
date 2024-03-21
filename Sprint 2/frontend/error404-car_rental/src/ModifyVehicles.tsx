@@ -19,6 +19,9 @@ export default function ModifyVehicles(){
         rentalPrice: string,
         hasBluetooth: string, 
         drivetrain: string,
+        year : String,
+        licensePlate : String,
+        color : String,
     }
 
     const [allVehicles, setAllVehicles]= useState<vehicle[]>([]);
@@ -116,6 +119,12 @@ export default function ModifyVehicles(){
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.year} className="inputBoxes" form={vehicleInfo._id} name="year" onChange={(e) => updatedVehicleInfo.year = e.target.value} autoComplete="off"/>
                     </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.licensePlate} className="inputBoxes" form={vehicleInfo._id} name="licensePlate" onChange={(e) => updatedVehicleInfo.licensePlate = e.target.value} autoComplete="off"/>
+                    </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.color} className="inputBoxes" form={vehicleInfo._id} name="color" onChange={(e) => updatedVehicleInfo.color = e.target.value} autoComplete="off"/>
+                    </td>
                     <td className="confirmation">
                         <input type="submit" className="submitButton" id="updateButton" form={vehicleInfo._id} value="Update" />
                         <button className="submitButton" id="deleteButton" form={vehicleInfo._id} onClick={() => deleteVehicle(vehicleInfo)}>Delete</button>
@@ -157,6 +166,9 @@ export default function ModifyVehicles(){
                         <th>Rental Price</th>
                         <th>Drivetrain</th>
                         <th>Bluetooth</th>
+                        <th>Year</th>
+                        <th>License Plate</th>
+                        <th>Color</th>
                         <th>Confirm</th>
                     </tr>
                 </thead>
