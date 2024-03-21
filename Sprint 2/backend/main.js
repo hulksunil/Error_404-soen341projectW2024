@@ -7,6 +7,8 @@ const crypto = require("crypto"); // this is for hashing the password
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
+const BranchDB = require("./models/branch");
+
 const app = express();
 
 const PORT = 8080;
@@ -366,6 +368,29 @@ app.delete("/vehicles/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+// ======================================================== BRANCH ROUTES ========================================================
+
+app.get("/createBranch", (req, res) => {
+  const branchInfo = req.body;
+
+  const createBranch = BranchDB.createBranch(branchInfo.locationName,branchInfo.lat,branchInfo.long);
+
+  createBranch.then((result) => {
+    res.send(result);
+  });
+});
+
+app.get("/branches",(req,res)=>{
+  branches = BranchDB.findAllBranches();
+  branches
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log("Error in finding all branches.\n" + err);
+  });
 });
 
 // ========================================================

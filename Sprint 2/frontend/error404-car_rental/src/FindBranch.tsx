@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar/navbar";
 import "./styles/FindBranch.css";
 import "./styles/CreateUser.css";
@@ -10,72 +10,126 @@ import {
 } from "react-geocode";
 
 export default function FindBranch() {
-    const [address, setAddress] = useState("");
-    const [latlong, setLatlong] = useState({ lat: 0, long: 0 })
-    const [addressError, setAddressError] = useState(false)
+    type branch = {
+        _id: string,
+        long: string,
+        lat: string,
+        name: string,
+        distance: number
+    }
 
-//https://www.npmjs.com/package/react-geocode
+    const [address, setAddress] = useState("");
+    const [latlong, setLatlong] = useState({ lat: 0, long: 0, fullAddress: "" })
+    const [addressError, setAddressError] = useState(false);
+    const [addressFound, setAddressFound] = useState(false);
+    const [allBranches, setAllBranches] = useState<branch[]>([]);
+
+    //https://www.npmjs.com/package/react-geocode
     setDefaults({
         key: "AIzaSyABeU9H3XCmHXriQLvWTXFWgDxRvByZoSA", // Your API key here.
         language: "en", // Default language for responses.
         outputFormat: OutputFormat.JSON,
     });
 
-    function getAllBranches(){
-
-    }
-
     function handleSearchClick() {
         getLatLong()
-        if (latlong.lat == 0 || latlong.long == 0) {
-            setAddressError(true);
-        }
     }
 
     function getLatLong() {
         fromAddress(address)
             .then(({ results }) => {
-                setAddressError(false);
                 const { lat, lng } = results[0].geometry.location;
+                const formatted_address  = results[0].formatted_address;
 
                 setLatlong((latlong) => ({
                     ...latlong,
                     lat: lat,
                     long: lng,
+                    fullAddress: formatted_address
                 }));
+                setAddressError(false);
+                setAddressFound(true);
+
+                calculateDistance();
             })
             .catch(() => {
                 setAddressError(true);
+                setAddressFound(false);
             });
     }
 
-    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    function calculateDistance(){
+        allBranches.forEach(branch => {
+            branch.distance = calculateDistanceFunction(latlong.lat,latlong.long,branch.lat,branch.long);
+        });
+
+        allBranches.sort((a,b) => a.distance - b.distance);
+    }
+
+    const calculateDistanceFunction = (lat1, lon1, lat2, lon2) => {
         const R = 6371; // Radius of the earth in km
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
         const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c; // Distance in km
-        return distance.toFixed(2); // Round to 2 decimal places
-      };
+        console.log(distance)
+        return Number(distance.toFixed(2)); // Round to 2 decimal places
+    };
 
-      const deg2rad = (deg) => {
+    const deg2rad = (deg) => {
         return deg * (Math.PI / 180);
-      };
+    };
+
+    function viewBranch(branchid) {
+        //switch to browse then filter 
+    }
+
+    function BranchRow({ branchInfo }) {
+        return (
+            <>
+                <tr>
+                    <td>{branchInfo.name}</td>
+                    {addressFound &&
+                        <>
+                            <th>{branchInfo.distance}</th>
+                        </>
+                    }
+                    <td>
+                        <button onClick={() => viewBranch(branchInfo._id)}>Browse Selection</button>
+                    </td>
+                </tr>
+            </>
+        )
+    }
+
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/branches")
+            .then((res) => {
+                if (res.status === 200) {
+                    setAllBranches(res.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }, []);
+
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <h2>Branch Locator</h2>
             <h3>Enter a location</h3>
             <input
                 type="text"
                 className="search"
                 placeholder="Enter an Address or Area Code"
-                required
                 autoFocus
                 autoComplete="off"
                 onChange={(e) => {
@@ -86,9 +140,32 @@ export default function FindBranch() {
             <button className="searchButton" onClick={handleSearchClick}>
                 Search!
             </button>
-            <h3 className={addressError ? "errorVisible" : "error"} id="error">
+            <h3 className={addressError ? "errorVisible" : "error"} id="addyError">
                 Verify that the address is written correctly. For example "7700 Decarie Blvd H4P 2H4"
             </h3>
+            <h3 className={addressFound ? "foundVisible" : "found"}>
+                Address found! {latlong.fullAddress}
+            </h3>
+
+            <table className="branchTable">
+                <thead>
+                    <tr>
+                        <th>Branch Name</th>
+                        {addressFound &&
+                            <>
+                                <th>Distance</th>
+                            </>
+                        }
+
+                        <th>Browse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {allBranches.map(branch =>
+                        <BranchRow key={branch._id} branchInfo={branch} />
+                    )}
+                </tbody>
+            </table>
         </div>
     );
 }
