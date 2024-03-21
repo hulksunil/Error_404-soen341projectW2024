@@ -102,6 +102,7 @@ export default function Browse() {
        {filteredVehicles.map(car => 
           <CarBrowse 
             key={car._id} 
+            carId={car._id}
             model={car.model} 
             type={car.type} 
             transmission={car.transmission}

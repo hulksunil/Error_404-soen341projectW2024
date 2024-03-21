@@ -68,12 +68,37 @@ const CarRentalReservation = () => {
           location: "",
           returnLocation: "",
         });
-        history("/payment");
+        const reservationDate = new Date(formData.reservationDate);
+const returnDate = new Date(formData.returnDate);
+const differenceInTime = returnDate.getTime() - reservationDate.getTime();
+const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+
+let finalAmount;
+
+if (formData.carId.includes("667a")) {
+  finalAmount = differenceInDays * 1100; 
+} else if (formData.carId.includes("096e")) {
+  finalAmount = differenceInDays * 50; 
+} else if (formData.carId.includes("cc82")) {
+  finalAmount = differenceInDays * 70; 
+} else if (formData.carId.includes("fcee")) {
+  finalAmount = differenceInDays * 95; 
+} else if (formData.carId.includes("eb33")) {
+  finalAmount = differenceInDays * 60; 
+} else if (formData.carId.includes("ab4e")) {
+  finalAmount = differenceInDays * 40;
+} else {
+  finalAmount = differenceInDays * 80;
+}
+
+history(`/payment?amount=${finalAmount}`);
+     
       })
       .catch((error) => {
         console.error("Error creating reservation:", error);
       });
   };
+ 
 
   return (
     <>
@@ -144,6 +169,7 @@ const CarRentalReservation = () => {
               type="reset"
               value="Reset"
               className="reset"
+              
               onClick={() => {
                 setFormData({
                   ...formData,
@@ -151,7 +177,7 @@ const CarRentalReservation = () => {
                   returnDate: getTomorrowDate(),
                   location: "",
                   returnLocation: "",
-                });
+                }); 
               }}
             />
           </div>
