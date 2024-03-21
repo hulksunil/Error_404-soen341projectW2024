@@ -25,10 +25,10 @@ const vehicleSchema = new Schema({
         transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
-        url: String,
-        rentalPrice: String,
-        hasBluetooth: String,
-        drivetrain: String,
+        url: url,
+        rentalPrice: rentalPrice,
+        hasBluetooth: hasBluetooth,
+        drivetrain: drivetrain,
       });
       return vehicle.save();
     }
@@ -63,10 +63,10 @@ const vehicleSchema = new Schema({
         transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
-        url: String,
-        rentalPrice: String,
-        hasBluetooth: String,
-        drivetrain: String,
+        url : url,
+        rentalPrice : rentalPrice,
+        hasBluetooth : hasBluetooth,
+        drivetrain : drivetrain,
         },
         { new: true }
       );
