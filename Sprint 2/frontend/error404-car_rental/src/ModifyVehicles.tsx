@@ -7,13 +7,17 @@ import "./styles/ModifyUsers.css";
 
 export default function ModifyVehicles(){
     type vehicle={
-        model : String,
-        type : String,
-        transmission: String,
-        numberOfSeats: String,
-        fuelType: String,
+        model : string,
+        type : string,
+        transmission: string,
+        numberOfSeats: string,
+        fuelType: string,
         __v: string,
         _id: string,
+        url: string,
+        rentalPrice: string,
+        hasBluetooth: string, 
+        drivetrain: string,
     }
 
     const [allVehicles, setAllVehicles]= useState<vehicle[]>([]);
@@ -73,6 +77,38 @@ export default function ModifyVehicles(){
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.fuelType} className="inputBoxes" form={vehicleInfo._id} name="fuelType" onChange={(e) => updatedVehicleInfo.fuelType = e.target.value} autoComplete="off"/>
                     </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.url} className="inputBoxes" form={vehicleInfo._id} name="url" onChange={(e) => updatedVehicleInfo.url = e.target.value} autoComplete="off"/>
+                    </td>
+                    <td className="fieldInputs">
+                        <input type="text" placeholder={vehicleInfo.rentalPrice} className="inputBoxes" form={vehicleInfo._id} name="rentalPrice" onChange={(e) => updatedVehicleInfo.rentalPrice = e.target.value} autoComplete="off"/>
+                    </td>
+                    <td className="fieldInputs">
+                        <select
+                            className="fieldInputs"
+                            onChange={(e) => {
+                                updatedVehicleInfo.drivetrain = e.target.value;
+                            }}
+                            form={vehicleInfo._id}
+                            defaultValue={vehicleInfo.drivetrain}>
+                            <option value="front-wheel drive">Front-wheel drive</option>
+                            <option value="rear-wheel drive">Rear-wheel drive Rep</option>
+                            <option value="4-wheel drive">4-wheel drive</option>
+                        </select>
+                    </td>
+                    <td className="fieldInputs">
+                        <select
+                            className="fieldInputs"
+                            onChange={(e) => {
+                                updatedVehicleInfo.hasBluetooth = e.target.value;
+                            }}
+                            form={vehicleInfo._id}
+                            defaultValue={vehicleInfo.hasBluetooth}>
+                            <option value="yes">yes</option>
+                            <option value="no">no</option>
+                            <option value="maybe?">maybe?</option>
+                        </select>
+                    </td>
                     <td className="confirmation">
                         <input type="submit" className="submitButton" id="updateButton" form={vehicleInfo._id} value="Update" />
                         <button className="submitButton" id="deleteButton" form={vehicleInfo._id} onClick={() => deleteVehicle(vehicleInfo)}>Delete</button>
@@ -110,6 +146,11 @@ export default function ModifyVehicles(){
                         <th>Transmission</th>
                         <th>Number of Seats</th>
                         <th>Fuel Type</th>
+                        <th>URL</th>
+                        <th>Rental Price</th>
+                        <th>Drivetrain</th>
+                        <th>Bluetooth</th>
+                        <th>Confirm</th>
                     </tr>
                 </thead>
                 <tbody>
