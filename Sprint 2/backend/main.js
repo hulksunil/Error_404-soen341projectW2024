@@ -7,8 +7,12 @@ const crypto = require("crypto"); // this is for hashing the password
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
+<<<<<<< HEAD
 const BranchDB = require("./models/branch");
 
+=======
+const CheckoutDB = require('./models/checkout');
+>>>>>>> 12a58c1275ed91b09b37f323214fd785a7f036b8
 const app = express();
 
 const PORT = 8080;
@@ -17,6 +21,7 @@ const PORT = 8080;
 app.use(express.urlencoded());
 app.use(cors());
 app.use(bodyParser.json());
+
 
 const dbURI =
   "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
@@ -55,6 +60,8 @@ app.post("/createUser", (req, res) => {
     userInfo.email,
     hashedPassword,
     userInfo.licenseNum,
+    userInfo.address,
+    userInfo.contactNum,
     userInfo.dob
   );
 
@@ -98,18 +105,18 @@ app.post("/updateUser", (req, res) => {
   const newUserInfo = req.body;
 
   const newPassword = newUserInfo.newPass;
-  
-  if(newPassword.length != 0){ 
+
+  if (newPassword.length != 0) {
     // if the newPassword is defined, hash it, determine if its the same as prev then assign it if its new
-    
+
     const hash = crypto.createHash("sha256");
     hash.update(newPassword);
     const newHashedPassword = hash.digest("hex");
-    if(newUserInfo.hashedPass !== newHashedPassword){
+    if (newUserInfo.hashedPass !== newHashedPassword) {
       newUserInfo.hashedPass = newHashedPassword;
     }
   }
-  
+
   updatedUser = UserDB.updateUser(
     id,
     newUserInfo.firstName,
@@ -118,6 +125,8 @@ app.post("/updateUser", (req, res) => {
     newUserInfo.email,
     newUserInfo.hashedPass,
     newUserInfo.licenseNum,
+    newUserInfo.address,
+    newUserInfo.contactNum,
     newUserInfo.dob,
     newUserInfo.reservations
   );
@@ -334,7 +343,7 @@ app.get("/vehicles", (req, res) => {
 app.post("/updateVehicle", (req, res) => {
   // Update the vehicle with the given id
   const newVehicleInfo = req.body;
-  
+
   updateVehicle = VehicleDB.updateVehicle(
     newVehicleInfo._id,
     newVehicleInfo.model,
@@ -368,6 +377,67 @@ app.delete("/vehicles/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+
+    //============================================================CHECKOUT DB===========================================================
+});
+
+//Create a checkout
+app.post("/CreateCheckout", (req, res) => {
+  
+  const { reservationId, trait, action } = req.body;
+  console.log("Received checkout data:", req.body);
+  const createdCheckout = CheckoutDB.createCheckout(
+    reservationId,
+    trait,
+    action
+  );
+
+  createdCheckout
+    .then((result) => {
+      
+    })
+    .catch((error) => {
+      // Handle error
+      console.error("Error creating checkout:", error);
+      res.status(500).send("Error creating checkout.");
+    });
+});
+//Call all checkouts
+  app.get("/checkout", (req, res) => {
+    checkouts = CheckoutDB.findAllCheckouts();
+    checkouts
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        console.log("Error finding all checkouts.\n" + err);
+      });
+  });
+  // Call a checkout by id
+  // Reading a reservation by ID
+app.get("/checkout/:id", (req, res) => {
+  const id = req.params.id;
+  checkout = CheckoutDB.findCheckoutById(id);
+  checkout
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the checkout\n" + err);
+    });
+});
+
+// ========================================================
+// Deleting all checkouts
+app.delete("/deleteCheckouts", (req, res) => {
+  CheckoutDB.deleteAllCheckouts()
+    .then(() => {
+      res.status(200).send("All checkouts deleted successfully.");
+    })
+    .catch((err) => {
+      console.error("Error deleting all checkouts:", err);
+      res.status(500).send("Error deleting all checkouts.");
+    });
 });
 
 // ======================================================== BRANCH ROUTES ========================================================
@@ -393,7 +463,9 @@ app.get("/branches",(req,res)=>{
   });
 });
 
-// ========================================================
+
+
+// ========================================================================================================================
 // SOME TEST CODE (Can ignore if you want)
 app.get("/mainBackend", (req, res) => {
   res.writeHead(200, { "Content-Type": "text/html" });

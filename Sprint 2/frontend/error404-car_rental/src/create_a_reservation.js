@@ -16,20 +16,12 @@ const getCurrentDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-const getTomorrowDate = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
-  const day = String(today.getDate() + 1).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
 const CarRentalReservation = () => {
   const [formData, setFormData] = useState({
     userId: userId,
     carId: "",
-    reservationDate: getCurrentDate(),
-    returnDate: getTomorrowDate(),
+    reservationDate: "",
+    returnDate: "",
     location: "",
     returnLocation: "",
   });
@@ -46,10 +38,24 @@ const CarRentalReservation = () => {
   const history = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "reservationDate") {
+      const selectedDate = new Date(value);
+      if (!isNaN(selectedDate.getTime())) {
+        const nextDay = new Date(selectedDate);
+        nextDay.setDate(selectedDate.getDate() + 1);
+        const nextDayString = nextDay.toISOString().split('T')[0];
+        setFormData({
+          ...formData,
+          [name]: value,
+          returnDate: nextDayString
+        });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
-
-  const handleSubmit = (e) => {
+  
+    const handleSubmit = (e) => {
     e.preventDefault();
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
@@ -63,17 +69,42 @@ const CarRentalReservation = () => {
       .then((res) => {
         console.log("Reservation created:", res.data);
         setFormData({
-          reservationDate: getCurrentDate(),
-          returnDate: getTomorrowDate(),
+          reservationDate: "",
+          returnDate: "",
           location: "",
           returnLocation: "",
         });
-        history("/payment");
+        const reservationDate = new Date(formData.reservationDate);
+const returnDate = new Date(formData.returnDate);
+const differenceInTime = returnDate.getTime() - reservationDate.getTime();
+const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+
+let finalAmount;
+
+if (formData.carId.includes("667a")) {
+  finalAmount = differenceInDays * 1100; 
+} else if (formData.carId.includes("096e")) {
+  finalAmount = differenceInDays * 50; 
+} else if (formData.carId.includes("cc82")) {
+  finalAmount = differenceInDays * 70; 
+} else if (formData.carId.includes("fcee")) {
+  finalAmount = differenceInDays * 95; 
+} else if (formData.carId.includes("eb33")) {
+  finalAmount = differenceInDays * 60; 
+} else if (formData.carId.includes("ab4e")) {
+  finalAmount = differenceInDays * 40;
+} else {
+  finalAmount = differenceInDays * 80;
+}
+
+history(`/payment?amount=${finalAmount}`);
+     
       })
       .catch((error) => {
         console.error("Error creating reservation:", error);
       });
   };
+ 
 
   return (
     <>
@@ -90,7 +121,7 @@ const CarRentalReservation = () => {
             <tbody>
               {}
               <tr>
-                <th>Reservation Date:</th>
+                <th>Pickup Date:</th>
                 <td>
                   <input
                     type="date"
@@ -98,7 +129,6 @@ const CarRentalReservation = () => {
                     value={formData.reservationDate}
                     onChange={handleChange}
                     min={getCurrentDate()}
-                    max={formData.returnDate}
                     className="outlined_fields"
                     required
                   />
@@ -112,14 +142,14 @@ const CarRentalReservation = () => {
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
-                    min={getTomorrowDate()}
+                    min={formData.reservationDate ? formData.returnDate : getCurrentDate()}
                     className="outlined_fields"
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <th>Location:</th>
+                <th> Pickup location:</th>
                 <td>
                   <input
                     type="text"
@@ -144,14 +174,15 @@ const CarRentalReservation = () => {
               type="reset"
               value="Reset"
               className="reset"
+              
               onClick={() => {
                 setFormData({
                   ...formData,
-                  reservationDate: getCurrentDate(),
-                  returnDate: getTomorrowDate(),
+                  reservationDate:"",
+                  returnDate: "",
                   location: "",
                   returnLocation: "",
-                });
+                }); 
               }}
             />
           </div>
