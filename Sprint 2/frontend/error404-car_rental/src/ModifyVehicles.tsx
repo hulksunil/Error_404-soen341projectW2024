@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "./components/Navbar/navbar";
 import "./components/Navbar/navbar.css"
 import "./styles/ModifyUsers.css";
+import { updateVehicle } from "../../../backend/models/vehicle";
 
 
 export default function ModifyVehicles(){
@@ -41,6 +42,8 @@ export default function ModifyVehicles(){
     }
 
     function handleSubmit(event: React.FormEvent, newVehicleInfo){
+
+        console.log(newVehicleInfo);
         event.preventDefault();
 
         axios.post("http://localhost:8080/updateVehicle", newVehicleInfo)
@@ -57,6 +60,8 @@ export default function ModifyVehicles(){
 
     function VehicleRow({vehicleInfo}){
         let updatedVehicleInfo:vehicle=vehicleInfo;
+        
+        console.log(vehicleInfo);
 
         return (
             <>
@@ -92,7 +97,7 @@ export default function ModifyVehicles(){
                             form={vehicleInfo._id}
                             defaultValue={vehicleInfo.drivetrain}>
                             <option value="front-wheel drive">Front-wheel drive</option>
-                            <option value="rear-wheel drive">Rear-wheel drive Rep</option>
+                            <option value="rear-wheel drive">Rear-wheel drive</option>
                             <option value="4-wheel drive">4-wheel drive</option>
                         </select>
                     </td>

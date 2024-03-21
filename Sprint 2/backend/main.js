@@ -339,7 +339,11 @@ app.post("/updateVehicle", (req, res) => {
     newVehicleInfo.type,
     newVehicleInfo.transmission,
     newVehicleInfo.numberOfSeats,
-    newVehicleInfo.fuelType
+    newVehicleInfo.fuelType,
+    newVehicleInfo.url,
+    newVehicleInfo.rentalPrice,
+    newVehicleInfo.hasBluetooth,
+    newVehicleInfo.drivetrain,
   );
   updateVehicle
     .then((result) => {
@@ -352,7 +356,7 @@ app.post("/updateVehicle", (req, res) => {
 
 app.delete("/vehicles/:id", (req, res) => {
   const id = req.params.id;
-  deleteVehicle = VehivleDB.deleteVehicle(id);
+  deleteVehicle = VehicleDB.deleteVehicle(id);
 
   deleteVehicle
     .then((result) => {

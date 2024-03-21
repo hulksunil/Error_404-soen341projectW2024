@@ -54,7 +54,18 @@ const vehicleSchema = new Schema({
       );
     }
   
-   static updateVehicle(id,model, type, transmission, numberOfSeats, fuelType, url, rentalPrice, hasBluetooth,drivetrain, ) {
+   static updateVehicle(
+    id,
+    model, 
+    type, 
+    transmission, 
+    numberOfSeats, 
+    fuelType, 
+    url, 
+    rentalPrice, 
+    hasBluetooth,
+    drivetrain 
+    ) {
       return Vehicle.findByIdAndUpdate(
         id,
         {
