@@ -8,6 +8,7 @@ import {
     fromAddress,
     OutputFormat,
 } from "react-geocode";
+import { GeoPosition } from 'geo-position.ts';
 
 export default function FindBranch() {
     type branch = {
@@ -36,6 +37,7 @@ export default function FindBranch() {
     }
 
     function getLatLong() {
+        setLatlong({ lat: 0, long: 0, fullAddress: "" });
         fromAddress(address)
             .then(({ results }) => {
                 const { lat, lng } = results[0].geometry.location;
@@ -43,14 +45,16 @@ export default function FindBranch() {
 
                 setLatlong((latlong) => ({
                     ...latlong,
-                    lat: lat,
-                    long: lng,
-                    fullAddress: formatted_address
+                    lat: Number(lat),
+                    long: Number(lng),
+                    fullAddress: formatted_address,
+                    distance:0
                 }));
                 setAddressError(false);
                 setAddressFound(true);
 
-                calculateDistance();
+                calculateDistance(lat,lng);
+                setAddress("");
             })
             .catch(() => {
                 setAddressError(true);
@@ -58,9 +62,9 @@ export default function FindBranch() {
             });
     }
 
-    function calculateDistance(){
+    function calculateDistance(startLat,startLong){
         allBranches.forEach(branch => {
-            branch.distance = calculateDistanceFunction(latlong.lat,latlong.long,branch.lat,branch.long);
+            branch.distance = calculateDistanceFunction(startLat,startLong,branch.lat,branch.long);
         });
 
         allBranches.sort((a,b) => a.distance - b.distance);
@@ -76,7 +80,6 @@ export default function FindBranch() {
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c; // Distance in km
-        console.log(distance)
         return Number(distance.toFixed(2)); // Round to 2 decimal places
     };
 
@@ -99,7 +102,7 @@ export default function FindBranch() {
                         </>
                     }
                     <td>
-                        <button onClick={() => viewBranch(branchInfo._id)}>Browse Selection</button>
+                        <button className="searchSelection" onClick={() => viewBranch(branchInfo._id)}>Browse Selection</button>
                     </td>
                 </tr>
             </>
@@ -135,9 +138,10 @@ export default function FindBranch() {
                 onChange={(e) => {
                     setAddress(e.target.value);
                 }}
+                value={address}
             />
 
-            <button className="searchButton" onClick={handleSearchClick}>
+            <button className="searchButton" onClick={handleSearchClick} disabled={address.length < 3}>
                 Search!
             </button>
             <h3 className={addressError ? "errorVisible" : "error"} id="addyError">
@@ -153,7 +157,7 @@ export default function FindBranch() {
                         <th>Branch Name</th>
                         {addressFound &&
                             <>
-                                <th>Distance</th>
+                                <th>Distance (km)</th>
                             </>
                         }
 

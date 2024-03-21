@@ -2,7 +2,7 @@
     width: 25em;
 }
 
-.searchButton{
+.searchButton,.searchSelection{
     margin-top: 5px;
     cursor: pointer;
     border-radius: 10px;
@@ -10,6 +10,10 @@
     outline: none; 
     width: 6em;
     padding: 8px 12px; 
+}
+
+.searchSelection{
+    width: fit-content;
 }
 
 #addyError,.found{
