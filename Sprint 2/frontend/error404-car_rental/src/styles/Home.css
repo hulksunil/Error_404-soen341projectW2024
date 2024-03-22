@@ -19,6 +19,8 @@
   text-decoration: none;
   color: white;
   font-weight: bold;
+  text-shadow: 1px 1px #ff1010;
+  font-size: 1.5em;
 }
 
 .buttonContainer {
@@ -29,9 +31,13 @@
   height: 12em;
   margin: 1em;
   cursor: pointer;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
 }
 
 .image {
-  width: 12em;
-  height: 12em;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
 }

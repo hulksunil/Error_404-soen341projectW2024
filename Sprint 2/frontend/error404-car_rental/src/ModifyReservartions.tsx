@@ -122,24 +122,32 @@ export default function ModifyReservations() {
   
     return (
       <tr>
-        <td><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} readOnly /></td>
-        <td><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} readOnly /></td>
-        <td><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
-        <td><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
-        <td><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
-        <td><input type="text" name="returnLocation" value={editableReservation.returnLocation} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} readOnly /></td>
+        <td className="fieldInputs"><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} readOnly /></td>
+        <td className="fieldInputs"><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="returnLocation" value={editableReservation.returnLocation} onChange={handleInputChange} /></td>
         <td>
-          <label><input type="checkbox" name="Insurance" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.Insurance} onChange={handleCheckboxChange} />Insurance</label><br />
-          <label><input type="checkbox" name="GPS" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.GPS} onChange={handleCheckboxChange} />GPS</label><br />
-          <label><input type="checkbox" name="EntertainmentSystems" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.EntertainmentSystems} onChange={handleCheckboxChange} />Entertainment Systems</label><br />
-          <label><input type="checkbox" name="MobilePhones" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.MobilePhones} onChange={handleCheckboxChange} />Mobile Phones</label><br />
-          <label><input type="checkbox" name="PortableWiFi" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.PortableWiFi} onChange={handleCheckboxChange} />Portable WiFi</label><br />
-          <label><input type="checkbox" name="ChildSafetySeats" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.ChildSafetySeats} onChange={handleCheckboxChange} />Child Safety Seats</label>
-        </td>
-        <td>
-        <button className="updateButton" onClick={handleUpdate}>Update</button>
-        <button className="deleteButton" onClick={() => deleteReservation(reservation._id)}>Delete</button>
-        </td>
+          <div className="checkbox-container">
+          <input type="checkbox" name="Insurance" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.Insurance} onChange={handleCheckboxChange} />
+          <label>Insurance</label><br />
+          <input type="checkbox" name="GPS" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.GPS} onChange={handleCheckboxChange} />
+          <label>GPS</label><br />
+          <input type="checkbox" name="EntertainmentSystems" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.EntertainmentSystems} onChange={handleCheckboxChange} />
+          <label>Entertainment Systems</label><br />
+          <input type="checkbox" name="MobilePhones" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.MobilePhones} onChange={handleCheckboxChange} />
+          <label>Mobile Phones</label><br />
+          <input type="checkbox" name="PortableWiFi" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.PortableWiFi} onChange={handleCheckboxChange} />
+          <label>Portable WiFi</label><br />
+          <input type="checkbox" name="ChildSafetySeats" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.ChildSafetySeats} onChange={handleCheckboxChange} />
+          <label>Child Safety Seats</label>
+        </div>
+      </td>
+      <td>
+        <button className="submitButton" id="updateButton" onClick={handleUpdate}>Update</button>
+        <button className="submitButton" id="deleteButton" onClick={() => deleteReservation(reservation._id)}>Delete</button>
+      </td>
       </tr>
     );
   }
@@ -148,7 +156,12 @@ export default function ModifyReservations() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+        <>
+        <Navbar />
+        <div>Loading...</div>
+        </>
+    );
   }
 
   return (
@@ -156,9 +169,8 @@ export default function ModifyReservations() {
       <Navbar />
       <title>Modify Reservations</title>
       <h1>Modify Reservations</h1>
-      <button onClick={handleCreateReservation}>Create a Reservation</button>
-      <div className='center'>
-      <table className="reservationTable">
+      <button className='LogBtn' onClick={handleCreateReservation}>Create a Reservation</button>
+      <table className="modifyReservationTable">
         <thead>
           <tr>
             <th>User ID</th>
@@ -177,7 +189,6 @@ export default function ModifyReservations() {
           ))}
           </tbody>
         </table>
-      </div>
     </>
   );
 }
