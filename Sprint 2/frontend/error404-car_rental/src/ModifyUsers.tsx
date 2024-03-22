@@ -16,6 +16,8 @@ export default function ModifyUsers() {
         __v: string,
         _id: string,
         licenseNum: string,
+        address: string,
+        contactNum: string,
         dob:string,
         newPass:string,
     }
@@ -83,6 +85,12 @@ export default function ModifyUsers() {
                         <input type="text" placeholder={userInfo.licenseNum} className="inputBoxes" form={userInfo._id} name="licenseNum" onChange={(e) => updatedUserInfo.licenseNum = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
+                        <input type="text" placeholder={userInfo.address} className="inputBoxes" form={userInfo._id} name="address" onChange={(e) => updatedUserInfo.address = e.target.value}  autoComplete="off"/>
+                    </td>
+                    <td className="fieldInputs">
+                        <input type="tel" placeholder={userInfo.contactNum} className="inputBoxes" form={userInfo._id} name="contactNum" onChange={(e) => updatedUserInfo.contactNum = e.target.value}  autoComplete="off"/>
+                    </td>
+                    <td className="fieldInputs">
                         <input type="text" placeholder="Enter a new password" className="inputBoxes" form={userInfo._id} name="password" onChange={(e) => updatedUserInfo.newPass = e.target.value}  autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
@@ -146,6 +154,8 @@ export default function ModifyUsers() {
                         <th>Email</th>
                         <th>Date of birth</th>
                         <th>License #</th>
+                        <th>Address</th>
+                        <th>Contact #</th>
                         <th>New Password</th>
                         <th>Account Type</th>
                         <th>Confirm</th>
