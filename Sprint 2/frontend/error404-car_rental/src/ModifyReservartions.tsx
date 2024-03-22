@@ -116,7 +116,12 @@ export default function ModifyReservations() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+        <>
+        <Navbar />
+        <div>Loading...</div>
+        </>
+    );
   }
 
   return (

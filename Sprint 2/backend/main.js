@@ -7,12 +7,9 @@ const crypto = require("crypto"); // this is for hashing the password
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
-<<<<<<< HEAD
 const BranchDB = require("./models/branch");
 
-=======
 const CheckoutDB = require('./models/checkout');
->>>>>>> 12a58c1275ed91b09b37f323214fd785a7f036b8
 const app = express();
 
 const PORT = 8080;
