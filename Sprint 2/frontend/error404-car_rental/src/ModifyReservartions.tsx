@@ -99,14 +99,14 @@ export default function ModifyReservations() {
   
     return (
       <tr>
-        <td><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} /></td>
-        <td><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} /></td>
-        <td><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
-        <td><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
-        <td><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
-        <td>
-        <button className="updateButton" onClick={handleUpdate}>Update</button>
-                <button className="deleteButton" onClick={() => deleteReservation(reservation._id)}>Delete</button>
+        <td className="fieldInputs"><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
+        <td className="confirmation">
+          <button className="submitButton" id="updateButton" onClick={handleUpdate}>Update</button>
+          <button className="submitButton" id="deleteButton" onClick={() => deleteReservation(reservation._id)}>Delete</button>
         </td>
       </tr>
     );
@@ -116,7 +116,12 @@ export default function ModifyReservations() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+        <>
+        <Navbar />
+        <div>Loading...</div>
+        </>
+    );
   }
 
   return (
@@ -124,8 +129,8 @@ export default function ModifyReservations() {
       <Navbar />
       <title>Modify Reservations</title>
       <h1>Modify Reservations</h1>
-      <button onClick={handleCreateReservation}>Create a Reservation</button>
-      <table className="reservationTable">
+      <button className='LogBtn' onClick={handleCreateReservation}>Create a Reservation</button>
+      <table className="modifyReservationTable">
         <thead>
           <tr>
             <th>User ID</th>

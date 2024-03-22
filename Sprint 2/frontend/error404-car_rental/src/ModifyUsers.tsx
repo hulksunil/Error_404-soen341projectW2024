@@ -22,6 +22,7 @@ export default function ModifyUsers() {
 
     const [allUsers, setAllUsers] = useState<user[]>([]);
     const [createUserModal, setCreateUserModal] = useState(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     function pageTitle() {
         return <title>Modify Users</title>;
@@ -113,12 +114,23 @@ export default function ModifyUsers() {
             .then((res) => {
                 if (res.status === 200) {
                     setAllUsers(res.data);
+                    setLoading(false);
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setLoading(false);
             });
     }, []);
+
+    if (loading) {
+        return (
+            <>
+            <Navbar />
+            <div>Loading...</div>
+            </>
+        );
+      }
 
     return (
         <>

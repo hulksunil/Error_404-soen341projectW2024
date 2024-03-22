@@ -10,6 +10,7 @@ import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 import ModifyVehicles from "../ModifyVehicles.tsx";
 import ModifyReservations from "../ModifyReservartions.tsx";
+import FindBranch from "../FindBranch.tsx";
 import CheckOut from "../CheckOut.tsx";
 import CSRView from "../CSRVIew.tsx";
 import CheckoutRedirect from "../CheckoutRedirect.tsx";
@@ -38,11 +39,11 @@ function App() {
           <Route path="/modifyusers" element={<ModifyUsers />} />
           <Route path="/modifycars" element={<ModifyVehicles />}/>
           <Route path="/modifyreservations" element={<ModifyReservations />} />
+          <Route path="/findbranch" element={<FindBranch/>}/>
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/csrview" element={<CSRView />} />
           <Route path="/checkoutredirect/:reservationId" element={<CheckoutRedirect />} />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
-
           <Route path="/car_rentral_agreement" element={<RentalAgreement />}/>
           <Route path="/check_in" element={<CheckInForm />}/>
           <Route path="/approved_check-in" element={<CheckInApproved />}/>

@@ -7,6 +7,8 @@ const crypto = require("crypto"); // this is for hashing the password
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
+const BranchDB = require("./models/branch");
+
 const CheckoutDB = require('./models/checkout');
 const app = express();
 
@@ -422,6 +424,7 @@ app.get("/checkout/:id", (req, res) => {
     });
 });
 
+// ========================================================
 // Deleting all checkouts
 app.delete("/deleteCheckouts", (req, res) => {
   CheckoutDB.deleteAllCheckouts()
@@ -434,6 +437,28 @@ app.delete("/deleteCheckouts", (req, res) => {
     });
 });
 
+// ======================================================== BRANCH ROUTES ========================================================
+
+app.get("/createBranch", (req, res) => {
+  const branchInfo = req.body;
+
+  const createBranch = BranchDB.createBranch(branchInfo.locationName,branchInfo.lat,branchInfo.long);
+
+  createBranch.then((result) => {
+    res.send(result);
+  });
+});
+
+app.get("/branches",(req,res)=>{
+  branches = BranchDB.findAllBranches();
+  branches
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log("Error in finding all branches.\n" + err);
+  });
+});
 
 
 

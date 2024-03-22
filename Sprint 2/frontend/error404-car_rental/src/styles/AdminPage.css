@@ -1,16 +1,8 @@
-table th {
-    padding: 20px; 
-}
-
-table th {
-    font-size: 1.5rem; 
-}
-
 .container {
     margin-top: 30px; 
 }
 
-.userTable, .vehicleTable {
+.userTable, .vehicleTable,.modifyReservationTable {
     width: 100%;
     border: 1px solid black;
 }
