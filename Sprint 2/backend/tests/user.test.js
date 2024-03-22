@@ -28,7 +28,11 @@ test("testing createUser", async () => {
     "Doe",
     "admin",
     "email",
-    "password"
+    "password",
+    "licenseNum",
+    "address",
+    "514-123-4567",
+    new Date(1999, 1, 1)
   );
 
   // Tests all the fields of the created user
@@ -37,6 +41,10 @@ test("testing createUser", async () => {
   expect(createdUser.accType).toBe("admin");
   expect(createdUser.email).toBe("email");
   expect(createdUser.hashedPass).toBe("password");
+  expect(createdUser.licenseNum).toBe("licenseNum");
+  expect(createdUser.address).toBe("address");
+  expect(createdUser.contactNum).toBe("514-123-4567");
+  expect(createdUser.dob).toStrictEqual(new Date(1999, 1, 1));
 });
 
 test("testing findAllUsers", async () => {
