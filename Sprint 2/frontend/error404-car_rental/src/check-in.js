@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./styles/agreement.css"
+import Navbar from "./components/Navbar/navbar.jsx";
 
 function CheckInForm() {
     const [reservationId, setReservationId] = useState('');
@@ -13,10 +14,12 @@ function CheckInForm() {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className='ch_body'>
             <h1>Check-in</h1>
             <form action='/car_rentral_agreement'>
-                <table>
+                <table className='reservation_checkin'>
                     <tbody>
                         <tr>
                             <th>Reservation ID:</th>
@@ -26,6 +29,7 @@ function CheckInForm() {
                                     name="reservation_id"
                                     value={reservationId}
                                     onChange={(e) => setReservationId(e.target.value)}
+                                    className='required_field'
                                     required
                                 />
                             </td>
@@ -38,6 +42,7 @@ function CheckInForm() {
                                     name="license"
                                     value={license}
                                     onChange={(e) => setLicense(e.target.value)}
+                                    className='required_field'
                                     required
                                 />
                             </td>
@@ -51,6 +56,7 @@ function CheckInForm() {
                                     value={cardholder}
                                     onChange={(e) => setCardholder(e.target.value)}
                                     maxLength="12"
+                                    className='required_field'
                                     required
                                 />
                             </td>
@@ -62,7 +68,8 @@ function CheckInForm() {
                     <input type="reset" value="Reset" onClick={handleReset} className='not_agreed' />
                 </div>
             </form>
-        </div>
+        </div>   
+        </>
     );
 }
 

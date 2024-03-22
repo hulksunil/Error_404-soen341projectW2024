@@ -101,6 +101,5 @@
     margin: auto;
 }
   
-  .dropdownMenu:hover .dropdownContent {
-    display: block;
-  }
+.dropdownMenu:hover .dropdownContent {
+    display: block;}
