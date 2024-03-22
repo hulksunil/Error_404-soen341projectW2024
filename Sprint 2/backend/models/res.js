@@ -92,12 +92,22 @@ class ReservationDB {
     return Reservation.deleteMany({ userId: userId });
   }
 
-  static findReservationByCarId(carId) {
+  /*static findReservationByCarId(carId) {
     return Reservation.findById({carId : carId});
-  }
+  }*/ 
 
-  static checkCarAvailability(carId){
-
+ static checkCarAvailability(carId){
+    let x = ReservationDB.includes(carId);
+    Boolean(x);
+    if (true){
+      // car ID is included in reservationDB therefore has a booking
+      // check if dates user selects conflict with current booking
+      // if they do then car is unavailable
+      // maybe check return date of existing reservation which can be differentiated by user ID and pick up date of new reservation
+    }
+    else {
+      // car ID is not in the DB and is therefore available
+    }
   }
 
 }
