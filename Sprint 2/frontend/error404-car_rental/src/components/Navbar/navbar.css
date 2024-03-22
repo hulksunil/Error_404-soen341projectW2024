@@ -18,6 +18,14 @@
 .navTitleName{
     color: #000000;
     text-decoration: none;
+    height: 50px;
+    width: 150px;
+}
+
+.navTitleName img{
+    width: 100%; /* Ensure the image fills the container horizontally */
+    height: 100%; /* Ensure the image fills the container vertically */
+    object-fit: contain;
 }
 
 .desktopMenu{
