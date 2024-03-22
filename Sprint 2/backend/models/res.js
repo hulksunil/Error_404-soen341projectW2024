@@ -74,6 +74,17 @@ class ReservationDB {
   static deleteReservationsMatchingUser(userId) {
     return Reservation.deleteMany({ userId: userId });
   }
+
+  static findReservationByCarId(carId) {
+    return Reservation.findById({carId : carId});
+  }
+
+  static checkCarAvailability(carId){
+
+  }
+
 }
+
+  
 
 module.exports = ReservationDB;
