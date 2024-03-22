@@ -18,6 +18,7 @@ import ViewCheckouts from '../ViewCheckouts.tsx';
 import RentalAgreement from "../car_rentral_agreement.js";
 import CheckInForm from "../check-in.js"
 import CheckInApproved from "../check-in_approved.js"
+import EmailTemplate from "../EmailTemplate.tsx";
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
           <Route path="/car_rentral_agreement" element={<RentalAgreement />}/>
           <Route path="/check_in" element={<CheckInForm />}/>
           <Route path="/approved_check-in" element={<CheckInApproved />}/>
+
+          <Route path="/temp" element = {<EmailTemplate/>}/>
 
         </Routes>
       </BrowserRouter>

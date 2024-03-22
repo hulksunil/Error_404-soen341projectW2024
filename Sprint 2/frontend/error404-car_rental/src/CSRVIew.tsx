@@ -26,8 +26,8 @@ export default function CSRView() {
                 <Navbar/>
                 <h1>CSR View</h1>
 
-                <button className="buttonContainer" onClick={()=>{NavigateTo('modifyusers')}}>
-                    <Link to="/modifyusers" className="centeredText">Check In</Link>
+                <button className="buttonContainer" onClick={()=>{NavigateTo('check_in')}}>
+                    <Link to="/check_in" className="centeredText">Check In</Link>
                 </button>
 
                 <button className="buttonContainer" onClick={()=>{NavigateTo('checkout')}}>

@@ -1,8 +1,26 @@
 // Sidebar.js
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import "./sidebar.css";
+import axios from "axios";
 
 function Sidebar({ handleFilterChange }) {
+
+  const [allBranches, setAllBranches] = useState([]);
+
+  useEffect(() => {
+    axios
+        .get("http://localhost:8080/branches")
+        .then((res) => {
+            if (res.status === 200) {
+                setAllBranches(res.data);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}, []);
+
+
   return (
     <div className='filtersidebar'> 
         <h2 className='filterTitle'>Filter</h2>
@@ -49,6 +67,14 @@ function Sidebar({ handleFilterChange }) {
           <br />
           <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Hybrid')} className='typeinput'/> Hybrid
           <br />
+        </div>
+
+        <div className="branches">
+          <h3 className='titlecheck'>Branch:</h3>
+          {allBranches.map(branch =>
+          <><input type="checkbox" className='typeinput'/>{branch.name} <br /></>  
+          /* onChange={() => handleFilterChange('branch', `${branch.name}`)}*/
+          )}
         </div>
 
         
