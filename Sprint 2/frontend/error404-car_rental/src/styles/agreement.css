@@ -1,0 +1,43 @@
+.li{
+    font-weight: bold;
+}
+.box{
+    width: 80%;
+    margin: 0 auto;
+    text-align: left; 
+}
+.body,.ch_body,.conclude{
+    background-color: #D8BFD8;
+    text-align: center;
+}
+.approve,.agreed{
+    border: 1px solid #aaa; 
+    border-radius: 10px; 
+    padding: 8px; 
+    outline: none;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+.required_field{
+    border: 1px solid #aaa; 
+    border-radius: 10px; 
+    padding: 8px; 
+    outline: none;
+}
+.not_agreed{
+    border: 1px solid #aaa; 
+    border-radius: 10px; 
+    padding: 8px; 
+    outline: none;
+    background-color: red;
+    color: white;
+    font-weight: bold; 
+}
+.reservation_checkin {
+    width: 40%; 
+    margin: 0 auto; 
+}
+th{
+    font-size:larger;
+}

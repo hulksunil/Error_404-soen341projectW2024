@@ -12,7 +12,7 @@ function Navbar() {
   const [loginModal, setLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const [isCSR, setIsCSR] = useState(false);
   const [userInfo, setUserInfo] = useState({});
 
   /*
@@ -30,10 +30,10 @@ function Navbar() {
   }
 
   useEffect(() => {
-    let username = getCookie("username");
     let userid = getCookie("userid");
 
     if (userid) {
+      // checkn the database if the user is valid
       axios.post("http://localhost:8080/users/" + userid)
         .then((res) => {
           if (res.status === 200) {
@@ -43,7 +43,10 @@ function Navbar() {
             storeCookies("userid", res.data._id);
 
             setIsAdmin(res.data.accType === "admin");
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
+
+            setIsCSR(res.data.accType === "csr");
+            setIsLoggedIn(true);
           }
         })
         .catch((error) => {
@@ -56,33 +59,35 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navTitleName"><h1>CARS R US</h1></div>
+      <Link to={"/"} className="navTitleName"><h1>CARS R US</h1></Link>
       <div className="desktopMenu">
-        <Link to="/" className="desktopMenuListItem">Home</Link>
+      <Link to="/" className="desktopMenuListItem">Home</Link>
         <Link to="/browse" className="desktopMenuListItem">Browse</Link>
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
         <Link className="desktopMenuListItem">About Us</Link>
+        <Link className="desktopMenuListItem" to="/findBranch">Find A Branch</Link>
         {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
+        {isCSR && (<Link to="/csrview" className="desktopMenuListItem">CSR Management</Link>)}
       </div>
-      <div>
+      <div className="dropdownMenu">
         {isLoggedIn ?
           <>
-            <p className="welcomeUser">Welcome back {userInfo.firstName} {userInfo.lastName}</p>
-            <button className="SignOutBtn" onClick={() => {
+            <span className="welcomeUser">{userInfo.firstName} {userInfo.lastName}</span>
+            <button className="SignOutBtn dropdownContent" onClick={() => {
               setIsLoggedIn(false);
               setUserInfo({});
               clearCookies("username");
               clearCookies("userid");
             }}>Sign Out</button>
-          </>
-          :
-          <> {/* If the user is not logged in display this*/}
+            </>
+            :
+            <div> {/* If the user is not logged in display this*/}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
             <button className='SignBtn' onClick={toggleLoginModal}>Log in</button>
-          </>
+          </div>
         }
+        </div>
 
-      </div>
 
       {isLoggedIn && (
         <>
@@ -114,6 +119,7 @@ function Navbar() {
           </div>
         </>
       )}
+
     </nav>
 
 

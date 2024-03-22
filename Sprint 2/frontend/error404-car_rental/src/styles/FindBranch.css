@@ -1,0 +1,55 @@
+.search{
+    width: 25em;
+}
+
+.searchButton,.searchSelection{
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none; 
+    width: 6em;
+    padding: 8px 12px; 
+}
+
+.searchSelection{
+    width: fit-content;
+}
+
+#addyError,.found{
+    text-align: center;
+}
+
+.found,.foundVisible{
+    color: rgb(9, 170, 22);
+    list-style-type: none;
+    display: none;
+}
+
+.foundVisible{
+    display: block;
+}
+
+/*https://www.w3schools.com/css/tryit.asp?filename=trycss_table_fancy*/
+.branchTable{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.branchTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #7A7AFF;
+    color: white;
+}
+
+.branchTable td, .branchTable th{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.branchTable tr:nth-child(even){
+    background-color: #ccc;
+}

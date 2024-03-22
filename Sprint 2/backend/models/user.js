@@ -9,6 +9,8 @@ const userSchema = new Schema({
   email: String,
   hashedPass: String,
   licenseNum: String,
+  address: String,
+  contactNum: String,
   dob: Date,
   reservations: [{ type: Schema.Types.ObjectId, ref: "Reservation" }],
 });
@@ -23,6 +25,8 @@ class UserDB {
     email,
     hashedPass,
     licenseNum,
+    address,
+    contactNum,
     dob
   ) {
     if (dob >= Date.now()) {
@@ -36,6 +40,8 @@ class UserDB {
       email: email,
       hashedPass: hashedPass,
       licenseNum: licenseNum,
+      address: address,
+      contactNum: contactNum,
       dob: dob,
       reservations: [],
     });
@@ -57,6 +63,8 @@ class UserDB {
     email,
     hashedPass,
     licenseNum,
+    address,
+    contactNum,
     dob,
     reservations
   ) {
@@ -69,6 +77,8 @@ class UserDB {
         email: email,
         hashedPass: hashedPass,
         licenseNum: licenseNum,
+        address: address,
+        contactNum: contactNum,
         dob: dob,
         reservations: reservations,
       },

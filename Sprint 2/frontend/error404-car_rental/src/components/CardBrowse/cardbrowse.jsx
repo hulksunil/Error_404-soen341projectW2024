@@ -1,16 +1,36 @@
-import React from 'react';
+
+import React, {useState} from 'react';
 import './cardbrowse.css';
 import { Link } from "react-router-dom";
+import Modal from "../Modal/modal";
 
 function CardBrowse(props) {
-  const { model,type,transmission,numberOfSeats,fuelType} = props;
+  const { carId, model,type,transmission,numberOfSeats,fuelType,url} = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCardClick = () => {
+    console.log("Card clicked");
+    setIsModalOpen(true);
+    console.log("Modal open:", isModalOpen);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
+
+
   return (
-    <div className='card-container'>
+    <>
+    <div className='card-container' onClick={handleCardClick}>
       <div className="image-container">
-        <img src="https://media.wired.com/photos/5cf0413114e889d1d895c5d9/master/pass/techintwo_Ferrari.jpg" alt="" />
+        <img src={url} alt="" />
       </div>
 
-      <div className="card-content">
+      <div className="card-content" onClick={handleCardClick}>
         <div className="card-title"><h2>{model}</h2></div>
         <div className="card-body">
           <div>Type: {type}</div>
@@ -23,13 +43,13 @@ function CardBrowse(props) {
         </div>
         <div className="rentBtn" >
           
-          <Link to='/reservation'>Rent</Link>
+          <Link to={`/reservation?carId=${carId}`}>Rent</Link>
         </div>
       </div>
-
-      
     </div>
-  );
+    <Modal isOpen={isModalOpen} onClose={handleCloseModal} car={props} />
+   </>
+); 
 }
 
 export default CardBrowse;

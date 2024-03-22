@@ -17,22 +17,33 @@ export default function ViewReservation() {
     carId:string, 
     reservationDate: string,
     returnDate: string,
+    returnLocation:string,
+    Additionalservices: {
+      Insurance: boolean;
+      GPS: boolean;
+      EntertainmentSystems: boolean;
+      MobilePhones: boolean;
+      PortableWiFi: boolean;
+      ChildSafetySeats: boolean;
+    };
 }
   const [reservations, setReservations] = useState<string[]>([])
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
   const [selectedReservation, setSelectedReservation] = useState<reservation >();
 
-  function handleSubmit(event: React.FormEvent, newReservationInfo) {
+  function handleSubmit(event: React.FormEvent, updatedReservationInfo: reservation) {
     event.preventDefault();
-    axios.put(`http://localhost:8080/UpdateReservation/${newReservationInfo._id}`, newReservationInfo)
+    axios.put(`http://localhost:8080/UpdateReservation/${updatedReservationInfo._id}`, updatedReservationInfo)
         .then((res) => {
             if (res.status === 200) {
-                console.log(res);
+                console.log("Reservation updated successfully:", res.data);
+                // Optionally, you can perform additional actions after successful update
             }
         })
         .catch((error) => {
-            console.error("Error:", error);
-        })
+            console.error("Error updating reservation:", error);
+            // Optionally, handle errors or display an error message to the user
+        });
 }
 
   function pageTitle() {
@@ -41,7 +52,6 @@ export default function ViewReservation() {
 
   function Reservation({ resId }) {
     
-
     return (
       <div className="reservationContainer">
         <img className="carImage" alt="the car in the reservation" />
@@ -70,14 +80,21 @@ export default function ViewReservation() {
 
 
   function viewReservationOnClick(resId: String) {
-    let reservation: reservation={"location":"","carId":"", "reservationDate":"", "returnDate":"", "_id":""};
+    let reservation: reservation={"location":"","carId":"", "reservationDate":"", "returnDate":"", "_id":"","returnLocation":"","Additionalservices":{
+      Insurance: false,
+      GPS: false,
+      EntertainmentSystems: false,
+      MobilePhones: false,
+      PortableWiFi: false,
+      ChildSafetySeats: false
+  }
+};
     axios
       .get("http://localhost:8080/reservations/" + resId)
       .then((res) => {
-        reservation = {"location":res.data.location, "reservationDate":res.data.reservationDate, "carId":res.data.carId, "returnDate":res.data.returnDate,"_id":res.data._id};
+        reservation = {"location":res.data.location, "reservationDate":res.data.reservationDate, "carId":res.data.carId, "returnDate":res.data.returnDate,"_id":res.data._id,"returnLocation":res.data.returnLocation,"Additionalservices":res.data.Additionalservices};
         console.log(reservation);
         setSelectedReservation(reservation);
-        return reservation;
       });
     
   }
@@ -90,7 +107,7 @@ export default function ViewReservation() {
       const user = res.data;
       setReservations(user.reservations);
       setIsEmpty(user.reservations.length === 0);
-      // console.log(res.data);
+      console.log(res.data);
     }).catch((error) => {
       console.error("Error:", error);
     });
@@ -137,8 +154,9 @@ export default function ViewReservation() {
   //   });
   // }
 
-  function Form({ formData }) {
-    let updatedReservationInfo:reservation = formData;
+  function Form({ formData }: { formData: reservation }) {
+    const [updatedReservationInfo, setUpdatedReservationInfo] = useState<reservation>(formData);
+    console.log(updatedReservationInfo);
 
     let reservationDate = formData.reservationDate.substring(0, 10);
     let returnDate = formData.returnDate.substring(0, 10);
@@ -147,8 +165,15 @@ export default function ViewReservation() {
     // console.log(imageUrl)
 
     
-
-
+    const handleCheckboxChange = (serviceName: keyof reservation['Additionalservices'], checked: boolean) => {
+      setUpdatedReservationInfo(prevData => ({
+      ...prevData,
+      Additionalservices: {
+        ...prevData.Additionalservices,
+        [serviceName]: checked
+        }
+      }));
+    };
 
     return (
       <form className="formToUpdate" onSubmit={(e)=>handleSubmit(e,updatedReservationInfo)}>
@@ -162,7 +187,7 @@ export default function ViewReservation() {
               </td>
             </tr>
                   <tr>
-              <th>Reservation Date:</th>
+              <th>Pickup Date:</th>
               <td>
                 <input
                   type="date"
@@ -189,7 +214,7 @@ export default function ViewReservation() {
               </td>
             </tr>
             <tr>
-              <th>Location:</th>
+              <th>Pickup Location:</th>
               <td>
                 <input
                   type="text"
@@ -201,8 +226,78 @@ export default function ViewReservation() {
                 />
               </td>
             </tr>
-            
-              
+            <tr>
+              <th>Return location:</th>
+              <td>
+                <input
+                  type="text"
+                  name="returnLocation"
+                  defaultValue={formData.returnLocation}
+                  onChange={(e) => updatedReservationInfo.returnLocation=e.target.value}
+                  className="outlined_fields"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Additional services</th>
+              <td>
+                <input
+                type="checkbox"
+                id="Insurance"
+                name="Insurance"
+                checked={updatedReservationInfo?.Additionalservices?.Insurance}
+                onChange={(e) => handleCheckboxChange("Insurance", e.target.checked)}
+                />
+                <label htmlFor="Insurance"> Insurance</label>
+                <br />
+                
+                <input
+                type="checkbox"
+                id="GPS"
+                name="GPS"
+                checked={updatedReservationInfo?.Additionalservices?.GPS}
+                onChange={(e) => handleCheckboxChange("GPS", e.target.checked)}
+                />
+                <label htmlFor="GPS"> GPS </label>
+                <br />
+                <input
+                type="checkbox"
+                id="EntertainmentSystems"
+                name="EntertainmentSystems"
+                checked={updatedReservationInfo?.Additionalservices?.EntertainmentSystems}
+                onChange={(e) => handleCheckboxChange("EntertainmentSystems", e.target.checked)}
+                />
+                <label htmlFor="EntertainmentSystems"> Entertainment Systems </label>
+                <br />
+                <input
+                type="checkbox"
+                id="MobilePhones"
+                name="MobilePhones"
+                checked={updatedReservationInfo?.Additionalservices?.MobilePhones}
+                onChange={(e) => handleCheckboxChange("MobilePhones", e.target.checked)}
+                />
+                <label htmlFor="PortableWiFi"> Mobile Phones </label>
+                <br />
+                <input
+                type="checkbox"
+                id="PortableWiFi"
+                name="PortableWiFi"
+                checked={updatedReservationInfo?.Additionalservices?.PortableWiFi}
+                onChange={(e) => handleCheckboxChange("PortableWiFi", e.target.checked)}
+                />  
+                <label htmlFor="ChildSafetySeats"> Child Safety Seats </label>
+                <br />
+                <input
+                type="checkbox"
+                id="ChildSafetySeats"
+                name="ChildSafetySeats"
+                checked={updatedReservationInfo?.Additionalservices?.ChildSafetySeats}
+                onChange={(e) => handleCheckboxChange("ChildSafetySeats", e.target.checked)}
+                />
+                <label htmlFor="PortableWiFi"> Portable WiFi</label>
+              </td>
+            </tr>
           </tbody>
         </table>
         <br />

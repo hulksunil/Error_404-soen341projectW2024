@@ -1,0 +1,44 @@
+.container {
+    margin-top: 30px; 
+}
+
+.userTable, .vehicleTable{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.confirmation > button,
+.confirmation > input {
+    width: 6em; 
+    padding: 8px; 
+}
+
+.deleteButton {
+    background-color: red; 
+}
+
+.updateButton {
+    background-color: green; 
+    color: white; 
+}
+
+.hiddenForm {
+    background-color: red;
+    display: none;
+}
+
+.modifyReservationTable {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid black; 
+  }
+  
+  .checkbox-container {
+    height: 70px; 
+    overflow-y: scroll;
+    margin-top: 10px;
+  }
+  
+  .checkbox-container table {
+    margin: 0; 
+  }

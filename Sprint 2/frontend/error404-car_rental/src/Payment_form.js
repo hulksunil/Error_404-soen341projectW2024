@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/create_a_reservation&payment.css";
-
+import { useLocation } from 'react-router-dom';
 const getCurrentMonthYear = () => {
   const today = new Date();
   const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -9,6 +9,9 @@ const getCurrentMonthYear = () => {
 };
 
 const CarRentalPayment = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const amount = searchParams.get('amount') || 0; 
   return (
     <div className="background_payment">
       <h1>Payment Information</h1>
@@ -23,6 +26,7 @@ const CarRentalPayment = () => {
                 step="0.01"
                 className="outlined_fields"
                 required
+                value={amount}
               />
             </td>
           </tr>

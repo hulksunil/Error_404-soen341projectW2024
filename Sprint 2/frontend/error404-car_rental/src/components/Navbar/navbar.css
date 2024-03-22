@@ -1,3 +1,4 @@
+
 .navbar{
     height: 4rem;
     width: auto;
@@ -16,6 +17,7 @@
 
 .navTitleName{
     color: #000000;
+    text-decoration: none;
 }
 
 .desktopMenu{
@@ -36,7 +38,7 @@
     
 }
 
-.LogBtn,.SignBtn{
+.LogBtn,.SignBtn, .SignOutBtn{
     background-color: #F1FAEE;
     color: #000000;
     border: none;
@@ -48,7 +50,7 @@
 }
 
 
-.LogBtn:hover, .SignBtn:hover{
+.LogBtn:hover, .SignBtn:hover, .SignOutBtn:hover{
     background-color: #354AF2;
     color: #FFFEE0;
     
@@ -77,35 +79,27 @@
 }
 
 .welcomeUser{
-    position: absolute;
-    right: 90px;
-    bottom: 40%;
-    margin: 0;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 260px;
-    text-wrap: nowrap;
 }
 
-.SignOutBtn {
+
+.dropdownMenu {
+    position: relative;
+    display: inline-block;
+    padding: 1.6em 0;
+    /* width: 11em; */
+    min-width: 8em;
+  }
+
+.dropdownContent {
+    display: none;
     position: absolute;
-    right: 10px;
-    bottom: 30%;
-    margin: 0;
-
-    background-color: #F1FAEE;
-    color: #000000;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-     
+    z-index: 1;
+    width: 6.9em;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
-
-.SignOutBtn:hover{
-    background-color: #354AF2;
-    color: #FFFEE0;
-    
-}
+  
+.dropdownMenu:hover .dropdownContent {
+    display: block;}

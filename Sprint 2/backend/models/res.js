@@ -8,6 +8,15 @@ const reservationSchema = new Schema({
   reservationDate: Date,
   returnDate: Date,
   location: String,
+  returnLocation: String,
+  Additionalservices:{
+    Insurance: Boolean,
+    GPS: Boolean,
+    EntertainmentSystems: Boolean,
+    MobilePhones: Boolean,
+    PortableWiFi: Boolean,
+    ChildSafetySeats: Boolean
+  },
 });
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
@@ -18,7 +27,9 @@ class ReservationDB {
     carId,
     reservationDate,
     returnDate,
-    location
+    location,
+    returnLocation,
+    Additionalservices
   ) {
     if (returnDate <= reservationDate) {
       throw new Error("Return date must be after reservation date");
@@ -30,6 +41,8 @@ class ReservationDB {
       reservationDate: reservationDate,
       returnDate: returnDate,
       location: location,
+      returnLocation:returnLocation,
+      Additionalservices:Additionalservices,
     });
     return reservation.save();
   }
@@ -48,7 +61,9 @@ class ReservationDB {
     carId,
     reservationDate,
     returnDate,
-    location
+    location,
+    returnLocation,
+    Additionalservices
   ) {
     return Reservation.findByIdAndUpdate(
       id,
@@ -58,6 +73,8 @@ class ReservationDB {
         reservationDate: reservationDate,
         returnDate: returnDate,
         location: location,
+        returnLocation:returnLocation,
+        Additionalservices:Additionalservices
       },
       { new: true }
     );

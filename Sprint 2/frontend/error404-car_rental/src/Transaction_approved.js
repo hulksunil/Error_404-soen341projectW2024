@@ -1,15 +1,25 @@
 import React from "react";
-import "./styles/create_a_reservation&payment.css";
+import Navbar from './components/Navbar/navbar';
+import "./components/Navbar/navbar.css"
 
 const TransactionApproved = () => {
-  return (
-    <div className="background_confirm">
-      <h1>Transaction Approved</h1>
-      <p>
-        Your payment has been successfully processed. Thank you for your
-        reservation!
-      </p>
-    </div>
+  
+
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(Navbar, null),
+    React.createElement(
+      "div",
+      { className: "background_confirm" },
+      React.createElement("h1", null, "Transaction Approved"),
+      React.createElement(
+        "p",
+        null,
+        "Your payment has been successfully processed. Thank you for your reservation! Make a new selection from the Nav Bar to exit"
+      
+      )
+    )
   );
 };
 
