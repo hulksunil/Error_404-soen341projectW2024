@@ -319,9 +319,9 @@ app.get("/createVehicle", (req, res) => {
 
 app.get("/vehicles/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  
   vehicle = VehicleDB.findVehicleById(id);
-  user
+  vehicle
     .then((result) => {
       res.send(result);
     })

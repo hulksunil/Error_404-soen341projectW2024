@@ -72,7 +72,7 @@ function Sidebar({ handleFilterChange }) {
         <div className="branches">
           <h3 className='titlecheck'>Branch:</h3>
           {allBranches.map(branch =>
-          <><input type="checkbox" className='typeinput'/>{branch.name} <br /></>  
+          <><input key={branch._id} type="checkbox" className='typeinput'/>{branch.name} <br /></>  
           /* onChange={() => handleFilterChange('branch', `${branch.name}`)}*/
           )}
         </div>

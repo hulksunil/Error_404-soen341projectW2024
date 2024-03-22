@@ -44,3 +44,12 @@
     margin: 0 auto; 
     margin-left: 25%;
 }
+
+.branchDropDown{
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 12px; 
+  outline: none; 
+  width: 17em; 
+  padding: 8px 5px; 
+}

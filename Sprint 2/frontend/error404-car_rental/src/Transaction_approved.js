@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from './components/Navbar/navbar';
 import "./components/Navbar/navbar.css"
 
 const TransactionApproved = () => {
-  
 
   return React.createElement(
     "div",

@@ -18,7 +18,6 @@ export default function EmailTemplate(props) {
             <br />Pick up Location: {props.pickup}
             <br />Drop off Location: { props.dropoff}
             <br />
-            <br />Make: {props.make}
             <br />Model: {props.model}
             <br />Year: {props.year}
             <br />Additional services: {props.additional}
