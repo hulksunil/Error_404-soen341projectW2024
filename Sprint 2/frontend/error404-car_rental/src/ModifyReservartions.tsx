@@ -157,6 +157,7 @@ export default function ModifyReservations() {
       <title>Modify Reservations</title>
       <h1>Modify Reservations</h1>
       <button onClick={handleCreateReservation}>Create a Reservation</button>
+      <div className='center'>
       <table className="reservationTable">
         <thead>
           <tr>
@@ -174,8 +175,9 @@ export default function ModifyReservations() {
           {reservations.map((reservation) => (
             <ReservationRow key={reservation._id} reservation={reservation} />
           ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

@@ -1,0 +1,53 @@
+.traitContainer{
+    background-color: #D6D6FF;
+    border-radius: 20px;
+    margin: 50px;
+    padding: 20px;
+    border: 2px solid #000;
+}
+
+.generalInfo{
+    background-color: #D6D6FF;
+    border-radius: 20px;
+    text-align: left;
+    margin: 50px;
+    padding: 20px;
+    border: 2px solid #000;
+}
+
+.signature{
+    background-color: #D6D6FF;
+    border-radius: 20px;
+    text-align: left;
+    margin: 50px;
+    padding: 20px;
+    border: 2px solid #000;
+}
+
+.giTitle{
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.traitTitle{
+    text-decoration: underline;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.ackTitle{
+    text-decoration: underline;
+    margin-top: 5px;
+}  
+
+.coBtn{
+    background-color: #7A7AFF;
+    border-radius: 40px;
+    width: 100px;
+    height: 60px;
+    
+}
+
+.description{
+    text-align: left;
+}

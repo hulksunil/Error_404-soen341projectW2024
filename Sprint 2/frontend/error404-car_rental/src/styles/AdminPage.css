@@ -34,3 +34,12 @@ table th {
     background-color: red;
     display: none;
 }
+
+.reservationTable td{
+    padding-bottom: 30px;
+}
+
+.center{
+    margin: 0 auto;   
+    width: 95%;
+}
