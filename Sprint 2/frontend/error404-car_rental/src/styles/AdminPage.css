@@ -1,16 +1,8 @@
-table th {
-    padding: 20px; 
-}
-
-table th {
-    font-size: 1.5rem; 
-}
-
 .container {
     margin-top: 30px; 
 }
 
-.userTable, .vehicleTable {
+.userTable, .vehicleTable{
     width: 100%;
     border: 1px solid black;
 }
@@ -34,3 +26,19 @@ table th {
     background-color: red;
     display: none;
 }
+
+.modifyReservationTable {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid black; 
+  }
+  
+  .checkbox-container {
+    height: 70px; 
+    overflow-y: scroll;
+    margin-top: 10px;
+  }
+  
+  .checkbox-container table {
+    margin: 0; 
+  }

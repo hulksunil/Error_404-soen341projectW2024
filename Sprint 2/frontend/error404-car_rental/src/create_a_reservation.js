@@ -24,6 +24,14 @@ const CarRentalReservation = () => {
     returnDate: "",
     location: "",
     returnLocation: "",
+    Additionalservices: {
+      Insurance: false,
+      GPS: false,
+      EntertainmentSystems: false,
+      MobilePhones: false,
+      PortableWiFi: false,
+      ChildSafetySeats: false
+    }
   });
 
   const location = useLocation();
@@ -37,35 +45,57 @@ const CarRentalReservation = () => {
 
   const history = useNavigate();
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "reservationDate") {
-      const selectedDate = new Date(value);
-      if (!isNaN(selectedDate.getTime())) {
-        const nextDay = new Date(selectedDate);
-        nextDay.setDate(selectedDate.getDate() + 1);
-        const nextDayString = nextDay.toISOString().split('T')[0];
-        setFormData({
-          ...formData,
-          [name]: value,
-          returnDate: nextDayString
-        });
-      }
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setFormData({
+        ...formData,
+        Additionalservices: {
+          ...formData.Additionalservices,
+          [name]: checked
+        }
+      });
     } else {
-      setFormData({ ...formData, [name]: value });
+      if (name === "reservationDate") {
+        const selectedDate = new Date(value);
+        if (!isNaN(selectedDate.getTime())) {
+          const nextDay = new Date(selectedDate);
+          nextDay.setDate(selectedDate.getDate() + 1);
+          const nextDayString = nextDay.toISOString().split('T')[0];
+          setFormData({
+            ...formData,
+            [name]: value,
+            returnDate: nextDayString
+          });
+        }
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
     }
   };
   
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+  
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
       alert("Return date cannot be before or the same as reservation date");
       return;
     }
-
-    // create the reservation
+      
+    // Create the reservation data
+    const reservationData = {
+      userId: formData.userId,
+      carId: formData.carId,
+      reservationDate: formData.reservationDate,
+      returnDate: formData.returnDate,
+      location: formData.location,
+      returnLocation: formData.returnLocation,
+      Additionalservices: formData.Additionalservices,
+    };
+  
     axios
-      .post("http://localhost:8080/CreateReservation", formData)
+      .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
         console.log("Reservation created:", res.data);
         setFormData({
@@ -104,7 +134,6 @@ history(`/payment?amount=${finalAmount}`);
         console.error("Error creating reservation:", error);
       });
   };
- 
 
   return (
     <>
@@ -161,6 +190,79 @@ history(`/payment?amount=${finalAmount}`);
                   />
                 </td>
               </tr>
+              <tr>
+                <th> Return location:</th>
+                <td>
+                  <input
+                    type="text"
+                    name="returnLocation"
+                    value={formData.returnLocation}
+                    onChange={handleChange}
+                    className="outlined_fields"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Additional services</th>
+                <td>
+                    <input
+                      type="checkbox"
+                      id="s1"
+                      name="Insurance"
+                      checked={formData.Additionalservices.Insurance}
+                      onChange={handleChange}
+                    /> 
+                  <label htmlFor="s1">  Insurance </label>
+                  <br />
+                  
+                    <input
+                      type="checkbox"
+                      id="s2"
+                      name="GPS"
+                      checked={formData.Additionalservices.GPS}
+                      onChange={handleChange}
+                    />
+                  <label htmlFor="s2">GPS</label>
+                  <br />
+                    <input
+                      type="checkbox"
+                      id="s3"
+                      name="EntertainmentSystems"
+                      checked={formData.Additionalservices.EntertainmentSystems}
+                      onChange={handleChange}
+                    />
+                  <label htmlFor="s3">Entertainment systems</label>
+                  <br />
+                  
+                    <input
+                      type="checkbox"
+                      id="s4"
+                      name="MobilePhones"
+                      checked={formData.Additionalservices.MobilePhones}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="s4">Mobile phones</label>
+                  <br />
+                    <input
+                      type="checkbox"
+                      id="s5"
+                      name="PortableWiFi"
+                      checked={formData.Additionalservices.PortableWiFi}
+                      onChange={handleChange}
+                    />
+                  <label htmlFor="s5">Portable WiFi</label>
+                  <br />
+                    <input
+                      type="checkbox"
+                      id="s6"
+                      name="ChildSafetySeats"
+                      checked={formData.Additionalservices.ChildSafetySeats}
+                      onChange={handleChange}
+                    />
+                  <label htmlFor="s6">Child safety seats</label>
+                </td>
+              </tr>
             </tbody>
           </table>
           <br />
@@ -182,7 +284,7 @@ history(`/payment?amount=${finalAmount}`);
                   returnDate: "",
                   location: "",
                   returnLocation: "",
-                }); 
+                });
               }}
             />
           </div>

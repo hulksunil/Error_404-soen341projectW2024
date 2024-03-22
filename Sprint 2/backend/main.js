@@ -7,6 +7,8 @@ const crypto = require("crypto"); // this is for hashing the password
 
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
+const BranchDB = require("./models/branch");
+
 const CheckoutDB = require('./models/checkout');
 const app = express();
 
@@ -188,7 +190,7 @@ const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
-  const { userId, carId, reservationDate, returnDate, location } = req.body;
+  const { userId, carId, reservationDate, returnDate, location,returnLocation,Additionalservices} = req.body;
   console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
@@ -196,7 +198,9 @@ app.post("/CreateReservation", (req, res) => {
     carId,
     reservationDate,
     returnDate,
-    location
+    location,
+    returnLocation,
+    Additionalservices
   );
 
   // Handle promise result
@@ -256,7 +260,9 @@ app.put("/UpdateReservation/:id", (req, res) => {
     updatedReservationData.carId,
     updatedReservationData.reservationDate,
     updatedReservationData.returnDate,
-    updatedReservationData.location
+    updatedReservationData.location,
+    updatedReservationData.returnLocation,
+    updatedReservationData.Additionalservices,
   );
 
   updatedReservation
@@ -429,6 +435,7 @@ app.get("/checkout/:id", (req, res) => {
     });
 });
 
+// ========================================================
 // Deleting all checkouts
 app.delete("/deleteCheckouts", (req, res) => {
   CheckoutDB.deleteAllCheckouts()
@@ -441,6 +448,28 @@ app.delete("/deleteCheckouts", (req, res) => {
     });
 });
 
+// ======================================================== BRANCH ROUTES ========================================================
+
+app.get("/createBranch", (req, res) => {
+  const branchInfo = req.body;
+
+  const createBranch = BranchDB.createBranch(branchInfo.locationName,branchInfo.lat,branchInfo.long);
+
+  createBranch.then((result) => {
+    res.send(result);
+  });
+});
+
+app.get("/branches",(req,res)=>{
+  branches = BranchDB.findAllBranches();
+  branches
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log("Error in finding all branches.\n" + err);
+  });
+});
 
 
 
