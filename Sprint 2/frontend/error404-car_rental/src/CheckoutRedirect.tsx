@@ -88,8 +88,6 @@ export default function CheckoutRedirect() {
         <div className="generalInfo">
           <h1 className='giTitle'>General Information</h1>
           <h2>Checkout Form for Reservation ID: {reservationId}</h2>
-          <h2>Client's Name: </h2>
-          <h2>Car Model: </h2>
         </div>
         <div className="traitContainer">
           <h1 className="traitTitle">Car Condition</h1>
@@ -108,31 +106,31 @@ export default function CheckoutRedirect() {
           <tbody>
             <tr>
               <td>Light Scratch/Dent (400$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Light Scratch')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Light Scratch')}/></td>
             </tr>
             <tr>
               <td>Medium Scratch/Dent (800$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Medium Scratch')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Medium Scratch')}/></td>
             </tr>
             <tr>
               <td>Large Scratch/Dent (1200$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Large Scratch')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Large Scratch')}/></td>
             </tr>
             <tr>
               <td>Interior Damage/Dent (1000$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Interior Damage')}>X</button></td>
+              <td><input type='checkbox'onClick={() => handleCheckoutConfirmation('Interior Damage')}/></td>
             </tr>
             <tr>
               <td>Unclean Interior (250$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Unclean Interior')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Unclean Interior')}/></td>
             </tr>
             <tr>
               <td>Equipment and Accessories Missing/Damaged (1200$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Eq Ac')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Eq Ac')}/></td>
             </tr>
             <tr>
               <td>Late Return (200$)</td>
-              <td><button onClick={() => handleCheckoutConfirmation('Late Return')}>X</button></td>
+              <td><input type='checkbox' onClick={() => handleCheckoutConfirmation('Late Return')}/></td>
             </tr>
           </tbody>
         </table></div>
