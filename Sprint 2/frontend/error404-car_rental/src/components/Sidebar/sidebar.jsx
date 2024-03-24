@@ -6,8 +6,11 @@ import axios from "axios";
 function Sidebar({ handleFilterChange }) {
 
   const [allBranches, setAllBranches] = useState([]);
+  const [branchId, setBranchId] = useState("");
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
     axios
         .get("http://localhost:8080/branches")
         .then((res) => {
@@ -18,6 +21,12 @@ function Sidebar({ handleFilterChange }) {
         .catch((error) => {
             console.error("Error:", error);
         });
+
+        const branchId = searchParams.get("branchId");
+        if(branchId){
+          handleFilterChange("branch",branchId)
+          setBranchId(branchId);
+        }
 }, []);
 
 
@@ -72,14 +81,12 @@ function Sidebar({ handleFilterChange }) {
         <div className="branches">
           <h3 className='titlecheck'>Branch:</h3>
           {allBranches.map(branch =>
-          <><input key={branch._id} type="checkbox" className='typeinput'/>{branch.name} <br /></>  
-          /* onChange={() => handleFilterChange('branch', `${branch.name}`)}*/
+          <>
+            <input key={branch._id} type="checkbox" className='typeinput' onChange= {() => handleFilterChange('branch', `${branch._id}`)}/>{branch.name} 
+            <br/>
+          </>  
           )}
         </div>
-
-        
-
-
     </div>
   );
 }

@@ -191,7 +191,7 @@ const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
   const { userId, carId, reservationDate, returnDate, location,returnLocation,Additionalservices} = req.body;
-  console.log("Received reservation data:", req.body);
+  //console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
     userId,
@@ -464,7 +464,17 @@ app.get("/branches",(req,res)=>{
   });
 });
 
-
+app.get("/branches/:id",(req,res) => {
+  const id = req.params.id;
+  branches = BranchDB.findBranchById(id);
+  branches
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log("Error in finding the branch by id\n" + err);
+  });
+});
 
 // ========================================================================================================================
 // SOME TEST CODE (Can ignore if you want)

@@ -29,6 +29,7 @@ function App() {
           {/*This initilizes what the initial page will be*/}
           {/* This defines a url path that will route the user to the CreateUser.tsx page*/}
           <Route path="/browse" element={<Browse />} />
+          <Route path="/browse/:branchId" element={<Browse />} />
           <Route path="/viewreservation" element={<ViewRes />} />
           <Route path="/payment" element={<CarRentalPayment />} />
           <Route path="/reservation" element={<CarRentalReservation />} />

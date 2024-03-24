@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "./CookieManager.ts";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar.jsx";
+import {EmailConfirmation} from './EmailConfirmation.ts';
 
 const userId = getCookie("userid");
 const userName = getCookie("username");
@@ -102,19 +103,23 @@ const CarRentalReservation = () => {
   };
 
   function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
-    const props= {
-      name: userName,
-      confirmation:res_id,
-      startDate:reservationDate,
-      endDate:returnDate,
-      pickup:pickupLocation,
-      dropoff:returnLocation,
-      model: vehicleInfo.model,
-      year: vehicleInfo.year,
-      additional:additional,
-      total:finalAmount
-    }
+    const regex = /[{}]/g;
+    let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
+    let filteredServices = additionalArray.filter(item => item.includes("true"))
 
+    const props= {
+      name: String(userName),
+      confirmation:String(res_id),
+      startDate:String(reservationDate),
+      endDate:String(returnDate),
+      pickup:String(pickupLocation),
+      dropoff:String(returnLocation),
+      model: String(vehicleInfo.model),
+      year: String(vehicleInfo.year),
+      additional:filteredServices,
+      total:String(finalAmount)
+    }
+    EmailConfirmation.emailProps = props;
   }
 
   const handleSubmit = (e) => {
@@ -127,6 +132,14 @@ const CarRentalReservation = () => {
       return;
     }
 
+    if(formData.location.length == 0){
+      formData.location = allBranches[0]._id
+    }
+
+    if(formData.returnLocation.length == 0){
+      formData.returnLocation = allBranches[0]._id
+    }
+    
     // Create the reservation data
     const reservationData = {
       userId: formData.userId,
@@ -141,7 +154,7 @@ const CarRentalReservation = () => {
     axios
       .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
-        console.log("Reservation created:", res.data);
+        // console.log("Reservation created:", res.data);
         reservation_id = res.data._id;
         setFormData({
           reservationDate: "",
@@ -172,7 +185,7 @@ const CarRentalReservation = () => {
           finalAmount = differenceInDays * 80;
         }
         
-        //constructEmail(reservation_id, formData.reservationDate, formData.returnDate, finalAmount, formData.Additionalservices,formData.location,formData.returnLocation)
+        constructEmail(reservation_id, formData.reservationDate, formData.returnDate, finalAmount, formData.Additionalservices,formData.location,formData.returnLocation)
         history(`/payment?amount=${finalAmount}`);
       })
       .catch((error) => {
