@@ -12,3 +12,25 @@ body{
   margin: 0;
   padding: 0;
 }
+
+.CompareVehicle{
+  border-radius: 20px;
+  background-color: #FFFEE0;
+  border-collapse: collapse;
+}
+
+
+.compareTable th, .compareTable td{
+  order: 1px solid #000;
+  text-align: left;
+  padding: 8px;
+}
+
+.compareTable th{
+  background-color: #7A7AFF;
+}
+
+.compareTable tr:nth-child(even) {
+  background-color: #fffee0;
+}
+
