@@ -9,7 +9,6 @@ import { getCookie } from './CookieManager.ts';
 import Navbar from "./components/Navbar/navbar";
 
 
-
 export default function ViewReservation() {
   type reservation = {
     _id: string
@@ -26,17 +25,23 @@ export default function ViewReservation() {
       PortableWiFi: boolean;
       ChildSafetySeats: boolean;
     };
-}
-  const [reservations, setReservations] = useState<string[]>([])
+    carImage: string;
+  }
+  
+
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
-  const [selectedReservation, setSelectedReservation] = useState<reservation >();
+  const [selectedReservation, setSelectedReservation] = useState<reservation>();
+  
+  const [reservations, setReservations] = useState<reservation[]>([])
+
 
   function handleSubmit(event: React.FormEvent, updatedReservationInfo: reservation) {
     event.preventDefault();
     axios.put(`http://localhost:8080/UpdateReservation/${updatedReservationInfo._id}`, updatedReservationInfo)
         .then((res) => {
             if (res.status === 200) {
-                console.log("Reservation updated successfully:", res.data);
+              console.log("Reservation updated successfully:", res.data);
+              window.location.reload();
                 // Optionally, you can perform additional actions after successful update
             }
         })
@@ -44,21 +49,21 @@ export default function ViewReservation() {
             console.error("Error updating reservation:", error);
             // Optionally, handle errors or display an error message to the user
         });
-}
+  }
 
   function pageTitle() {
     return <title>View Reservations</title>;
   }
 
-  function Reservation({ resId }) {
-    
+  function Reservation({ reservation }) {
+
     return (
       <div className="reservationContainer">
-        <img className="carImage" alt="the car in the reservation" />
+        <img className="carImage" src={reservation.carImage} alt="the car in the reservation" />
         <div className="actionbar">
-          <button className="viewLabel" onClick={() => viewReservationOnClick(resId)}>View</button>
+          <button className="viewLabel" onClick={() => viewReservationOnClick(reservation)}>View</button>
           {/* <Modify className="editSVG" onClick={() => modifyReservationOnClick(resId)} /> */}
-          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(resId)} />
+          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(reservation)} />
         </div>
       </div>
     )
@@ -79,39 +84,39 @@ export default function ViewReservation() {
 
 
 
-  function viewReservationOnClick(resId: String) {
-    let reservation: reservation={"location":"","carId":"", "reservationDate":"", "returnDate":"", "_id":"","returnLocation":"","Additionalservices":{
-      Insurance: false,
-      GPS: false,
-      EntertainmentSystems: false,
-      MobilePhones: false,
-      PortableWiFi: false,
-      ChildSafetySeats: false
-  }
-};
-    axios
-      .get("http://localhost:8080/reservations/" + resId)
-      .then((res) => {
-        reservation = {"location":res.data.location, "reservationDate":res.data.reservationDate, "carId":res.data.carId, "returnDate":res.data.returnDate,"_id":res.data._id,"returnLocation":res.data.returnLocation,"Additionalservices":res.data.Additionalservices};
-        console.log(reservation);
-        setSelectedReservation(reservation);
-      });
-    
+  function viewReservationOnClick(reservation: reservation) {
+    setSelectedReservation(reservation);
   }
 
 
   function loadAllReservations() {
     const userId = getCookie("userid");
+
     
-    axios.post("http://localhost:8080/users/" + userId).then((res) => {
-      const user = res.data;
-      setReservations(user.reservations);
+    // get the user details from the backend
+    axios.post("http://localhost:8080/users/" + userId).then((userRes) => {
+      const user = userRes.data;
+
+      // get the user's reservations' details from the backend
+      console.log("printing reservations");
+      for (let i = 0; i < user.reservations.length; i++) {
+        axios
+          .get("http://localhost:8080/reservations/" + user.reservations[i])
+          .then((reservationRes) => {
+
+            axios.get("http://localhost:8080/vehicles/" + reservationRes.data.carId).then((carRes) => {
+              let currentReservation = reservationRes.data;
+              currentReservation.carImage = carRes.data.url;
+              setReservations(prevReservations => [...prevReservations, currentReservation]);
+            });
+          });
+      }
+
       setIsEmpty(user.reservations.length === 0);
-      console.log(res.data);
+      console.log(userRes.data);
     }).catch((error) => {
       console.error("Error:", error);
     });
-  
   }
 
   useEffect(() => {
@@ -129,9 +134,11 @@ export default function ViewReservation() {
       <h3>No reservations found</h3>
       </>
       :
-      <>
-      {reservations.map(resId =>
-        <Reservation key={resId} resId={resId} />
+        <>
+        
+        
+      {reservations.sort((a,b)=>Date.parse(a.reservationDate)-Date.parse(b.reservationDate)).map(reservaton =>
+        <Reservation key={reservaton._id} reservation={reservaton} />
       )}
       </>
       }
@@ -148,11 +155,6 @@ export default function ViewReservation() {
     </div>
   );
 
-  // function getCarImage() {
-  //   axios.get("http://localhost:8080/vehicles/" + selectedReservation.carId).then((res) => {
-  //     return res.data.image;
-  //   });
-  // }
 
   function Form({ formData }: { formData: reservation }) {
     const [updatedReservationInfo, setUpdatedReservationInfo] = useState<reservation>(formData);
@@ -161,10 +163,6 @@ export default function ViewReservation() {
     let reservationDate = formData.reservationDate.substring(0, 10);
     let returnDate = formData.returnDate.substring(0, 10);
 
-    // let imageUrl = getCarImage();
-    // console.log(imageUrl)
-
-    
     const handleCheckboxChange = (serviceName: keyof reservation['Additionalservices'], checked: boolean) => {
       setUpdatedReservationInfo(prevData => ({
       ...prevData,
