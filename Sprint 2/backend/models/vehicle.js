@@ -15,6 +15,7 @@ const vehicleSchema = new Schema({
     year : String,
     licensePlate : String,
     color : String,
+    branchId: String,
   });
   
   const Vehicle = mongoose.model("Vehicle", vehicleSchema);
@@ -32,7 +33,8 @@ const vehicleSchema = new Schema({
       drivetrain,
       year,
       licensePlate,
-      color
+      color,
+      branchId
       ) {
       const vehicle = new Vehicle({
         _id: new mongoose.Types.ObjectId(),
@@ -48,6 +50,7 @@ const vehicleSchema = new Schema({
         year : year,
         licensePlate : licensePlate,
         color : color,
+        branchId: branchId,
       });
       return vehicle.save();
     }
@@ -86,7 +89,8 @@ const vehicleSchema = new Schema({
     drivetrain, 
     year,
     licensePlate,
-    color
+    color,
+    branchId
     ) {
       return Vehicle.findByIdAndUpdate(
         id,
@@ -103,6 +107,7 @@ const vehicleSchema = new Schema({
         year : year,
         licensePlate : licensePlate,
         color : color,
+        branchId:branchId,
         },
         { new: true }
       );

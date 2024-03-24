@@ -299,18 +299,30 @@ app.delete("/reservations/:id", (req, res) => {
 
 // ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
-app.get("/createVehicle", (req, res) => {
-  const createVehicle = VehicleDB.createVehicle(
-    "Ferrari SF90",
-    "Sports Car",
-    "Manual",
-    "2",
-    "Hybrid"
+app.post("/createVehicle", (req, res) => {
+  
+  const vehicleInfo = req.body;
+
+  const createdVehicle = VehicleDB.createVehicle(
+      vehicleInfo.model, 
+      vehicleInfo.type, 
+      vehicleInfo.transmission, 
+      vehicleInfo.numberOfSeats, 
+      vehicleInfo.fuelType, 
+      vehicleInfo.url, 
+      vehicleInfo.rentalPrice, 
+      vehicleInfo.hasBluetooth, 
+      vehicleInfo.drivetrain,
+      vehicleInfo.year,
+      vehicleInfo.licensePlate,
+      vehicleInfo.color,
+      vehicleInfo.branchId,
   );
 
   // Saving the vehicle to the database
-  createVehicle.then((result) => {
+  createdVehicle.then((result) => {
     console.log(result);
+
 
     // Sending the result to the client
     res.send(result);
@@ -359,6 +371,7 @@ app.post("/updateVehicle", (req, res) => {
     newVehicleInfo.year,
     newVehicleInfo.licensePlate,
     newVehicleInfo.color,
+    newVehicleInfo.branchId,
   );
   updateVehicle
     .then((result) => {

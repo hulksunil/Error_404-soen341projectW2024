@@ -3,7 +3,8 @@ import axios from "axios";
 import Navbar from "./components/Navbar/navbar";
 import "./components/Navbar/navbar.css"
 import "./styles/ModifyUsers.css";
-import { updateVehicle } from "../../../backend/models/vehicle";
+import CreateVehicle from "./CreateVehicle.tsx";
+
 
 
 export default function ModifyVehicles(){
@@ -22,9 +23,11 @@ export default function ModifyVehicles(){
         year : String,
         licensePlate : String,
         color : String,
+        branchId : String,
     }
 
     const [allVehicles, setAllVehicles]= useState<vehicle[]>([]);
+    const [createVehicleModal, setCreateVehicleModal] =useState(false);
 
     function pageTitle(){
         return <title>Modify Vehicles</title>
@@ -63,8 +66,6 @@ export default function ModifyVehicles(){
 
     function VehicleRow({vehicleInfo}){
         let updatedVehicleInfo:vehicle=vehicleInfo;
-        
-        console.log(vehicleInfo);
 
         return (
             <>
@@ -125,6 +126,22 @@ export default function ModifyVehicles(){
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.color} className="inputBoxes" form={vehicleInfo._id} name="color" onChange={(e) => updatedVehicleInfo.color = e.target.value} autoComplete="off"/>
                     </td>
+                    <td className="fieldInputs">
+                    <select
+                            className="fieldInputs"
+                            onChange={(e) => {
+                                updatedVehicleInfo.branchId = e.target.value;
+                            }}
+                            form={vehicleInfo._id}
+                            defaultValue={vehicleInfo.branchId}>
+                            <option value="65fb731318f6999f70da4432">CarsRUS: Downtown Montreal</option>
+                            <option value="65fb739018f6999f70da4433">CarsRUs: Montreal West</option>
+                            <option value="65fb73e818f6999f70da4435">CarsRUs: YUL</option>
+                            <option value="65fb740418f6999f70da4437">CarsRUs: YYZ</option>
+                            <option value="65fb741518f6999f70da4438">CarsRUs: King Street</option>
+                            <option value="65fb742518f6999f70da4439">CarsRUs: Dundas East</option>
+                        </select>
+                    </td>
                     <td className="confirmation">
                         <input type="submit" className="submitButton" id="updateButton" form={vehicleInfo._id} value="Update" />
                         <button className="submitButton" id="deleteButton" form={vehicleInfo._id} onClick={() => deleteVehicle(vehicleInfo)}>Delete</button>
@@ -149,12 +166,17 @@ export default function ModifyVehicles(){
             });
     }, []);
 
+    function toggleCreateVehicleModal(){
+        setCreateVehicleModal(!createVehicleModal);
+        console.log("HELLO");
+    }
+
     return (
         <>
             <Navbar />
             {pageTitle()}
             <h1>{document.title}</h1>
-            <button className='LogBtn'>Create Vehicle</button>
+            <button className='LogBtn' onClick={toggleCreateVehicleModal}>Create Vehicle</button>
             <table className="vehicleTable">
                 <thead>
                     <tr>
@@ -170,6 +192,7 @@ export default function ModifyVehicles(){
                         <th>Year</th>
                         <th>License Plate</th>
                         <th>Color</th>
+                        <th>Branch ID</th>
                         <th>Confirm</th>
                     </tr>
                 </thead>
@@ -179,6 +202,17 @@ export default function ModifyVehicles(){
                     )}
                 </tbody>
             </table>
+
+            {createVehicleModal && (
+                <>
+                <div className="overlay" onClick={toggleCreateVehicleModal} />
+                <div className="modal-content2">
+                    <CreateVehicle
+                    toggleModal={toggleCreateVehicleModal}
+                    />
+                </div>
+                </>
+            )}
         </>
     );
 }
