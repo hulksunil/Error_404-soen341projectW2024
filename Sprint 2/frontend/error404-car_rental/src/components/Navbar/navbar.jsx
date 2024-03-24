@@ -5,6 +5,7 @@ import { clearCookies, getCookie,storeCookies } from '../../CookieManager.ts';
 import LogIn from "../../LogIn.tsx";
 import CreateUser from "../../CreateUser.tsx";
 import axios from "axios";
+import Carslogo from "../Navbar/carsruslogo2.png";
 // import AdminManagement from "../../AdminManagement.tsx"
 
 function Navbar() {
@@ -59,12 +60,12 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to={"/"} className="navTitleName"><h1>CARS R US</h1></Link>
+      <Link to={"/"} className="navTitleName"><img src={Carslogo} alt="" /></Link>
       <div className="desktopMenu">
       <Link to="/" className="desktopMenuListItem">Home</Link>
         <Link to="/browse" className="desktopMenuListItem">Browse</Link>
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
-        <Link className="desktopMenuListItem">About Us</Link>
+        <Link className="desktopMenuListItem" to="/aboutus">About Us</Link>
         <Link className="desktopMenuListItem" to="/findBranch">Find A Branch</Link>
         {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
         {isCSR && (<Link to="/csrview" className="desktopMenuListItem">CSR Management</Link>)}
