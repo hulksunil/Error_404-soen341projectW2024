@@ -15,7 +15,7 @@ const vehicleSchema = new Schema({
     year : String,
     licensePlate : String,
     color : String,
-    branchId: String,
+    branchId: mongoose.Schema.Types.ObjectID,
   });
   
   const Vehicle = mongoose.model("Vehicle", vehicleSchema);
