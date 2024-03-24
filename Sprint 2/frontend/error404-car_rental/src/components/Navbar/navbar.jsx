@@ -65,7 +65,7 @@ function Navbar() {
       <Link to="/" className="desktopMenuListItem">Home</Link>
         <Link to="/browse" className="desktopMenuListItem">Browse</Link>
         <Link to="/viewreservation" className="desktopMenuListItem">Reservation</Link>
-        <Link className="desktopMenuListItem">About Us</Link>
+        <Link className="desktopMenuListItem" to="/aboutus">About Us</Link>
         <Link className="desktopMenuListItem" to="/findBranch">Find A Branch</Link>
         {isAdmin && (<Link to="/adminview" className="desktopMenuListItem">Admin Management</Link>)}
         {isCSR && (<Link to="/csrview" className="desktopMenuListItem">CSR Management</Link>)}
