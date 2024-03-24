@@ -17,10 +17,14 @@ function Modal(props) {
           </div>
           <div className='modal-body'>
             <div className="imagemodal"><img src={car.url} alt="" /></div>
-            <div>Type: {car.type}</div>
-            <div>No. of Seats: {car.numberOfSeats}</div>
-            <div>Fuel Type: {car.fuelType}</div>
-            <div>Transmission: {car.transmission}</div>
+            <div className='modalAttributes'>Type: {car.type}</div>
+            <div className='modalAttributes'>No. of Seats: {car.numberOfSeats}</div>
+            <div className='modalAttributes'>Fuel Type: {car.fuelType}</div>
+            <div className='modalAttributes'>Transmission: {car.transmission}</div>
+            <div className='modalAttributes'>Rental Price: {car.rentalPrice}</div>
+            <div className='modalAttributes'>Color: {car.color}</div>
+            <div className='modalAttributes'>Drivetrain: {car.drivetrain}</div>
+            <div className='modalAttributes'>Bluetooth: {car.hadBluetooth}</div>
             {/* Add additional information here */}
           </div>
           <button className='close-btn' onClick={onClose}>Close</button>

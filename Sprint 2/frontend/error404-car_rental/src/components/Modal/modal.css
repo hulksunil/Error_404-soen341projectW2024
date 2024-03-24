@@ -24,6 +24,10 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .modalAttributes{
+    text-align: left;
+  }
   
   
 
@@ -36,6 +40,7 @@
     height: 200px;
     overflow: hidden;
     border: 2px solid #000;
+    margin-bottom: 20px;
     
   }
 
