@@ -9,7 +9,7 @@ const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const BranchDB = require("./models/branch");
 
-const CheckoutDB = require('./models/checkout');
+const CheckoutDB = require("./models/checkout");
 const app = express();
 
 const PORT = 8080;
@@ -18,7 +18,6 @@ const PORT = 8080;
 app.use(express.urlencoded());
 app.use(cors());
 app.use(bodyParser.json());
-
 
 const dbURI =
   "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
@@ -190,7 +189,15 @@ const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
-  const { userId, carId, reservationDate, returnDate, location,returnLocation,Additionalservices} = req.body;
+  const {
+    userId,
+    carId,
+    reservationDate,
+    returnDate,
+    location,
+    returnLocation,
+    Additionalservices,
+  } = req.body;
   console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
@@ -262,7 +269,7 @@ app.put("/UpdateReservation/:id", (req, res) => {
     updatedReservationData.returnDate,
     updatedReservationData.location,
     updatedReservationData.returnLocation,
-    updatedReservationData.Additionalservices,
+    updatedReservationData.Additionalservices
   );
 
   updatedReservation
@@ -321,7 +328,7 @@ app.get("/vehicles/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
   vehicle = VehicleDB.findVehicleById(id);
-  user
+  vehicle
     .then((result) => {
       res.send(result);
     })
@@ -379,12 +386,11 @@ app.delete("/vehicles/:id", (req, res) => {
       console.log(err);
     });
 
-    //============================================================CHECKOUT DB===========================================================
+  //============================================================CHECKOUT DB===========================================================
 });
 
 //Create a checkout
 app.post("/CreateCheckout", (req, res) => {
-  
   const { reservationId, trait, action } = req.body;
   console.log("Received checkout data:", req.body);
   const createdCheckout = CheckoutDB.createCheckout(
@@ -394,9 +400,7 @@ app.post("/CreateCheckout", (req, res) => {
   );
 
   createdCheckout
-    .then((result) => {
-      
-    })
+    .then((result) => {})
     .catch((error) => {
       // Handle error
       console.error("Error creating checkout:", error);
@@ -404,18 +408,18 @@ app.post("/CreateCheckout", (req, res) => {
     });
 });
 //Call all checkouts
-  app.get("/checkout", (req, res) => {
-    checkouts = CheckoutDB.findAllCheckouts();
-    checkouts
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log("Error finding all checkouts.\n" + err);
-      });
-  });
-  // Call a checkout by id
-  // Reading a reservation by ID
+app.get("/checkout", (req, res) => {
+  checkouts = CheckoutDB.findAllCheckouts();
+  checkouts
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error finding all checkouts.\n" + err);
+    });
+});
+// Call a checkout by id
+// Reading a reservation by ID
 app.get("/checkout/:id", (req, res) => {
   const id = req.params.id;
   checkout = CheckoutDB.findCheckoutById(id);
@@ -446,25 +450,27 @@ app.delete("/deleteCheckouts", (req, res) => {
 app.get("/createBranch", (req, res) => {
   const branchInfo = req.body;
 
-  const createBranch = BranchDB.createBranch(branchInfo.locationName,branchInfo.lat,branchInfo.long);
+  const createBranch = BranchDB.createBranch(
+    branchInfo.locationName,
+    branchInfo.lat,
+    branchInfo.long
+  );
 
   createBranch.then((result) => {
     res.send(result);
   });
 });
 
-app.get("/branches",(req,res)=>{
+app.get("/branches", (req, res) => {
   branches = BranchDB.findAllBranches();
   branches
-  .then((result) => {
-    res.send(result);
-  })
-  .catch((err) => {
-    console.log("Error in finding all branches.\n" + err);
-  });
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding all branches.\n" + err);
+    });
 });
-
-
 
 // ========================================================================================================================
 // SOME TEST CODE (Can ignore if you want)
