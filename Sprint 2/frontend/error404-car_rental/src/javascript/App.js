@@ -49,9 +49,9 @@ function App() {
             element={<CheckoutRedirect />}
           />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
-          <Route path="/car_rentral_agreement" element={<RentalAgreement />} />
+          <Route path="/car_rental_agreement/:reservationId" element={<RentalAgreement />} />
           <Route path="/check_in" element={<CheckInForm />} />
-          <Route path="/approved_check-in" element={<CheckInApproved />} />
+          <Route path="/approved_check-in/:carId" element={<CheckInApproved />} />
         </Routes>
       </BrowserRouter>
     </div>
