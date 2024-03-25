@@ -15,7 +15,9 @@ const getCurrentDate = () => {
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
   const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const hours = String(today.getHours()).padStart(2, "0");
+  const minutes = String(today.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 const CarRentalReservation = () => {
@@ -112,11 +114,11 @@ const CarRentalReservation = () => {
         if (!isNaN(selectedDate.getTime())) {
           const nextDay = new Date(selectedDate);
           nextDay.setDate(selectedDate.getDate() + 1);
-          const nextDayString = nextDay.toISOString().split('T')[0];
+          const nextDayString = nextDay.toISOString().split('T')[0]+ value.substr(10);
           setFormData({
             ...formData,
             [name]: value,
-            returnDate: nextDayString
+            returnDate: nextDayString  // Maintain time part as it is
           });
         }
       } else {
@@ -235,10 +237,10 @@ const CarRentalReservation = () => {
             <tbody>
               { }
               <tr>
-                <th>Pickup Date:</th>
+                <th>Pickup Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="reservationDate"
                     value={formData.reservationDate}
                     onChange={handleChange}
@@ -249,10 +251,10 @@ const CarRentalReservation = () => {
                 </td>
               </tr>
               <tr>
-                <th>Return Date:</th>
+                <th>Return Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
@@ -302,9 +304,8 @@ const CarRentalReservation = () => {
                     checked={formData.Additionalservices.Insurance}
                     onChange={handleChange}
                   />
-                  <label htmlFor="s1">  Insurance </label>
+                  <label htmlFor="s1">Insurance</label>
                   <br />
-
                   <input
                     type="checkbox"
                     id="s2"
