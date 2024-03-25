@@ -51,8 +51,7 @@ function Sidebar({ handleFilterChange }) {
             <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Hybrid')} className='typeinput'/> Hybrid
             <br />
           </div>
-          <br />
-          <div className="compareInfo">*Scroll down to view comparison</div>
+          
       </div>
     
 
