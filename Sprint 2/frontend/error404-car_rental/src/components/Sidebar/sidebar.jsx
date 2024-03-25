@@ -3,13 +3,11 @@ import React, {useEffect,useState} from 'react';
 import "./sidebar.css";
 import axios from "axios";
 
-function Sidebar({ handleFilterChange }) {
+function Sidebar({ handleFilterChange, branchId }) {
 
   const [allBranches, setAllBranches] = useState([]);
-  const [branchId, setBranchId] = useState("");
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
 
     axios
         .get("http://localhost:8080/branches")
@@ -22,10 +20,8 @@ function Sidebar({ handleFilterChange }) {
             console.error("Error:", error);
         });
 
-        const branchId = searchParams.get("branchId");
         if(branchId){
           handleFilterChange("branch",branchId)
-          setBranchId(branchId);
         }
 }, []);
 
@@ -83,7 +79,7 @@ function Sidebar({ handleFilterChange }) {
           <h3 className='titlecheck'>Branch:</h3>
           {allBranches.map(branch =>
           <>
-            <input key={branch._id} type="checkbox" className='typeinput' onChange= {() => handleFilterChange('branch', `${branch._id}`)}/>{branch.name} 
+            <input key={branch._id} type="checkbox" defaultChecked={branchId==branch._id} className='typeinput' onChange= {() => handleFilterChange('branch', `${branch._id}`)}/>{branch.name} 
             <br/>
           </>  
           )}
