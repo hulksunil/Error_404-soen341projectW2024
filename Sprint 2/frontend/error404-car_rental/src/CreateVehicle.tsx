@@ -216,7 +216,7 @@ export default function CreateVehicle(props){
                     <tr>
                         <td className="fieldLabels">Bluetooth</td>
                         <td className="fieldInputs">
-                        <select>
+                        <select onChange={(e) => setHasBluetooth(e.target.value)}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
@@ -225,7 +225,7 @@ export default function CreateVehicle(props){
                     <tr>
                         <td className="fieldLabels">Drivetrain</td>
                         <td className="fieldInputs">
-                        <select>
+                        <select onChange={(e) => setDrivetrain(e.target.value)}>
                             <option value="Rear-wheel drive">Rear-wheel drive</option>
                             <option value="Front-wheel drive">Front-wheel drive</option>
                             <option value="4-wheel drive">4-wheel drive</option>
