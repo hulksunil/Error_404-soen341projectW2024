@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import "./styles/agreement.css"
 import Navbar from "./components/Navbar/navbar.jsx";
-
+import axios from 'axios';
+import { useParams,useNavigate } from 'react-router-dom';
+import { getCookie } from "./CookieManager.ts";
 
 function RentalAgreement() {
+
+    const { reservationId } = useParams();
 
     const getTodayDate = () => {
       const today = new Date();
@@ -13,7 +17,94 @@ function RentalAgreement() {
       return `${dd}-${mm}-${yyyy}`;
     };
 
+    const history = useNavigate();
     const [currentDate, setCurrentDate] = useState(getTodayDate());
+    const [signature, setSignature] = useState('');
+    const [reservationData, setReservationData] = useState(null);
+    const [userData, setUserData] = useState(null);
+    const [carData, setCarData] = useState(null);
+    const [rentalPeriod, setRentalPeriod] = useState({
+        days: 0,
+        minutes: 0
+    });
+    const [currentUser, setCurrentUser] = useState(null);
+
+
+    useEffect(() => {
+
+        const current_userId = getCookie('userid');
+        if (current_userId) {
+            axios.post(`http://localhost:8080/users/${current_userId}`)
+                .then(userResponse => {
+                    setCurrentUser(userResponse.data);
+                    setUserData(userResponse.data); // Set user data state
+                })
+                .catch(error => {
+                    console.error("Error fetching user data:", error);
+                });
+          }
+
+        axios.get(`http://localhost:8080/reservations/${reservationId}`)
+            .then(response => {
+                const reservationData = response.data;
+                const userId = reservationData.userId;
+                const carId = reservationData.carId;
+
+                axios.post(`http://localhost:8080/users/${userId}`)
+                    .then(userResponse => {
+                        setUserData(userResponse.data); // Set user data state
+                    })
+                    .catch(error => {
+                        console.error("Error fetching user data:", error);
+                    });
+                
+                // Fetch car data based on carId
+                axios.get(`http://localhost:8080/vehicles/${carId}`)
+                    .then(carResponse => {
+                        setCarData(carResponse.data); // Set car data state
+                    })
+                    .catch(error => {
+                        console.error("Error fetching car data:", error);
+                    });
+
+                // Set reservation data state
+                setReservationData(reservationData);
+                calculateRentalPeriod(reservationData.reservationDate, reservationData.returnDate);
+            })
+            .catch(error => {
+                console.error("Error fetching reservation data:", error);
+            });
+    }, [reservationId]);
+
+    const calculateRentalPeriod = (pickupDate, returnDate) => {
+        const pickupTime = new Date(pickupDate).getTime();
+        const returnTime = new Date(returnDate).getTime();
+        const diffTime = returnTime - pickupTime;
+    
+        // Calculate days and minutes separately
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60));
+    
+        setRentalPeriod({
+            days: diffDays,
+            minutes: diffMinutes
+        });
+    };
+    
+    const username = userData ? `${userData.firstName} ${userData.lastName}` : 'Loading...';
+    const fullname = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'Loading...';
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (signature === username) {
+            history(`/approved_check-in/${reservationData.carId}`);
+        }
+        else {
+
+            alert("Signature does not match username. Please try again.");
+        }
+    };
 
     return (
         <>
@@ -22,38 +113,61 @@ function RentalAgreement() {
                 <h1>Car rental agreement</h1>
                 <div className="box">
                     <p>
-                        Rental Agreement Number:<br /><br />
-                        This Rental Agreement ("Agreement") is entered into between [Car Rental Agency Name], located at [Address], hereinafter referred to as the "Rental Company," and the individual or entity identified below, hereinafter referred to as the "Renter":
+                        Rental Agreement Number: {reservationData ? reservationData.userId : 'loading...'} <br /><br />
+                        This Rental Agreement ("Agreement") is entered into between {fullname}, located at {reservationData ? reservationData.location : 'loading...'} , hereinafter referred to as the "Rental Company," and the individual or entity identified below, hereinafter referred to as the "Renter":
                     </p>
                     <ol type="1">
+                    {userData && (
+                        <>
                         <li className="li">Renter's Information:</li>
-                        <p>
-                            Name: <br />
-                            Address:<br />
-                            Contact Number:<br />
-                            Email Address: <br />
-                            Driver's License Number:  <br />
-                        </p>
-                        <li className="li">Vehicle Information:</li>
-                        <p>
-                            Make:  <br />
-                            Model:  <br />
-                            Year: <br />
-                            License Plate Number: <br />
-                            Vehicle Identification Number (VIN):<br />
-                            Color: <br />
-                        </p>
-                        <li className="li">Rental Details:</li>
-                        <p>
-                            Rental Start Date: <br />
-                            Rental End Date: <br />
-                            Pick-up Location: <br />
-                            Drop-off Location: <br />
-                            Rental Period: <br />
-                            Mileage Limit (if applicable): none  <br />
-                            Rental Rate: <br />
-                            Additional Services (if any): <br />
-                        </p>
+                          <p>
+                              Name: {username}<br />
+                              Address: {userData.address}<br />
+                              Contact Number: {userData.contactNum}<br />
+                              Email Address: {userData.email} <br />
+                              Driver's License Number: {userData.licenseNum} <br />
+                          </p>
+                        </>
+                        )}
+                        {carData && (
+                          <>
+                            <li className="li">Vehicle Information:</li>
+                            <p>
+                                Make: {carData.model}  <br />
+                                Model: {carData.type} <br />
+                                Year: {carData.year} <br />
+                                License Plate Number: {carData.licensePlate} <br />
+                                Vehicle Identification Number (VIN): {reservationData.carId}<br />
+                                Color: {carData.color} <br />
+                            </p>
+                          </>
+                        )}
+                        {reservationData && (
+                          <>
+                            <li className="li">Rental Details:</li>
+                            <p>
+                                Rental Start Date: {reservationData.reservationDate} <br />
+                                Rental End Date: {reservationData.returnDate} <br />
+                                Pick-up Location: {reservationData.location} <br />
+                                Drop-off Location: {reservationData.returnLocation} <br />
+                                Rental Period: {rentalPeriod.days} days and {rentalPeriod.minutes} minutes <br />
+                                Mileage Limit (if applicable): none  <br />
+                                Rental Rate: <br />
+                                Additional Services (if any): 
+                                    {Object.values(reservationData.Additionalservices).some(service => service) ? (
+                                <ul>
+                                    {Object.entries(reservationData.Additionalservices).map(([serviceName, isAvailable]) => (
+                                    isAvailable && (
+                                        <li key={serviceName}>{serviceName}</li>
+                                    )
+                                    ))}
+                                </ul>
+                                ) : (
+                                <p>None</p>
+                                )}
+                            </p>
+                          </>
+                        )}
                         <li className="li">Rental Terms and Conditions:</li>
                             <ul style={{ listStyleType: 'disc' }}>
                                 <p>
@@ -70,12 +184,12 @@ function RentalAgreement() {
                         <li className="li">Indemnification:</li>
                             <p>The Renter agrees to indemnify and hold harmless the Rental Company, its employees, agents, and affiliates from any claims, liabilities, damages, or expenses arising out of or related to the Renter's use of the vehicle.</p>
                         <li className="li">Governing Law:</li>
-                            <p>This Agreement shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes arising under or related to this Agreement shall be resolved exclusively by the courts of [Jurisdiction].</p>
+                            <p>This Agreement shall be governed by and construed in accordance with the laws of {reservationData ? reservationData.location : 'loading...'}. Any disputes arising under or related to this Agreement shall be resolved exclusively by the courts of {reservationData ? reservationData.location : 'loading...'}.</p>
                         <li className="li">Entire Agreement:</li>
                             <p>This Agreement constitutes the entire understanding between the parties concerning the subject matter hereof and supersedes all prior agreements and understandings, whether written or oral.</p>
                         <li className="li">Signatures</li>
                             <p>The parties hereto have executed this Agreement as of the date first written above.<br /><br />
-                             <form action='/approved_check-in'>
+                             <form onSubmit={handleSubmit}>
                                 <b>Rental Company:</b> <br /><br />
                                 Print Name: CARS R US <br /><br />
                                 <label htmlFor="signature">Signature: </label>
@@ -84,10 +198,10 @@ function RentalAgreement() {
                                 <label htmlFor='compagny_date'>Date: </label>
                                 <input type="text" name="compagny_date" id="compagny_date" value={currentDate} readOnly className='required_field' /> <br /><br />
                                 <b>Renter:</b><br /><br />
-                                Print Name: <br /><br />
+                                Print Name: {username} <br /><br />
                                 <div>
                                     <label htmlFor="signature">Signature: </label>
-                                    <input type="text" name="signature" id="signature" className='required_field' required />
+                                    <input type="text" name="signature" id="signature" className='required_field' required onChange={(event) => setSignature(event.target.value)} />
                                     &nbsp;&nbsp;
                                     <label htmlFor="date">Date: </label>
                                     <input type="text" name="date" id="date" value={currentDate} readOnly className='required_field' />
@@ -106,3 +220,4 @@ function RentalAgreement() {
 }
 
 export default RentalAgreement;
+

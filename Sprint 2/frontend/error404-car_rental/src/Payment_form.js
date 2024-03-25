@@ -43,11 +43,10 @@ const CarRentalPayment = () => {
             <th>Amount:</th>
             <td>
               <input
-                type="number"
-                min="0"
-                step="0.01"
+                type="text"
                 className="outlined_fields"
                 required
+                readOnly
                 value={amount}
               />
             </td>

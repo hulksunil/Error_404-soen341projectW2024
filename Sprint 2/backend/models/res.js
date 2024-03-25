@@ -100,7 +100,7 @@ class ReservationDB {
     let x = ReservationDB.includes(carId);
     Boolean(x);
     if (true){
-      // car ID is included in reservationDB therefore has a booking
+      Reservation.find({ carId: carId });
       // check if dates user selects conflict with current booking
       // if they do then car is unavailable
       // maybe check return date of existing reservation which can be differentiated by user ID and pick up date of new reservation

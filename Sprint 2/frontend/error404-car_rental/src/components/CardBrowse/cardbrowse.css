@@ -55,4 +55,16 @@
     background-color: #FFFEE0; 
 }
 
+.compareBtn{
+    text-align: center;
+    border-radius: 20px;
+    background-color: #ADADFF;
+    width: 70px;
+    margin: 15px;
+}
+
+.compareBtn :hover{
+    cursor: pointer;
+    background-color: #FFFEE0; 
+}
 

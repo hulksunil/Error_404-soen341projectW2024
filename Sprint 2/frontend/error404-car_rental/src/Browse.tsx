@@ -29,6 +29,12 @@ export default function Browse() {
     _id:string,
     url: string,
     branchId:string
+    rentalPrice: string,
+    drivetrain: string,
+    year: string,
+    color: string,
+    licensePlate: string,
+    hasBluetooth: string
 
   }
 
@@ -128,6 +134,13 @@ export default function Browse() {
             numberOfSeats={car.numberOfSeats}
             fuelType={car.fuelType}
             url={car.url}
+            rentalPrice={car.rentalPrice}
+            drivetrain={car.drivetrain}
+            year={car.year}
+            color={car.color}
+            licensePlate={car.licensePlate}
+            hasBluetooth={car.hasBluetooth}
+
           />
 
        )}

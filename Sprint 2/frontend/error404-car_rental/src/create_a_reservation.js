@@ -118,8 +118,6 @@ const CarRentalReservation = () => {
     const regex = /[{}]/g;
     let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
     let filteredServices = additionalArray.filter(item => item.includes("true"));
-    let pickupBranch;
-    let dropoffBranch;
 
 
 
@@ -256,14 +254,6 @@ const CarRentalReservation = () => {
               <tr>
                 <th> Pickup location:</th>
                 <td>
-                  {/* <input
-                    type="text"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="outlined_fields"
-                    required
-                  /> */}
                   <select
                     className="branchDropDown"
                     onChange={(e) => {
@@ -279,14 +269,6 @@ const CarRentalReservation = () => {
               <tr>
                 <th> Return location:</th>
                 <td>
-                  {/* <input
-                    type="text"
-                    name="returnLocation"
-                    value={formData.returnLocation}
-                    onChange={handleChange}
-                    className="outlined_fields"
-                    required
-                  /> */}
                   <select
                     className="branchDropDown"
                     onChange={(e) => {
