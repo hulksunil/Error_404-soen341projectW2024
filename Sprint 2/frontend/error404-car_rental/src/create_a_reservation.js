@@ -36,11 +36,20 @@ const CarRentalReservation = () => {
 
   const location = useLocation();
 
+  const [reservationDates, setReservationDates] = useState({
+
+  })
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const carId = searchParams.get("carId");
     console.log("Car ID:", carId);
     setFormData({ ...formData, carId: carId });
+    axios
+      .get("http://localhost:8080/checkCarAvailability/" + carId)
+      .then((res) => {
+        setReservationDates(res.data);
+      });
   }, [location]);
 
   const history = useNavigate();
@@ -73,16 +82,34 @@ const CarRentalReservation = () => {
       }
     }
   };
-  
+
+  function checkGivenUserDates() {
+    for (let index = 0; index < reservationDates.length; index++) {
+      const element = reservationDates[index];
+      
+      const existingReservationDate = new Date(element.reservationDate);
+      const existingReturnDate = new Date(element.returnDate);
+      const givenReservationDate = new Date(formData.reservationDate);
+      const givenReturnDate= new Date(formData.returnDate);
+     
+      if((givenReservationDate >= existingReservationDate && givenReservationDate <= existingReturnDate) 
+        || (givenReturnDate >= existingReservationDate && givenReturnDate <= existingReturnDate)){
+      console.log("Car not available!");
+      return false;
+     }
+    }
+    return true;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
       alert("Return date cannot be before or the same as reservation date");
       return;
     }
-      
+
     // Create the reservation data
     const reservationData = {
       userId: formData.userId,
@@ -93,7 +120,9 @@ const CarRentalReservation = () => {
       returnLocation: formData.returnLocation,
       Additionalservices: formData.Additionalservices,
     };
-  
+
+    checkGivenUserDates();
+
     axios
       .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
@@ -105,30 +134,30 @@ const CarRentalReservation = () => {
           returnLocation: "",
         });
         const reservationDate = new Date(formData.reservationDate);
-const returnDate = new Date(formData.returnDate);
-const differenceInTime = returnDate.getTime() - reservationDate.getTime();
-const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+        const returnDate = new Date(formData.returnDate);
+        const differenceInTime = returnDate.getTime() - reservationDate.getTime();
+        const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
 
-let finalAmount;
+        let finalAmount;
 
-if (formData.carId.includes("667a")) {
-  finalAmount = differenceInDays * 1100; 
-} else if (formData.carId.includes("096e")) {
-  finalAmount = differenceInDays * 50; 
-} else if (formData.carId.includes("cc82")) {
-  finalAmount = differenceInDays * 70; 
-} else if (formData.carId.includes("fcee")) {
-  finalAmount = differenceInDays * 95; 
-} else if (formData.carId.includes("eb33")) {
-  finalAmount = differenceInDays * 60; 
-} else if (formData.carId.includes("ab4e")) {
-  finalAmount = differenceInDays * 40;
-} else {
-  finalAmount = differenceInDays * 80;
-}
+        if (formData.carId.includes("667a")) {
+          finalAmount = differenceInDays * 1100;
+        } else if (formData.carId.includes("096e")) {
+          finalAmount = differenceInDays * 50;
+        } else if (formData.carId.includes("cc82")) {
+          finalAmount = differenceInDays * 70;
+        } else if (formData.carId.includes("fcee")) {
+          finalAmount = differenceInDays * 95;
+        } else if (formData.carId.includes("eb33")) {
+          finalAmount = differenceInDays * 60;
+        } else if (formData.carId.includes("ab4e")) {
+          finalAmount = differenceInDays * 40;
+        } else {
+          finalAmount = differenceInDays * 80;
+        }
 
-history(`/payment?amount=${finalAmount}`);
-     
+        history(`/payment?amount=${finalAmount}`);
+
       })
       .catch((error) => {
         console.error("Error creating reservation:", error);
@@ -148,7 +177,7 @@ history(`/payment?amount=${finalAmount}`);
         <form onSubmit={handleSubmit}>
           <table className="reservationTable">
             <tbody>
-              {}
+              { }
               <tr>
                 <th>Pickup Date:</th>
                 <td>
@@ -206,60 +235,60 @@ history(`/payment?amount=${finalAmount}`);
               <tr>
                 <th>Additional services</th>
                 <td>
-                    <input
-                      type="checkbox"
-                      id="s1"
-                      name="Insurance"
-                      checked={formData.Additionalservices.Insurance}
-                      onChange={handleChange}
-                    /> 
+                  <input
+                    type="checkbox"
+                    id="s1"
+                    name="Insurance"
+                    checked={formData.Additionalservices.Insurance}
+                    onChange={handleChange}
+                  />
                   <label htmlFor="s1">  Insurance </label>
                   <br />
-                  
-                    <input
-                      type="checkbox"
-                      id="s2"
-                      name="GPS"
-                      checked={formData.Additionalservices.GPS}
-                      onChange={handleChange}
-                    />
+
+                  <input
+                    type="checkbox"
+                    id="s2"
+                    name="GPS"
+                    checked={formData.Additionalservices.GPS}
+                    onChange={handleChange}
+                  />
                   <label htmlFor="s2">GPS</label>
                   <br />
-                    <input
-                      type="checkbox"
-                      id="s3"
-                      name="EntertainmentSystems"
-                      checked={formData.Additionalservices.EntertainmentSystems}
-                      onChange={handleChange}
-                    />
+                  <input
+                    type="checkbox"
+                    id="s3"
+                    name="EntertainmentSystems"
+                    checked={formData.Additionalservices.EntertainmentSystems}
+                    onChange={handleChange}
+                  />
                   <label htmlFor="s3">Entertainment systems</label>
                   <br />
-                  
-                    <input
-                      type="checkbox"
-                      id="s4"
-                      name="MobilePhones"
-                      checked={formData.Additionalservices.MobilePhones}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="s4">Mobile phones</label>
+
+                  <input
+                    type="checkbox"
+                    id="s4"
+                    name="MobilePhones"
+                    checked={formData.Additionalservices.MobilePhones}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="s4">Mobile phones</label>
                   <br />
-                    <input
-                      type="checkbox"
-                      id="s5"
-                      name="PortableWiFi"
-                      checked={formData.Additionalservices.PortableWiFi}
-                      onChange={handleChange}
-                    />
+                  <input
+                    type="checkbox"
+                    id="s5"
+                    name="PortableWiFi"
+                    checked={formData.Additionalservices.PortableWiFi}
+                    onChange={handleChange}
+                  />
                   <label htmlFor="s5">Portable WiFi</label>
                   <br />
-                    <input
-                      type="checkbox"
-                      id="s6"
-                      name="ChildSafetySeats"
-                      checked={formData.Additionalservices.ChildSafetySeats}
-                      onChange={handleChange}
-                    />
+                  <input
+                    type="checkbox"
+                    id="s6"
+                    name="ChildSafetySeats"
+                    checked={formData.Additionalservices.ChildSafetySeats}
+                    onChange={handleChange}
+                  />
                   <label htmlFor="s6">Child safety seats</label>
                 </td>
               </tr>
@@ -276,11 +305,11 @@ history(`/payment?amount=${finalAmount}`);
               type="reset"
               value="Reset"
               className="reset"
-              
+
               onClick={() => {
                 setFormData({
                   ...formData,
-                  reservationDate:"",
+                  reservationDate: "",
                   returnDate: "",
                   location: "",
                   returnLocation: "",
