@@ -149,11 +149,11 @@ const CarRentalReservation = () => {
     }
 
     if(formData.location.length == 0){
-      formData.location = allBranches[0]._id
+      formData.location = allBranches[0].name
     }
 
     if(formData.returnLocation.length == 0){
-      formData.returnLocation = allBranches[0]._id
+      formData.returnLocation = allBranches[0].name
     }
     
     // Create the reservation data

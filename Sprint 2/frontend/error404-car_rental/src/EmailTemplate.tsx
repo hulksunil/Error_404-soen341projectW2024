@@ -25,7 +25,7 @@ export default function EmailTemplate(props) {
             <br />Additional services: {reservationInfo.additional}
             <br />
             <br />Deposit: 500$
-            <br />Total cost: {reservationInfo.total }
+            <br />Total cost: {reservationInfo.total}$
             <hr />
             <h2>Pick up instructions:</h2>
             <p>Upon arrival to <b>{reservationInfo.pickup}</b>, enter the building and prepare to show the receptionist the conformation number. Once the receptionist serves you, they will lead you to the car and do a thorough inspection with you before handing the keys over.   This inspection includes photos of the car in its current condition, explaining any features required, and detailing emergency equipment for the car.</p>
