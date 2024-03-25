@@ -8,7 +8,7 @@ import {
     fromAddress,
     OutputFormat,
 } from "react-geocode";
-import { GeoPosition } from 'geo-position.ts';
+import { useNavigate } from "react-router-dom";
 
 export default function FindBranch() {
     type branch = {
@@ -18,6 +18,7 @@ export default function FindBranch() {
         name: string,
         distance: number
     }
+    const history = useNavigate();
 
     const [address, setAddress] = useState("");
     const [latlong, setLatlong] = useState({ lat: 0, long: 0, fullAddress: "" })
@@ -88,7 +89,7 @@ export default function FindBranch() {
     };
 
     function viewBranch(branchid) {
-        //switch to browse then filter 
+        history(`/browse?branchId=${branchid}`);
     }
 
     function BranchRow({ branchInfo }) {

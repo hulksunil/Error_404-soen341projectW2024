@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from './components/Navbar/navbar';
 import "./components/Navbar/navbar.css"
 
 const TransactionApproved = () => {
-  
 
   return React.createElement(
     "div",
@@ -16,7 +15,7 @@ const TransactionApproved = () => {
       React.createElement(
         "p",
         null,
-        "Your payment has been successfully processed. Thank you for your reservation! Make a new selection from the Nav Bar to exit"
+        "Your payment has been successfully processed. Thank you for your reservation! Make a new selection from the Nav Bar to exit. You will receive an confirmation email shortly."
       
       )
     )
