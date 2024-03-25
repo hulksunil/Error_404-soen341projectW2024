@@ -198,7 +198,7 @@ app.post("/CreateReservation", (req, res) => {
     returnLocation,
     Additionalservices,
   } = req.body;
-  console.log("Received reservation data:", req.body);
+  //console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
     userId,
@@ -412,7 +412,7 @@ app.delete("/vehicles/:id", (req, res) => {
 //Create a checkout
 app.post("/CreateCheckout", (req, res) => {
   const { reservationId, trait, action } = req.body;
-  console.log("Received checkout data:", req.body);
+  //console.log("Received checkout data:", req.body);
   const createdCheckout = CheckoutDB.createCheckout(
     reservationId,
     trait,
@@ -503,6 +503,47 @@ app.get("/branches/:id",(req,res) => {
     console.log("Error in finding the branch by id\n" + err);
   });
 });
+
+// ======================================================== SEND EMAIL ========================================================
+const nodemailer = require("nodemailer");
+
+//https://www.w3schools.com/nodejs/nodejs_email.asp
+//https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
+
+const senderEmail = "sebastian.iaricci@gmail.com";
+
+//Configuration of the mailer
+const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: senderEmail,
+      pass: "iukn eedy iusd ttmr",
+    },
+  });
+
+app.post("/sendEmail",(req,res) => {
+  //userEmail , confirmationHtml 
+  const emailInfo = req.body;
+
+    const mailOptions = {
+      from: senderEmail,
+      to: emailInfo.userEmail,
+      subject: "CarsRUs Rental Information",
+      html: emailInfo.confirmationHtml,
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log('error' + error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+});
+
 
 // ========================================================================================================================
 // SOME TEST CODE (Can ignore if you want)

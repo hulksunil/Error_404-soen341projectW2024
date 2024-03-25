@@ -37,6 +37,7 @@ const CarRentalReservation = () => {
   });
   const [allBranches, setAllBranches] = useState([]);
   const [vehicleInfo, setVehicleInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({});
 
 
   const location = useLocation();
@@ -69,6 +70,17 @@ const CarRentalReservation = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
+      //gets the users info like their email
+      axios.post("http://localhost:8080/users/" + userId)
+      .then((res) => {
+        if (res.status === 200) {
+          setUserInfo(res.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+
   }, [location]);
 
   const history = useNavigate();
@@ -105,7 +117,11 @@ const CarRentalReservation = () => {
   function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
     const regex = /[{}]/g;
     let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
-    let filteredServices = additionalArray.filter(item => item.includes("true"))
+    let filteredServices = additionalArray.filter(item => item.includes("true"));
+    let pickupBranch;
+    let dropoffBranch;
+
+
 
     const props= {
       name: String(userName),
@@ -117,8 +133,10 @@ const CarRentalReservation = () => {
       model: String(vehicleInfo.model),
       year: String(vehicleInfo.year),
       additional:filteredServices,
-      total:String(finalAmount)
+      total:String(finalAmount),
+      email:userInfo.email
     }
+
     EmailConfirmation.emailProps = props;
   }
 
@@ -253,7 +271,7 @@ const CarRentalReservation = () => {
                     }}
                   >
                     {allBranches.map(branch =>
-                      <option key={branch._id} value={branch._id}>{branch.name}</option>
+                      <option key={branch._id} value={branch.name}>{branch.name}</option>
                     )}
                   </select>
                 </td>
@@ -276,7 +294,7 @@ const CarRentalReservation = () => {
                     }}
                   >
                     {allBranches.map(branch =>
-                      <option key={branch._id} value={branch._id}>{branch.name}</option>
+                      <option key={branch._id} value={branch.name}>{branch.name}</option>
                     )}
                   </select>
                 </td>

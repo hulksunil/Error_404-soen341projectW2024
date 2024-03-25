@@ -10,8 +10,9 @@ type EmailProps = {
     year: string;
     additional: string;
     total: string;
-
+    email:string;
 }
+
 
 export class EmailConfirmation{
     static emailProps : EmailProps = {
@@ -24,7 +25,8 @@ export class EmailConfirmation{
         model: "",
         year: "",
         additional: "",
-        total: ""
+        total: "",
+        email:""
     }; 
 
 }
