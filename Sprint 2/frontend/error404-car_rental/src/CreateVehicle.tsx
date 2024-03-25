@@ -22,8 +22,8 @@ export default function CreateVehicle(props){
     const[fuelType, setFuelType]=useState("");
     const[url, setUrl]=useState("");
     const[rentalPrice, setRentalPrice]=useState("");
-    const[hasBluetooth, setHasBluetooth]=useState("");
-    const[drivetrain, setDrivetrain]= useState("");
+    const[hasBluetooth, setHasBluetooth]=useState("Yes");
+    const[drivetrain, setDrivetrain]= useState("Rear-wheel drive");
     const[year,setYear]=useState("");
     const[licensePlate, setLicensePlate]=useState("");
     const[color, setColor]=useState("");
