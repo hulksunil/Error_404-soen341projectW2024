@@ -31,7 +31,8 @@ const CarRentalReservation = () => {
       MobilePhones: false,
       PortableWiFi: false,
       ChildSafetySeats: false
-    }
+    },
+    carImageUrl:""
   });
 
   const location = useLocation();
@@ -41,6 +42,17 @@ const CarRentalReservation = () => {
     const carId = searchParams.get("carId");
     console.log("Car ID:", carId);
     setFormData({ ...formData, carId: carId });
+
+    axios.get(`http://localhost:8080/vehicles/${carId}`)
+      .then(response => {
+        setFormData(prevState => ({
+          ...prevState,
+          carImageUrl: response.data.url
+        }));
+      })
+      .catch(error => {
+        console.error("Error fetching car details:", error);
+      });
   }, [location]);
 
   const history = useNavigate();
@@ -142,7 +154,7 @@ history(`/payment?amount=${finalAmount}`);
         <h1>Car Rental Reservation</h1>
         <img
           className="reservationImage"
-          src="https://robbreport.com/wp-content/uploads/2019/03/18c0771_007.jpg?w=1000"
+          src={formData.carImageUrl}
           alt="car"
         ></img>
         <form onSubmit={handleSubmit}>
