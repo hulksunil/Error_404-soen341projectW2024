@@ -1,6 +1,11 @@
 import React from "react";
 import "./styles/create_a_reservation&payment.css";
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import {EmailConfirmation} from './EmailConfirmation.ts';
+import EmailTemplate from "./EmailTemplate.tsx";
+import ReactDOMServer from 'react-dom/server';
+import axios from "axios";
+
 const getCurrentMonthYear = () => {
   const today = new Date();
   const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -9,23 +14,39 @@ const getCurrentMonthYear = () => {
 };
 
 const CarRentalPayment = () => {
-  const location = useLocation();
+  const history = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const amount = searchParams.get('amount') || 0; 
+
+  function transactionapproved(){
+    const componentHTML = ReactDOMServer.renderToString(<EmailTemplate reservationInfo = {EmailConfirmation.emailProps}/>);
+
+    axios.post("http://localhost:8080/sendEmail", {
+      userEmail: EmailConfirmation.emailProps.email,
+      confirmationHtml: componentHTML,
+    })
+    .then((res) => {
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    history("/transactionapproved");
+  }
+
+
   return (
     <div className="background_payment">
       <h1>Payment Information</h1>
-      <form action="/transactionapproved">
+      <form>
         <table className="tab_payment reservationTable">
           <tr>
             <th>Amount:</th>
             <td>
               <input
-                type="number"
-                min="0"
-                step="0.01"
+                type="text"
                 className="outlined_fields"
                 required
+                readOnly
                 value={amount}
               />
             </td>
@@ -85,7 +106,7 @@ const CarRentalPayment = () => {
         </table>
         <br />
         <div>
-          <input type="submit" value="Make Payment" className="submit" />
+          <input type="submit" value="Make Payment" className="submit" onClick={() => {transactionapproved()}}/>
           <input type="reset" value="Reset" className="reset" />
         </div>
       </form>

@@ -9,7 +9,7 @@ const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const BranchDB = require("./models/branch");
 
-const CheckoutDB = require('./models/checkout');
+const CheckoutDB = require("./models/checkout");
 const app = express();
 
 const PORT = 8080;
@@ -18,7 +18,6 @@ const PORT = 8080;
 app.use(express.urlencoded());
 app.use(cors());
 app.use(bodyParser.json());
-
 
 const dbURI =
   "mongodb+srv://admin:soen341password@soen341cluster.kdvm7y4.mongodb.net/soen341_error404db?retryWrites=true&w=majority";
@@ -190,8 +189,16 @@ const mockCarId = new mongoose.Types.ObjectId("65ee83437dc4c984bb37ab4e");
 // Create a reservation
 app.post("/CreateReservation", (req, res) => {
   // Extract reservation data from request body
-  const { userId, carId, reservationDate, returnDate, location,returnLocation,Additionalservices} = req.body;
-  console.log("Received reservation data:", req.body);
+  const {
+    userId,
+    carId,
+    reservationDate,
+    returnDate,
+    location,
+    returnLocation,
+    Additionalservices,
+  } = req.body;
+  //console.log("Received reservation data:", req.body);
   // Create reservation in the database
   const createdReservation = ReservationDB.createReservation(
     userId,
@@ -262,7 +269,7 @@ app.put("/UpdateReservation/:id", (req, res) => {
     updatedReservationData.returnDate,
     updatedReservationData.location,
     updatedReservationData.returnLocation,
-    updatedReservationData.Additionalservices,
+    updatedReservationData.Additionalservices
   );
 
   updatedReservation
@@ -299,18 +306,30 @@ app.delete("/reservations/:id", (req, res) => {
 
 // ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
-app.get("/createVehicle", (req, res) => {
-  const createVehicle = VehicleDB.createVehicle(
-    "Ferrari SF90",
-    "Sports Car",
-    "Manual",
-    "2",
-    "Hybrid"
+app.post("/createVehicle", (req, res) => {
+  
+  const vehicleInfo = req.body;
+
+  const createdVehicle = VehicleDB.createVehicle(
+      vehicleInfo.model, 
+      vehicleInfo.type, 
+      vehicleInfo.transmission, 
+      vehicleInfo.numberOfSeats, 
+      vehicleInfo.fuelType, 
+      vehicleInfo.url, 
+      vehicleInfo.rentalPrice, 
+      vehicleInfo.hasBluetooth, 
+      vehicleInfo.drivetrain,
+      vehicleInfo.year,
+      vehicleInfo.licensePlate,
+      vehicleInfo.color,
+      vehicleInfo.branchId,
   );
 
   // Saving the vehicle to the database
-  createVehicle.then((result) => {
+  createdVehicle.then((result) => {
     console.log(result);
+
 
     // Sending the result to the client
     res.send(result);
@@ -319,9 +338,9 @@ app.get("/createVehicle", (req, res) => {
 
 app.get("/vehicles/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  
   vehicle = VehicleDB.findVehicleById(id);
-  user
+  vehicle
     .then((result) => {
       res.send(result);
     })
@@ -351,7 +370,15 @@ app.post("/updateVehicle", (req, res) => {
     newVehicleInfo.type,
     newVehicleInfo.transmission,
     newVehicleInfo.numberOfSeats,
-    newVehicleInfo.fuelType
+    newVehicleInfo.fuelType,
+    newVehicleInfo.url,
+    newVehicleInfo.rentalPrice,
+    newVehicleInfo.hasBluetooth,
+    newVehicleInfo.drivetrain,
+    newVehicleInfo.year,
+    newVehicleInfo.licensePlate,
+    newVehicleInfo.color,
+    newVehicleInfo.branchId,
   );
   updateVehicle
     .then((result) => {
@@ -364,7 +391,7 @@ app.post("/updateVehicle", (req, res) => {
 
 app.delete("/vehicles/:id", (req, res) => {
   const id = req.params.id;
-  deleteVehicle = VehivleDB.deleteVehicle(id);
+  deleteVehicle = VehicleDB.deleteVehicle(id);
 
   deleteVehicle
     .then((result) => {
@@ -379,14 +406,13 @@ app.delete("/vehicles/:id", (req, res) => {
       console.log(err);
     });
 
-    //============================================================CHECKOUT DB===========================================================
+  //============================================================CHECKOUT DB===========================================================
 });
 
 //Create a checkout
 app.post("/CreateCheckout", (req, res) => {
-  
   const { reservationId, trait, action } = req.body;
-  console.log("Received checkout data:", req.body);
+  //console.log("Received checkout data:", req.body);
   const createdCheckout = CheckoutDB.createCheckout(
     reservationId,
     trait,
@@ -394,9 +420,7 @@ app.post("/CreateCheckout", (req, res) => {
   );
 
   createdCheckout
-    .then((result) => {
-      
-    })
+    .then((result) => {})
     .catch((error) => {
       // Handle error
       console.error("Error creating checkout:", error);
@@ -404,18 +428,18 @@ app.post("/CreateCheckout", (req, res) => {
     });
 });
 //Call all checkouts
-  app.get("/checkout", (req, res) => {
-    checkouts = CheckoutDB.findAllCheckouts();
-    checkouts
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log("Error finding all checkouts.\n" + err);
-      });
-  });
-  // Call a checkout by id
-  // Reading a reservation by ID
+app.get("/checkout", (req, res) => {
+  checkouts = CheckoutDB.findAllCheckouts();
+  checkouts
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error finding all checkouts.\n" + err);
+    });
+});
+// Call a checkout by id
+// Reading a reservation by ID
 app.get("/checkout/:id", (req, res) => {
   const id = req.params.id;
   checkout = CheckoutDB.findCheckoutById(id);
@@ -446,24 +470,79 @@ app.delete("/deleteCheckouts", (req, res) => {
 app.get("/createBranch", (req, res) => {
   const branchInfo = req.body;
 
-  const createBranch = BranchDB.createBranch(branchInfo.locationName,branchInfo.lat,branchInfo.long);
+  const createBranch = BranchDB.createBranch(
+    branchInfo.locationName,
+    branchInfo.lat,
+    branchInfo.long
+  );
 
   createBranch.then((result) => {
     res.send(result);
   });
 });
 
-app.get("/branches",(req,res)=>{
+app.get("/branches", (req, res) => {
   branches = BranchDB.findAllBranches();
+  branches
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding all branches.\n" + err);
+    });
+});
+
+app.get("/branches/:id",(req,res) => {
+  const id = req.params.id;
+  branches = BranchDB.findBranchById(id);
   branches
   .then((result) => {
     res.send(result);
   })
   .catch((err) => {
-    console.log("Error in finding all branches.\n" + err);
+    console.log("Error in finding the branch by id\n" + err);
   });
 });
 
+// ======================================================== SEND EMAIL ========================================================
+const nodemailer = require("nodemailer");
+
+//https://www.w3schools.com/nodejs/nodejs_email.asp
+//https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
+
+const senderEmail = "sebastian.iaricci@gmail.com";
+
+//Configuration of the mailer
+const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: senderEmail,
+      pass: "iukn eedy iusd ttmr",
+    },
+  });
+
+app.post("/sendEmail",(req,res) => {
+  //userEmail , confirmationHtml 
+  const emailInfo = req.body;
+
+    const mailOptions = {
+      from: senderEmail,
+      to: emailInfo.userEmail,
+      subject: "CarsRUs Rental Information",
+      html: emailInfo.confirmationHtml,
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log('error' + error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+});
 
 
 // ========================================================================================================================

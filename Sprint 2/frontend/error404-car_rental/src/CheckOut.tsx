@@ -66,7 +66,7 @@ export default function CheckOut() {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='checkoutTableContent'>
             {reservations.map((reservation) => (
               <tr key={reservation._id}>
                 <td>{reservation.userId}</td>
@@ -75,7 +75,7 @@ export default function CheckOut() {
                 <td>{reservation.returnDate}</td>
                 <td>{reservation.location}</td>
                 <td>
-                  <button onClick={() => handleCheckout(reservation._id)}>Checkout</button>
+                  <button className='chkoBtn'  onClick={() => handleCheckout(reservation._id)}>Checkout</button>
                 </td>
               </tr>
             ))}

@@ -10,6 +10,7 @@
     border-radius: 20px;
     margin-right: 30px;
     color: #000;
+    margin-bottom: 100%;
     
       
 }
@@ -22,29 +23,13 @@
     
 }
 
-.cartype{
+.cartype, .nopassenger, .transmission, .powertrain, .branches{
     text-align: left;
     margin:0;
     padding: 0;
    
 }
 
-.nopassenger{
-    text-align: left;
-    margin:0;
-    padding: 0;
-}
-
-.transmission{
-    text-align: left;
-    margin: 0;
-    padding: 0;
-}
-.powertrain{
-    text-align: left;
-    margin:0;
-    padding: 0;
-}
 
 .cartype label {
     display: block;

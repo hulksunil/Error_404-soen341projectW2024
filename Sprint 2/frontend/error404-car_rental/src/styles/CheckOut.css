@@ -4,20 +4,47 @@
     margin: 50px;
     padding: 30px;
     border: 2px solid #000;
-    width: fit-content;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-
+    
+   
+    
 }
 
 .reservationTable{
   
     margin-left: 0;
+    margin-right: 0;
+    width: fit-content;
+   
+    
 }
+
 
 .coTitle{
     text-align: center;
 }
+
+
+.reservationTable {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .reservationTable th, .reservationTable td {
+    border: 1px solid #000;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .reservationTable th {
+    background-color: #7A7AFF;
+  }
+  
+  .checkoutTableContent tr:nth-child(even) {
+    background-color: #fffee0;
+  }
+  
+  .chkoBtn{
+    border-radius: 20px;
+    background-color: #7A7AFF;
+    color: #fffee0;
+  }
