@@ -152,7 +152,7 @@ function RentalAgreement() {
                                 Drop-off Location: {reservationData.returnLocation} <br />
                                 Rental Period: {rentalPeriod.days} days and {rentalPeriod.minutes} minutes <br />
                                 Mileage Limit (if applicable): none  <br />
-                                Rental Rate: <br />
+                                Rental Rate: ${carData ? carData.rentalPrice:'loading...'}/day <br />
                                 Additional Services (if any): 
                                     {Object.values(reservationData.Additionalservices).some(service => service) ? (
                                 <ul>
