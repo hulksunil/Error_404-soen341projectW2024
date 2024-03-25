@@ -31,7 +31,8 @@ const CarRentalReservation = () => {
       MobilePhones: false,
       PortableWiFi: false,
       ChildSafetySeats: false
-    }
+    },
+    branchLocations: []
   });
 
   const location = useLocation();
@@ -40,8 +41,18 @@ const CarRentalReservation = () => {
     const searchParams = new URLSearchParams(location.search);
     const carId = searchParams.get("carId");
     console.log("Car ID:", carId);
-    setFormData({ ...formData, carId: carId });
-  }, [location]);
+    setFormData({ ...formData, carId: carId});
+  }, [location, setFormData]);
+  
+  useEffect(() => {
+    axios.get("http://localhost:8080/branches")
+      .then(response => {
+        setFormData(prevState => ({ ...prevState, branchLocations: response.data }));
+      })
+      .catch(error => {
+        console.error("Error fetching branch locations:", error);
+      });
+  }, []);
 
   const history = useNavigate();
   const handleChange = (e) => {
@@ -180,27 +191,37 @@ history(`/payment?amount=${finalAmount}`);
               <tr>
                 <th> Pickup location:</th>
                 <td>
-                  <input
-                    type="text"
+                  <select
+      
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
                     className="outlined_fields"
                     required
-                  />
+                    >
+                    <option value="">Select Pickup Location</option>
+                    {formData.branchLocations.map(branch => (
+                      <option key={branch.id} value={branch.name}>{branch.name}</option>
+                    ))}
+                  </select>
                 </td>
               </tr>
               <tr>
                 <th> Return location:</th>
                 <td>
-                  <input
-                    type="text"
+                  <select
+                    
                     name="returnLocation"
                     value={formData.returnLocation}
                     onChange={handleChange}
                     className="outlined_fields"
                     required
-                  />
+                  >
+                     <option value="">Select Return Location</option>
+                    {formData.branchLocations.map(branch => (
+                      <option key={branch.id} value={branch.name}>{branch.name}</option>
+                    ))}
+                  </select>
                 </td>
               </tr>
               <tr>
