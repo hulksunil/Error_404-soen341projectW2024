@@ -79,6 +79,9 @@ function Navbar() {
               setUserInfo({});
               clearCookies("username");
               clearCookies("userid");
+              // if (window.location.pathname === "/adminview" || window.location.pathname === "/csrview") {
+                window.location.href = "/"; // redirect to home page
+              // }
             }}>Sign Out</button>
             </>
             :
