@@ -1,8 +1,35 @@
 // Sidebar.js
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import "./sidebar.css";
+import axios from "axios";
 
 function Sidebar({ handleFilterChange }) {
+
+  const [allBranches, setAllBranches] = useState([]);
+  const [branchId, setBranchId] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    axios
+        .get("http://localhost:8080/branches")
+        .then((res) => {
+            if (res.status === 200) {
+                setAllBranches(res.data);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+
+        const branchId = searchParams.get("branchId");
+        if(branchId){
+          handleFilterChange("branch",branchId)
+          setBranchId(branchId);
+        }
+}, []);
+
+
   return (
     <>
       <div className='filtersidebar'> 
@@ -51,9 +78,19 @@ function Sidebar({ handleFilterChange }) {
             <input type="checkbox" onChange={() => handleFilterChange('fuelType', 'Hybrid')} className='typeinput'/> Hybrid
             <br />
           </div>
+
+          <div className="branches">
+          <h3 className='titlecheck'>Branch:</h3>
+          {allBranches.map(branch =>
+          <>
+            <input key={branch._id} type="checkbox" className='typeinput' onChange= {() => handleFilterChange('branch', `${branch._id}`)}/>{branch.name} 
+            <br/>
+          </>  
+          )}
+        </div>
           
       </div>
-    
+
 
     </>
   );
