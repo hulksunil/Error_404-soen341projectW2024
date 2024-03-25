@@ -175,8 +175,8 @@ export default function ModifyReservations() {
           <tr>
             <th>User ID</th>
             <th>Car ID</th>
-            <th>Pickup Date</th>
-            <th>Return Date</th>
+            <th>Pickup Date and Time</th>
+            <th>Return Date and Time</th>
             <th>Pickup location</th>
             <th>Return location</th>
             <th>Additional services</th>

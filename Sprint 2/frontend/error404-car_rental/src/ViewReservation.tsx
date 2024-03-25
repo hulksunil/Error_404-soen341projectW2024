@@ -34,6 +34,15 @@ export default function ViewReservation() {
   
   const [reservations, setReservations] = useState<reservation[]>([])
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+    const day = String(today.getDate()).padStart(2, "0");
+    const hours = String(today.getHours()).padStart(2, "0");
+    const minutes = String(today.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
 
   function handleSubmit(event: React.FormEvent, updatedReservationInfo: reservation) {
     event.preventDefault();
@@ -158,21 +167,52 @@ export default function ViewReservation() {
 
   function Form({ formData }: { formData: reservation }) {
     const [updatedReservationInfo, setUpdatedReservationInfo] = useState<reservation>(formData);
-    console.log(updatedReservationInfo);
-
-    let reservationDate = formData.reservationDate.substring(0, 10);
-    let returnDate = formData.returnDate.substring(0, 10);
+  
+    let reservationDate = formData.reservationDate.substring(0, 16);
+    let returnDate = formData.returnDate.substring(0, 16);
 
     const handleCheckboxChange = (serviceName: keyof reservation['Additionalservices'], checked: boolean) => {
       setUpdatedReservationInfo(prevData => ({
-      ...prevData,
-      Additionalservices: {
-        ...prevData.Additionalservices,
-        [serviceName]: checked
+        ...prevData,
+        Additionalservices: {
+          ...prevData.Additionalservices,
+          [serviceName]: checked
         }
       }));
     };
 
+    const handleDateTimeChange = (fieldName: 'reservationDate' | 'returnDate', value: string) => {
+      setUpdatedReservationInfo(prevData => ({
+        ...prevData,
+        [fieldName]: value
+      }));
+      if (fieldName === 'reservationDate') {
+        const updatedReturnDate = setMinReturnDate(value);
+        setUpdatedReservationInfo(prevData => ({
+          ...prevData,
+          returnDate: updatedReturnDate
+        }));
+      }
+  };
+
+  const setMinReturnDate = (newReservationDate: string) => {
+    const selectedReservationDate = new Date(newReservationDate);
+    selectedReservationDate.setDate(selectedReservationDate.getDate() + 1);
+  
+    // Adjusting hours and minutes to avoid invalid time value
+    selectedReservationDate.setHours(0);
+    selectedReservationDate.setMinutes(0);
+  
+    const year = selectedReservationDate.getFullYear();
+    const month = String(selectedReservationDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedReservationDate.getDate()).padStart(2, '0');
+    const hours = String(selectedReservationDate.getHours()).padStart(2, '0');
+    const minutes = String(selectedReservationDate.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  
     return (
       <form className="formToUpdate" onSubmit={(e)=>handleSubmit(e,updatedReservationInfo)}>
         <table className="tableToUpdate">
@@ -184,29 +224,30 @@ export default function ViewReservation() {
                 <label>{formData?._id}</label>
               </td>
             </tr>
-                  <tr>
-              <th>Pickup Date:</th>
+            <tr>
+              <th>Pickup Date and Time:</th>
               <td>
                 <input
-                  type="date"
+                  type="datetime-local"
                   name="reservationDate"
                   defaultValue={reservationDate}
-                  onChange={(e) => updatedReservationInfo.reservationDate=e.target.value}
+                  onChange={(e) => handleDateTimeChange("reservationDate", e.target.value)}
+                  min={getCurrentDate()}
                   className="outlined_fields"
                   required
                 />
               </td>
             </tr>
             <tr>
-              <th>Return Date:</th>
+              <th>Return Date and Time:</th>
               <td>
                 <input
-                  type="date"
+                  type="datetime-local"
                   name="returnDate"
-                  min={reservationDate}
                   defaultValue={returnDate}
-                  onChange={(e) => updatedReservationInfo.returnDate=e.target.value}
+                  onChange={(e) => handleDateTimeChange("returnDate", e.target.value)}
                   className="outlined_fields"
+                  min={setMinReturnDate(updatedReservationInfo.reservationDate)}
                   required
                 />
               </td>
