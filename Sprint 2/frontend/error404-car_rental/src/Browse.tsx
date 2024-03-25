@@ -16,6 +16,7 @@ export default function Browse() {
     numberOfSeats: string[];
     transmission: string[];
     fuelType: string[];
+    branch : string[];
   }
   
 
@@ -27,6 +28,7 @@ export default function Browse() {
     fuelType: string,
     _id:string,
     url: string,
+    branchId:string
     rentalPrice: string,
     drivetrain: string,
     year: string,
@@ -44,6 +46,7 @@ export default function Browse() {
     numberOfSeats: [],
     transmission: [],
     fuelType: [],
+    branch:[]
   });
 
   useEffect(() => {
@@ -53,7 +56,7 @@ export default function Browse() {
           if(res.status === 200) {
             setAllVehicles(res.data);
             setFilteredVehicles(res.data);
-            console.log("Data received:", res.data);
+            // console.log("Data received:", res.data);
           }
       })
       .catch((error)=> {
@@ -88,16 +91,32 @@ export default function Browse() {
 
 
   useEffect(() => {
-  const filtered = AllVehicles.filter((car) => {
-      return (
-        (filters.type.length === 0 || filters.type.includes(car.type)) &&
-        (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
-        (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
-        (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType))
-      );
-    });
-    setFilteredVehicles(filtered);
-  }, [filters, AllVehicles]);
+    const searchParams = new URLSearchParams(location.search);
+    const branchId = searchParams.get("branchId");
+
+    let filtered;
+    if(branchId){
+      filtered = AllVehicles.filter((car) => {
+        return (
+          (car.branchId == branchId)
+        );
+      });
+    }
+    else{
+      filtered = AllVehicles.filter((car) => {
+        return (
+          (filters.type.length === 0 || filters.type.includes(car.type)) &&
+          (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
+          (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
+          (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType)) &&
+          (filters.branch.length === 0 || filters.branch.includes(car.branchId))
+        );
+      });
+    }
+
+
+  setFilteredVehicles(filtered);
+}, [filters, AllVehicles]);
 
 
   return (
