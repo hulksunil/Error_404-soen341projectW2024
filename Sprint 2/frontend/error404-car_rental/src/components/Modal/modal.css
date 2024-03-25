@@ -1,51 +1,71 @@
 /* Modal.css */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-  }
-  
-  .modal {
-    background-color: #D6D6FF;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px 0px #FFFEE0;
-    
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
 
-  .modalAttributes{
-    text-align: left;
-  }
-  
-  
+.modal {
+  background-color: #7a7aff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px 0px #FFFEE0;
+  width: 600px; /* Increased to accommodate both image and attributes */
+  display: flex; /* Use flex to layout image and attributes side by side */
 
-  .close-btn {
-    cursor: pointer;
-  }
-  
-  .imagemodal{
-    width: 300px;
-    height: 200px;
-    overflow: hidden;
-    border: 2px solid #000;
-    margin-bottom: 20px;
-    
-  }
+}
 
-  .imagemodal img{
-    width: 100%; /* Ensure the image fills the container horizontally */
-    height: 100%; /* Ensure the image fills the container vertically */
-    object-fit: cover; /* Scale the image to fit within the container without stretching */
-  }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ensure the header occupies full width */
+  color:#FFFEE0;
+  text-decoration: underline;
+}
+
+.modalAttributes {
+  text-align: left;
+  color:#FFFEE0;
+}
+
+.attribute {
+  font-weight: bold;
+  color: #FFFEE0;
+}
+
+.image-and-attributes {
+  display: flex;
+  width: 100%;
+}
+
+.imagemodal {
+  width: 400px;
+  height: 250px;
+  overflow: hidden;
+  border: 1px solid #FFFEE0;
+  margin-right: 20px; /* Spacing between image and attributes */
+  border-radius: 20px;
+}
+
+.imagemodal img {
+  width: 100%; /* Ensure the image fills the container horizontally */
+  height: 100%; /* Ensure the image fills the container vertically */
+  object-fit: cover; /* Scale the image to fit within the container without stretching */
+}
+
+.close-btn {
+  cursor: pointer;
+  border-radius: 15px;
+  height: 45px;
+  width: 70px;
+  background-color: #D6D6FF;
+  margin-top: 20px;
+
+}

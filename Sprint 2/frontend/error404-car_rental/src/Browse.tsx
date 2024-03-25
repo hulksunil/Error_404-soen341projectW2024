@@ -26,7 +26,13 @@ export default function Browse() {
     numberOfSeats: string,
     fuelType: string,
     _id:string,
-    url: string
+    url: string,
+    rentalPrice: string,
+    drivetrain: string,
+    year: string,
+    color: string,
+    licensePlate: string,
+    hasBluetooth: string
 
   }
 
@@ -83,15 +89,15 @@ export default function Browse() {
 
   useEffect(() => {
   const filtered = AllVehicles.filter((car) => {
-    return (
-      (filters.type.length === 0 || filters.type.includes(car.type)) &&
-      (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
-      (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
-      (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType))
-    );
-  });
-  setFilteredVehicles(filtered);
-}, [filters, AllVehicles]);
+      return (
+        (filters.type.length === 0 || filters.type.includes(car.type)) &&
+        (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
+        (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
+        (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType))
+      );
+    });
+    setFilteredVehicles(filtered);
+  }, [filters, AllVehicles]);
 
 
   return (
@@ -109,6 +115,13 @@ export default function Browse() {
             numberOfSeats={car.numberOfSeats}
             fuelType={car.fuelType}
             url={car.url}
+            rentalPrice={car.rentalPrice}
+            drivetrain={car.drivetrain}
+            year={car.year}
+            color={car.color}
+            licensePlate={car.licensePlate}
+            hasBluetooth={car.hasBluetooth}
+
           />
 
        )}
