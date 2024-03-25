@@ -27,16 +27,12 @@ export default function CreateVehicle(props){
     const[year,setYear]=useState("");
     const[licensePlate, setLicensePlate]=useState("");
     const[color, setColor]=useState("");
-    const[branchId, setBranchId]=useState("");
+    const[branchId, setBranchId]=useState("65fb731318f6999f70da4432");
     const [allBranches, setAllBranches] = useState<branch[]>([]);
+  
 
     const[errorVisibility, setErrorVisibility]= useState({
-        type: false,
-        transmission: false,
         numberOfSeats: false,
-        fuelType: false,
-        hasBluetooth: false,
-        drivetrain: false,
         year: false,
     });
     
@@ -45,7 +41,7 @@ export default function CreateVehicle(props){
     // check boxes for hasBluetooth, either yes or no
     // dropdown for drivetrain, either manual or automatic 
     const maxYear=2024;
-    const maxNumberOfSeats=8;
+    const maxNumberOfSeats=9;
 
     useEffect(() => {
         //Gets all the branches to display in the drop down
@@ -220,27 +216,20 @@ export default function CreateVehicle(props){
                     <tr>
                         <td className="fieldLabels">Bluetooth</td>
                         <td className="fieldInputs">
-                            <input
-                            type="text"
-                            placeholder="Bluetooth"
-                            required
-                            autoFocus
-                            autoComplete="off"
-                            onChange={(e) => setHasBluetooth(e.target.value)}
-                            />
+                        <select>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                         </td>
                     </tr>
                     <tr>
                         <td className="fieldLabels">Drivetrain</td>
                         <td className="fieldInputs">
-                            <input
-                            type="text"
-                            placeholder="Drivetrain"
-                            required
-                            autoFocus
-                            autoComplete="off"
-                            onChange={(e) => setDrivetrain(e.target.value)}
-                            />
+                        <select>
+                            <option value="Rear-wheel drive">Rear-wheel drive</option>
+                            <option value="Front-wheel drive">Front-wheel drive</option>
+                            <option value="4-wheel drive">4-wheel drive</option>
+                        </select>
                         </td>
                     </tr>
                     <tr>
