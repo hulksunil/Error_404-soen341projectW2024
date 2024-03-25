@@ -28,7 +28,7 @@ function CheckInApproved() {
             <p>Thank you for reserving a car in CARS R US. You can take the car and have a good trip!</p>
             <br/>
             {carImage && (
-                    <img src={carImage} alt="Reserved Car" />
+                    <img src={carImage} alt="Reserved Car" width={1000} />
                 )}
         </div>
         </>
