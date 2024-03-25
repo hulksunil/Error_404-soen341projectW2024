@@ -8,12 +8,34 @@ const vehicleSchema = new Schema({
     transmission: String,
     numberOfSeats: String,
     fuelType: String,
+    url: String,
+    rentalPrice: String,
+    hasBluetooth: String, 
+    drivetrain: String,
+    year : String,
+    licensePlate : String,
+    color : String,
+    branchId: mongoose.Schema.Types.ObjectID,
   });
   
   const Vehicle = mongoose.model("Vehicle", vehicleSchema);
   
   class VehicleDB {
-    static createVehicle( model, type, transmission, numberOfSeats, fuelType) {
+    static createVehicle( 
+      model, 
+      type, 
+      transmission, 
+      numberOfSeats, 
+      fuelType, 
+      url, 
+      rentalPrice, 
+      hasBluetooth, 
+      drivetrain,
+      year,
+      licensePlate,
+      color,
+      branchId
+      ) {
       const vehicle = new Vehicle({
         _id: new mongoose.Types.ObjectId(),
         model : model,
@@ -21,6 +43,14 @@ const vehicleSchema = new Schema({
         transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
+        url: url,
+        rentalPrice: rentalPrice,
+        hasBluetooth: hasBluetooth,
+        drivetrain: drivetrain,
+        year : year,
+        licensePlate : licensePlate,
+        color : color,
+        branchId: branchId,
       });
       return vehicle.save();
     }
@@ -46,7 +76,22 @@ const vehicleSchema = new Schema({
       );
     }
   
-   static updateVehicle(id,model, type, transmission, numberOfSeats, fuelType, ) {
+   static updateVehicle(
+    id,
+    model, 
+    type, 
+    transmission, 
+    numberOfSeats, 
+    fuelType, 
+    url, 
+    rentalPrice, 
+    hasBluetooth,
+    drivetrain, 
+    year,
+    licensePlate,
+    color,
+    branchId
+    ) {
       return Vehicle.findByIdAndUpdate(
         id,
         {
@@ -55,6 +100,14 @@ const vehicleSchema = new Schema({
         transmission: transmission,
         numberOfSeats : numberOfSeats,
         fuelType : fuelType,
+        url : url,
+        rentalPrice : rentalPrice,
+        hasBluetooth : hasBluetooth,
+        drivetrain : drivetrain,
+        year : year,
+        licensePlate : licensePlate,
+        color : color,
+        branchId:branchId,
         },
         { new: true }
       );
