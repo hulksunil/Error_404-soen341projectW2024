@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/navbar";
 import CarBrowse from "./components/CardBrowse/cardbrowse"
 import Sidebar from "./components/Sidebar/sidebar"
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -48,6 +49,7 @@ export default function Browse() {
     fuelType: [],
     branch:[]
   });
+  const location = useLocation();
 
   useEffect(() => {
     axios
@@ -91,18 +93,9 @@ export default function Browse() {
 
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const branchId = searchParams.get("branchId");
-
+    
     let filtered;
-    if(branchId){
-      filtered = AllVehicles.filter((car) => {
-        return (
-          (car.branchId == branchId)
-        );
-      });
-    }
-    else{
+    
       filtered = AllVehicles.filter((car) => {
         return (
           (filters.type.length === 0 || filters.type.includes(car.type)) &&
@@ -112,7 +105,6 @@ export default function Browse() {
           (filters.branch.length === 0 || filters.branch.includes(car.branchId))
         );
       });
-    }
 
 
   setFilteredVehicles(filtered);
@@ -122,7 +114,7 @@ export default function Browse() {
   return (
     <div className="mainBrowse">
       <Navbar/>
-      <Sidebar handleFilterChange={handleFilterChange}/>
+      <Sidebar handleFilterChange={handleFilterChange} branchId={location.state?.branchId } />
       <div className="card-list">
        {filteredVehicles.map(car => 
           <CarBrowse 
