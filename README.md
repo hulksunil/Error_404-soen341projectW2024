@@ -32,5 +32,6 @@ The basic rules for this repo can be found <a href="https://github.com/hulksunil
 - 40176937, Sumit Patel, Role: Frontend
 - 40044952, Seb Iaricci, Role: Backend
 
-
-link to short demo: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)
+### Links to demo videos
+sprint 2: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)
+sprint 3: [https://drive.google.com/file/d/1fPJSYrJ_vLItfEdnLsnnhFmn9FB_2nrS/view?usp=sharing](https://drive.google.com/file/d/1fPJSYrJ_vLItfEdnLsnnhFmn9FB_2nrS/view?usp=sharing)
