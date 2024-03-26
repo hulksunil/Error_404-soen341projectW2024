@@ -33,5 +33,5 @@ The basic rules for this repo can be found <a href="https://github.com/hulksunil
 - 40044952, Seb Iaricci, Role: Backend
 
 ### Links to demo videos
-sprint 2: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)
+sprint 2: [https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing](https://drive.google.com/file/d/1KGHh_sirTppmzxTF95qqcsMOuweaM686/view?usp=sharing)  
 sprint 3: [https://drive.google.com/file/d/1fPJSYrJ_vLItfEdnLsnnhFmn9FB_2nrS/view?usp=sharing](https://drive.google.com/file/d/1fPJSYrJ_vLItfEdnLsnnhFmn9FB_2nrS/view?usp=sharing)
