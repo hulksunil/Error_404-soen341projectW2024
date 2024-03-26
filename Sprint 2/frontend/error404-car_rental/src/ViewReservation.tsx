@@ -27,12 +27,13 @@ export default function ViewReservation() {
     };
     carImage: string;
   }
-  
 
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
   const [selectedReservation, setSelectedReservation] = useState<reservation>();
-  
+  const [allBranches, setAllBranches] = useState([]);
   const [reservations, setReservations] = useState<reservation[]>([])
+  const [selectedPickupBranch, setSelectedPickupBranch] = useState<string>("");
+  const [selectedReturnBranch, setSelectedReturnBranch] = useState<string>("");
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -101,7 +102,17 @@ export default function ViewReservation() {
   function loadAllReservations() {
     const userId = getCookie("userid");
 
-    
+    axios
+    .get("http://localhost:8080/branches")
+    .then((res) => {
+      if (res.status === 200) {
+        setAllBranches(res.data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching branches:", error);
+    });
+
     // get the user details from the backend
     axios.post("http://localhost:8080/users/" + userId).then((userRes) => {
       const user = userRes.data;
@@ -143,9 +154,7 @@ export default function ViewReservation() {
       <h3>No reservations found</h3>
       </>
       :
-        <>
-        
-        
+      <>  
       {reservations.sort((a,b)=>Date.parse(a.reservationDate)-Date.parse(b.reservationDate)).map(reservaton =>
         <Reservation key={reservaton._id} reservation={reservaton} />
       )}
@@ -170,6 +179,14 @@ export default function ViewReservation() {
   
     let reservationDate = formData.reservationDate.substring(0, 16);
     let returnDate = formData.returnDate.substring(0, 16);
+
+    const handlePickupBranchChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedPickupBranch(e.target.value);
+    };
+
+    const handleReturnBranchChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedReturnBranch(e.target.value);
+    };
 
     const handleCheckboxChange = (serviceName: keyof reservation['Additionalservices'], checked: boolean) => {
       setUpdatedReservationInfo(prevData => ({
@@ -255,27 +272,35 @@ export default function ViewReservation() {
             <tr>
               <th>Pickup Location:</th>
               <td>
-                <input
-                  type="text"
-                  name="location"
-                  defaultValue={formData.location}
-                  onChange={(e) => updatedReservationInfo.location=e.target.value}
-                  className="outlined_fields"
-                  required
-                />
+              <select
+                value={selectedPickupBranch}
+                onChange={handlePickupBranchChange}
+                className="outlined_fields"
+                required
+              >
+                {allBranches.map((branch: any) => (
+                  <option key={branch._id} value={branch._id}>
+                    {branch.name} - {branch.location}
+                  </option>
+                ))}
+              </select>
               </td>
             </tr>
             <tr>
               <th>Return location:</th>
               <td>
-                <input
-                  type="text"
-                  name="returnLocation"
-                  defaultValue={formData.returnLocation}
-                  onChange={(e) => updatedReservationInfo.returnLocation=e.target.value}
-                  className="outlined_fields"
-                  required
-                />
+              <select
+                value={selectedReturnBranch}
+                onChange={handleReturnBranchChange}
+                className="outlined_fields"
+                required
+              >
+                {allBranches.map((branch: any) => (
+                  <option key={branch._id} value={branch._id}>
+                    {branch.name} - {branch.location}
+                  </option>
+                ))}
+              </select>
               </td>
             </tr>
             <tr>

@@ -41,8 +41,6 @@ const CarRentalReservation = () => {
   const [allBranches, setAllBranches] = useState([]);
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
-
-
   const location = useLocation();
 
   useEffect(() => {
@@ -108,25 +106,23 @@ const CarRentalReservation = () => {
           [name]: checked
         }
       });
-    } else {
+    } 
+    else { 
       if (name === "reservationDate") {
-        const selectedDate = new Date(value);
-        if (!isNaN(selectedDate.getTime())) {
-          const nextDay = new Date(selectedDate);
-          nextDay.setDate(selectedDate.getDate() + 1);
-          const nextDayString = nextDay.toISOString().split('T')[0]+ value.substr(10);
-          setFormData({
-            ...formData,
-            [name]: value,
-            returnDate: nextDayString  // Maintain time part as it is
-          });
-        }
-      } else {
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value,
+          returnDate: getNextDay(value) // Update returnDate to the next day in local time format
+        }));
+      } 
+      else {
         setFormData({ ...formData, [name]: value });
       }
     }
   };
 
+  
+  
   function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
     const regex = /[{}]/g;
     let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
@@ -151,8 +147,20 @@ const CarRentalReservation = () => {
     EmailConfirmation.emailProps = props;
   }
 
+  const getNextDay = (selectedDate) => {
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1); // Adding one day
+    const year = nextDay.getFullYear();
+    const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+    const day = String(nextDay.getDate()).padStart(2, "0");
+    const hours = String(nextDay.getHours()).padStart(2, "0"); // Use hours from next day
+    const minutes = String(nextDay.getMinutes()).padStart(2, "0"); // Use minutes from next day
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     let reservation_id = "";
 
     // Do Form Validation
@@ -258,7 +266,7 @@ const CarRentalReservation = () => {
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
-                    min={formData.reservationDate ? formData.returnDate : getCurrentDate()}
+                    min={formData.reservationDate ? getNextDay(formData.reservationDate) : getCurrentDate()}
                     className="outlined_fields"
                     required
                   />
