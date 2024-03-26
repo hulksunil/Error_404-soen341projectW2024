@@ -73,13 +73,14 @@ export default function ViewReservation() {
         <div className="actionbar">
           <button className="viewLabel" onClick={() => viewReservationOnClick(reservation)}>View</button>
           {/* <Modify className="editSVG" onClick={() => modifyReservationOnClick(resId)} /> */}
-          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(reservation)} />
+          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(reservation._id)} />
         </div>
       </div>
     )
   }
 
   function deleteReservationOnClick(resId: String) {
+
     console.log(resId+" would be deleted")
     axios
       .delete("http://localhost:8080/reservations/"+resId)
