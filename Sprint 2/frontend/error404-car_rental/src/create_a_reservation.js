@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "./CookieManager.ts";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar.jsx";
+import {EmailConfirmation} from './EmailConfirmation.ts';
 
 const userId = getCookie("userid");
+const userName = getCookie("username");
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -31,8 +33,13 @@ const CarRentalReservation = () => {
       MobilePhones: false,
       PortableWiFi: false,
       ChildSafetySeats: false
-    }
+    },
+    carImageUrl:""
   });
+  const [allBranches, setAllBranches] = useState([]);
+  const [vehicleInfo, setVehicleInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({});
+
 
   const location = useLocation();
 
@@ -43,7 +50,6 @@ const CarRentalReservation = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const carId = searchParams.get("carId");
-    console.log("Car ID:", carId);
     setFormData({ ...formData, carId: carId });
     axios
       .get("http://localhost:8080/checkCarAvailability/" + carId)
@@ -127,7 +133,8 @@ const CarRentalReservation = () => {
       axios
       .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
-        console.log("Reservation created:", res.data);
+        // console.log("Reservation created:", res.data);
+        reservation_id = res.data._id;
         setFormData({
           reservationDate: "",
           returnDate: "",
@@ -177,7 +184,7 @@ const CarRentalReservation = () => {
         <h1>Car Rental Reservation</h1>
         <img
           className="reservationImage"
-          src="https://robbreport.com/wp-content/uploads/2019/03/18c0771_007.jpg?w=1000"
+          src={formData.carImageUrl}
           alt="car"
         ></img>
         <form onSubmit={handleSubmit}>
@@ -215,27 +222,31 @@ const CarRentalReservation = () => {
               <tr>
                 <th> Pickup location:</th>
                 <td>
-                  <input
-                    type="text"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="outlined_fields"
-                    required
-                  />
+                  <select
+                    className="branchDropDown"
+                    onChange={(e) => {
+                      formData.location = e.target.value;
+                    }}
+                  >
+                    {allBranches.map(branch =>
+                      <option key={branch._id} value={branch.name}>{branch.name}</option>
+                    )}
+                  </select>
                 </td>
               </tr>
               <tr>
                 <th> Return location:</th>
                 <td>
-                  <input
-                    type="text"
-                    name="returnLocation"
-                    value={formData.returnLocation}
-                    onChange={handleChange}
-                    className="outlined_fields"
-                    required
-                  />
+                  <select
+                    className="branchDropDown"
+                    onChange={(e) => {
+                      formData.returnLocation = e.target.value;
+                    }}
+                  >
+                    {allBranches.map(branch =>
+                      <option key={branch._id} value={branch.name}>{branch.name}</option>
+                    )}
+                  </select>
                 </td>
               </tr>
               <tr>

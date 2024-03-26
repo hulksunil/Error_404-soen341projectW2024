@@ -36,12 +36,22 @@
     height: 250px;
     float: left;
     margin-left: 13px;
-    border-radius: 30%; /* Make the image circular */
+    border-radius: 30px; 
     height: 230px; /* Adjust the height of the image */
     object-fit: cover; /* Optional: Ensures the image covers the entire container */
+    margin:20px;
 }
 .tab_payment{
     width: 50%; 
     margin: 0 auto; 
     margin-left: 25%;
+}
+
+.branchDropDown{
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 12px; 
+  outline: none; 
+  width: 17em; 
+  padding: 8px 5px; 
 }

@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/navbar";
 import CarBrowse from "./components/CardBrowse/cardbrowse"
 import Sidebar from "./components/Sidebar/sidebar"
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -16,6 +17,7 @@ export default function Browse() {
     numberOfSeats: string[];
     transmission: string[];
     fuelType: string[];
+    branch : string[];
   }
   
 
@@ -27,6 +29,7 @@ export default function Browse() {
     fuelType: string,
     _id:string,
     url: string,
+    branchId:string
     rentalPrice: string,
     drivetrain: string,
     year: string,
@@ -44,7 +47,9 @@ export default function Browse() {
     numberOfSeats: [],
     transmission: [],
     fuelType: [],
+    branch:[]
   });
+  const location = useLocation();
 
   useEffect(() => {
     axios
@@ -53,7 +58,7 @@ export default function Browse() {
           if(res.status === 200) {
             setAllVehicles(res.data);
             setFilteredVehicles(res.data);
-            console.log("Data received:", res.data);
+            // console.log("Data received:", res.data);
           }
       })
       .catch((error)=> {
@@ -88,22 +93,28 @@ export default function Browse() {
 
 
   useEffect(() => {
-  const filtered = AllVehicles.filter((car) => {
-      return (
-        (filters.type.length === 0 || filters.type.includes(car.type)) &&
-        (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
-        (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
-        (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType))
-      );
-    });
-    setFilteredVehicles(filtered);
-  }, [filters, AllVehicles]);
+    
+    let filtered;
+    
+      filtered = AllVehicles.filter((car) => {
+        return (
+          (filters.type.length === 0 || filters.type.includes(car.type)) &&
+          (filters.numberOfSeats.length === 0 || filters.numberOfSeats.includes(car.numberOfSeats)) &&
+          (filters.transmission.length === 0 || filters.transmission.includes(car.transmission)) &&
+          (filters.fuelType.length === 0 || filters.fuelType.includes(car.fuelType)) &&
+          (filters.branch.length === 0 || filters.branch.includes(car.branchId))
+        );
+      });
+
+
+  setFilteredVehicles(filtered);
+}, [filters, AllVehicles]);
 
 
   return (
     <div className="mainBrowse">
       <Navbar/>
-      <Sidebar handleFilterChange={handleFilterChange}/>
+      <Sidebar handleFilterChange={handleFilterChange} branchId={location.state?.branchId } />
       <div className="card-list">
        {filteredVehicles.map(car => 
           <CarBrowse 
