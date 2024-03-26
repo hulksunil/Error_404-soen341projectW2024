@@ -123,7 +123,8 @@ const CarRentalReservation = () => {
 
     checkGivenUserDates();
 
-    axios
+    if (checkGivenUserDates()){
+      axios
       .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
         console.log("Reservation created:", res.data);
@@ -162,7 +163,12 @@ const CarRentalReservation = () => {
       .catch((error) => {
         console.error("Error creating reservation:", error);
       });
+    }
+    else{
+      alert("The selected vehicle is not available given the dates you have selected! Please select change the dates of your booking or select a new vehicle.");
+    }
   };
+
 
   return (
     <>
