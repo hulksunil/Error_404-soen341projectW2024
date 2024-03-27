@@ -280,6 +280,7 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.location = e.target.value;
                     }}
+                    required
                   >
                     {allBranches.map(branch =>
                       <option key={branch._id} value={branch.name}>{branch.name}</option>
@@ -295,6 +296,7 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.returnLocation = e.target.value;
                     }}
+                    required
                   >
                     {allBranches.map(branch =>
                       <option key={branch._id} value={branch.name}>{branch.name}</option>

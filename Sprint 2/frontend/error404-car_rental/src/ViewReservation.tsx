@@ -273,18 +273,14 @@ export default function ViewReservation() {
             <tr>
               <th>Pickup Location:</th>
               <td>
-              <select
-                value={selectedPickupBranch}
-                onChange={handlePickupBranchChange}
-                className="outlined_fields"
-                required
-              >
-                {allBranches.map((branch: any) => (
-                  <option key={branch._id} value={branch._id}>
-                    {branch.name} - {branch.location}
-                  </option>
-                ))}
-              </select>
+              <input
+                  type="text"
+                  name="location"
+                  defaultValue={formData.location}
+                  onChange={(e) => updatedReservationInfo.location=e.target.value}
+                  className="outlined_fields"
+                  required
+                />
               </td>
             </tr>
             <tr>
