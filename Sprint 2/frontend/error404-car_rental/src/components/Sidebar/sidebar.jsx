@@ -78,12 +78,21 @@ function Sidebar({ handleFilterChange, branchId }) {
           <div className="branches">
           <h3 className='titlecheck'>Branch:</h3>
           {allBranches.map(branch =>
-          <>
-            <input key={branch._id} type="checkbox" defaultChecked={branchId==branch._id} className='typeinput' onChange= {() => handleFilterChange('branch', `${branch._id}`)}/>{branch.name} 
+          <div key={branch._id}>
+            <input 
+               type="checkbox" 
+               defaultChecked={branchId==branch._id} 
+               className='typeinput' 
+               onChange= {() => handleFilterChange('branch', `${branch._id}`)}
+               />
+            {branch.name} 
             <br/>
-          </>  
+          </div>  
           )}
         </div>
+
+        <div className='moreinfo'>*Click on vehicle for more info.</div>
+        <div className="moreinfo">*Scroll down to view comparison section</div>
           
       </div>
 
