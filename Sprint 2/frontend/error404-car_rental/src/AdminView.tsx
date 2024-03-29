@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./styles/Home.css";
 import Navbar from "./components/Navbar/navbar";
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,6 @@ export default function AdminView() {
         <>
         {pageTitle()}
         <div className='content'>
-                {pageTitle()}
                 <Navbar/>
                 <h1>Admin View</h1>
 

@@ -18,9 +18,6 @@ export default function LogIn(props) {
     if (!emailErrorVisibility) {
       submit()
     }
-    else {
-
-    }
   }
 
   function submit() {

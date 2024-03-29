@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import "./styles/CreateUser.css";
 import axios from "axios";
 // @ts-ignore
-import { ReactComponent as UserSilhouette } from "./svgs/userSilhouette.svg";
-// @ts-ignore
 import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
 import {storeCookies} from './CookieManager.ts';
 
 export default function CreateUser(props) {
-  const [color, setColor] = useState("black");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +14,6 @@ export default function CreateUser(props) {
   const [dob, setDob] = useState("");
   const [license, setLicense] = useState("");
   const [password, setPassword] = useState("");
-  const [accType, setAccType] = useState("customer");
 
   const [errorVisibility, setErrorVisibility] = useState({
     name: false,
@@ -36,15 +32,6 @@ export default function CreateUser(props) {
   const phoneRegEx = "^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
   const maxDob = 20091231;
   const minDob = 19241231;
-
-  function pageTitle() {
-    return <title>Create Account</title>;
-  }
-
-  function colorsetter(event: any) {
-    const elementStyle = window.getComputedStyle(event.target);
-    setColor(elementStyle.backgroundColor);
-  }
 
   function submitCheck() {
     setErrorVisibility((errorVisibility) => ({
@@ -100,7 +87,7 @@ export default function CreateUser(props) {
       address: address,
       contactNum: contactNum,
       password: password,
-      accType: accType,
+      accType: "customer",
     };
 
     let status: number = 0;
@@ -143,44 +130,6 @@ export default function CreateUser(props) {
     <div className="createAccount">
       <div className="mainContent">
         <CloseModal className="close" onClick={props.toggleModal} />
-        <div className="leftContainer">
-          <div className="imageContainer">
-            <UserSilhouette className="UserSilhouette-svg" fill={color} />
-          </div>
-
-          <div className="colorOptions">
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "blue" }}
-              onClick={colorsetter}
-            />
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "red" }}
-              onClick={colorsetter}
-            />
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "purple" }}
-              onClick={colorsetter}
-            />
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "green" }}
-              onClick={colorsetter}
-            />
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "pink" }}
-              onClick={colorsetter}
-            />
-            <button
-              className="colorButton"
-              style={{ backgroundColor: "black" }}
-              onClick={colorsetter}
-            />
-          </div>
-        </div>
         <div className="rightContainer">
           <table>
             <tbody>

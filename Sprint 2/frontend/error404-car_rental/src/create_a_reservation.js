@@ -270,9 +270,10 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.location = e.target.value;
                     }}
+                    disabled
                   >
                     {allBranches.map(branch =>
-                      <option key={branch._id} value={branch.name}>{branch.name}</option>
+                      <option key={branch._id} value={branch.name} selected={vehicleInfo.branchId == branch._id}>{branch.name}</option>
                     )}
                   </select>
                 </td>
