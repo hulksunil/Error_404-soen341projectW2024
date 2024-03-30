@@ -7,6 +7,7 @@ import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
 import { getCookie } from './CookieManager.ts';
 import Navbar from "./components/Navbar/navbar";
+import { convertToLocalForDisplay } from './UTCToLocal.ts';
 
 
 export default function ViewReservation() {
@@ -181,9 +182,8 @@ export default function ViewReservation() {
     let reservationDate = formData.reservationDate.substring(0, 16);
     let returnDate = formData.returnDate.substring(0, 16);
 
-    const handlePickupBranchChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedPickupBranch(e.target.value);
-    };
+    const pickupLocalTime = convertToLocalForDisplay(new Date(formData.reservationDate));
+    const returnLocalTime = convertToLocalForDisplay(new Date(formData.returnDate));
 
     const handleReturnBranchChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setSelectedReturnBranch(e.target.value);
@@ -245,30 +245,30 @@ export default function ViewReservation() {
             <tr>
               <th>Pickup Date and Time:</th>
               <td>
-                <input
-                  type="datetime-local"
-                  name="reservationDate"
-                  defaultValue={reservationDate}
-                  onChange={(e) => handleDateTimeChange("reservationDate", e.target.value)}
-                  min={getCurrentDate()}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
+              <input
+                type="datetime-local"
+                name="reservationDate"
+                defaultValue={pickupLocalTime.toISOString().slice(0, 16)}
+                onChange={(e) => handleDateTimeChange("reservationDate", e.target.value)}
+                min={getCurrentDate()}
+                className="outlined_fields"
+                required
+              />
+            </td>
             </tr>
             <tr>
               <th>Return Date and Time:</th>
               <td>
-                <input
-                  type="datetime-local"
-                  name="returnDate"
-                  defaultValue={returnDate}
-                  onChange={(e) => handleDateTimeChange("returnDate", e.target.value)}
-                  className="outlined_fields"
-                  min={setMinReturnDate(updatedReservationInfo.reservationDate)}
-                  required
-                />
-              </td>
+              <input
+                type="datetime-local"
+                name="returnDate"
+                defaultValue={returnLocalTime.toISOString().slice(0, 16)}
+                onChange={(e) => handleDateTimeChange("returnDate", e.target.value)}
+                className="outlined_fields"
+                min={setMinReturnDate(updatedReservationInfo.reservationDate)}
+                required
+              />
+            </td>
             </tr>
             <tr>
               <th>Pickup Location:</th>

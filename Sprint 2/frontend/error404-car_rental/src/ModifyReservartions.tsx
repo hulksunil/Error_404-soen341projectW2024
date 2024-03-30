@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/navbar';
 import "./components/Navbar/navbar.css"
 import "./styles/AdminPage.css";
+import { convertToLocalForDisplay } from './UTCToLocal.ts';
 
 export default function ModifyReservations() {
   type Reservation = {
@@ -119,13 +120,21 @@ export default function ModifyReservations() {
     useEffect(() => {
       setEditableReservation(reservation);
     }, [reservation]); 
+
+    function formatDate(dateString) {
+      // Adjust the date by adding four hours
+      const adjustedDate = new Date(new Date(dateString).getTime() + (4 * 60 * 60 * 1000));
+      // Convert the adjusted date to local time using your existing function
+      const localDate = convertToLocalForDisplay(adjustedDate);
+      return localDate.toLocaleString();
+    }
   
     return (
       <tr>
         <td className="fieldInputs"><input type="text" name="userId" value={editableReservation.userId} onChange={handleInputChange} readOnly /></td>
         <td className="fieldInputs"><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} readOnly /></td>
-        <td className="fieldInputs"><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
-        <td className="fieldInputs"><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="reservationDate" value={formatDate(editableReservation.reservationDate)}  onChange={handleInputChange} /></td>
+        <td className="fieldInputs"><input type="text" name="returnDate" value={formatDate(editableReservation.returnDate)}  onChange={handleInputChange} /></td>
         <td className="fieldInputs"><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
         <td className="fieldInputs"><input type="text" name="returnLocation" value={editableReservation.returnLocation} onChange={handleInputChange} /></td>
         <td>
