@@ -304,6 +304,18 @@ app.delete("/reservations/:id", (req, res) => {
     });
 });
 
+app.get("/checkCarAvailability/:id", (req,res) => {
+  const carId = req.params.id;
+  reservation = ReservationDB.checkCarAvailability(carId);
+  reservation
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err)=>{
+      console.log("Error in finding the reservations given car ID\n" + err);
+    });
+});
+
 // ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
 app.post("/createVehicle", (req, res) => {

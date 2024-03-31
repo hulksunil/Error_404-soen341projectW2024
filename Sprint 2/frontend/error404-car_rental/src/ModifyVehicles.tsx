@@ -78,13 +78,32 @@ export default function ModifyVehicles(){
                         <input type="text" placeholder={vehicleInfo.type} className="inputBoxes" form={vehicleInfo._id} name="type" onChange={(e) => updatedVehicleInfo.type = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.transmission} className="inputBoxes" form={vehicleInfo._id} name="transmission" onChange={(e) => updatedVehicleInfo.transmission = e.target.value} autoComplete="off"/>
+                    <select
+                            className="fieldInputs"
+                            onChange={(e) => {
+                                updatedVehicleInfo.transmission = e.target.value;
+                            }}
+                            form={vehicleInfo._id}
+                            defaultValue={vehicleInfo.transmission}>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                        </select>
                     </td>
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.numberOfSeats} className="inputBoxes" form={vehicleInfo._id} name="numberOfSeats" onChange={(e) => updatedVehicleInfo.numberOfSeats = e.target.value} autoComplete="off"/>
                     </td>
                     <td className="fieldInputs">
-                        <input type="text" placeholder={vehicleInfo.fuelType} className="inputBoxes" form={vehicleInfo._id} name="fuelType" onChange={(e) => updatedVehicleInfo.fuelType = e.target.value} autoComplete="off"/>
+                    <select
+                            className="fieldInputs"
+                            onChange={(e) => {
+                                updatedVehicleInfo.fuelType = e.target.value;
+                            }}
+                            form={vehicleInfo._id}
+                            defaultValue={vehicleInfo.fuelType}>
+                            <option value="Gas">Gas</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
                     </td>
                     <td className="fieldInputs">
                         <input type="text" placeholder={vehicleInfo.url} className="inputBoxes" form={vehicleInfo._id} name="url" onChange={(e) => updatedVehicleInfo.url = e.target.value} autoComplete="off"/>
@@ -168,7 +187,6 @@ export default function ModifyVehicles(){
 
     function toggleCreateVehicleModal(){
         setCreateVehicleModal(!createVehicleModal);
-        console.log("HELLO");
     }
 
     return (

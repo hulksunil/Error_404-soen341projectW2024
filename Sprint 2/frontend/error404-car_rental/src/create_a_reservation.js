@@ -43,55 +43,19 @@ const CarRentalReservation = () => {
 
   const location = useLocation();
 
+  const [reservationDates, setReservationDates] = useState({
+
+  })
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const carId = searchParams.get("carId");
     setFormData({ ...formData, carId: carId });
-
-    axios.get(`http://localhost:8080/vehicles/${carId}`)
-      .then(response => {
-        setFormData(prevState => ({
-          ...prevState,
-          carImageUrl: response.data.url
-        }));
-      })
-      .catch(error => {
-        console.error("Error fetching car details:", error);
-      });
-    //Gets all the branches to display in the drop down
     axios
-      .get("http://localhost:8080/branches")
+      .get("http://localhost:8080/checkCarAvailability/" + carId)
       .then((res) => {
-        if (res.status === 200) {
-          setAllBranches(res.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+        setReservationDates(res.data);
       });
-
-    //Gets the vehicles data 
-    axios
-      .get("http://localhost:8080/vehicles/" + carId)
-      .then((res) => {
-        if (res.status === 200) {
-          setVehicleInfo(res.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-      //gets the users info like their email
-      axios.post("http://localhost:8080/users/" + userId)
-      .then((res) => {
-        if (res.status === 200) {
-          setUserInfo(res.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      })
-
   }, [location]);
 
   const history = useNavigate();
@@ -125,33 +89,26 @@ const CarRentalReservation = () => {
     }
   };
 
-  function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
-    const regex = /[{}]/g;
-    let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
-    let filteredServices = additionalArray.filter(item => item.includes("true"));
-
-
-
-    const props= {
-      name: String(userName),
-      confirmation:String(res_id),
-      startDate:String(reservationDate),
-      endDate:String(returnDate),
-      pickup:String(pickupLocation),
-      dropoff:String(returnLocation),
-      model: String(vehicleInfo.model),
-      year: String(vehicleInfo.year),
-      additional:filteredServices,
-      total:String(finalAmount),
-      email:userInfo.email
+  function checkGivenUserDates() {
+    for (let index = 0; index < reservationDates.length; index++) {
+      const element = reservationDates[index];
+      
+      const existingReservationDate = new Date(element.reservationDate);
+      const existingReturnDate = new Date(element.returnDate);
+      const givenReservationDate = new Date(formData.reservationDate);
+      const givenReturnDate= new Date(formData.returnDate);
+     
+      if((givenReservationDate >= existingReservationDate && givenReservationDate <= existingReturnDate) 
+        || (givenReturnDate >= existingReservationDate && givenReturnDate <= existingReturnDate)){
+      console.log("Car not available!");
+      return false;
+     }
     }
-
-    EmailConfirmation.emailProps = props;
+    return true;
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let reservation_id = "";
 
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
@@ -159,14 +116,6 @@ const CarRentalReservation = () => {
       return;
     }
 
-    if(formData.location.length == 0){
-      formData.location = allBranches[0].name
-    }
-
-    if(formData.returnLocation.length == 0){
-      formData.returnLocation = allBranches[0].name
-    }
-    
     // Create the reservation data
     const reservationData = {
       userId: formData.userId,
@@ -178,7 +127,10 @@ const CarRentalReservation = () => {
       Additionalservices: formData.Additionalservices,
     };
 
-    axios
+    checkGivenUserDates();
+
+    if (checkGivenUserDates()){
+      axios
       .post("http://localhost:8080/CreateReservation", reservationData)
       .then((res) => {
         // console.log("Reservation created:", res.data);
@@ -209,7 +161,11 @@ const CarRentalReservation = () => {
     .catch((error) => {
       console.error("Error creating reservation:", error);
     });
-  };
+  }
+    else{
+      alert("The selected vehicle is not available given the dates you have selected! Please select change the dates of your booking or select a new vehicle.");
+    }
+
 
   return (
     <>
