@@ -9,13 +9,13 @@ const reservationSchema = new Schema({
   returnDate: Date,
   location: String,
   returnLocation: String,
-  Additionalservices:{
+  Additionalservices: {
     Insurance: Boolean,
     GPS: Boolean,
     EntertainmentSystems: Boolean,
     MobilePhones: Boolean,
     PortableWiFi: Boolean,
-    ChildSafetySeats: Boolean
+    ChildSafetySeats: Boolean,
   },
 });
 
@@ -41,8 +41,8 @@ class ReservationDB {
       reservationDate: reservationDate,
       returnDate: returnDate,
       location: location,
-      returnLocation:returnLocation,
-      Additionalservices:Additionalservices,
+      returnLocation: returnLocation,
+      Additionalservices: Additionalservices,
     });
     return reservation.save();
   }
@@ -73,8 +73,8 @@ class ReservationDB {
         reservationDate: reservationDate,
         returnDate: returnDate,
         location: location,
-        returnLocation:returnLocation,
-        Additionalservices:Additionalservices
+        returnLocation: returnLocation,
+        Additionalservices: Additionalservices,
       },
       { new: true }
     );
@@ -92,26 +92,9 @@ class ReservationDB {
     return Reservation.deleteMany({ userId: userId });
   }
 
-  /*static findReservationByCarId(carId) {
-    return Reservation.findById({carId : carId});
-  }*/ 
-
- static checkCarAvailability(carId){
-    let x = ReservationDB.includes(carId);
-    Boolean(x);
-    if (true){
-      Reservation.find({ carId: carId });
-      // check if dates user selects conflict with current booking
-      // if they do then car is unavailable
-      // maybe check return date of existing reservation which can be differentiated by user ID and pick up date of new reservation
-    }
-    else {
-      // car ID is not in the DB and is therefore available
-    }
+  static checkCarAvailability(carId) {
+    return Reservation.find({ carId: carId });
   }
-
 }
-
-  
 
 module.exports = ReservationDB;
