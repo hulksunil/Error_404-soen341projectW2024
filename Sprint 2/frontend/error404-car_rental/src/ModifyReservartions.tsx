@@ -26,6 +26,7 @@ export default function ModifyReservations() {
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [branchLocations, setBranchLocations] = useState<string[]>([]);
   const history = useNavigate();
 
   function loadAllReservations() {
@@ -43,7 +44,15 @@ export default function ModifyReservations() {
 
   useEffect(() => {
     loadAllReservations();
+    axios.get("http://localhost:8080/branches")
+    .then(response => {
+      setBranchLocations(response.data.map((branch: { name: string }) => branch.name));
+    })
+    .catch(error => {
+      console.error("Error fetching branch locations:", error);
+    });
   }, []);
+
 
   function updateReservation(reservationId: string, updatedReservation: Partial<Reservation>) {
     axios.put(`http://localhost:8080/UpdateReservation/${reservationId}`, updatedReservation)
@@ -126,8 +135,35 @@ export default function ModifyReservations() {
         <td className="fieldInputs"><input type="text" name="carId" value={editableReservation.carId} onChange={handleInputChange} readOnly /></td>
         <td className="fieldInputs"><input type="text" name="reservationDate" value={editableReservation.reservationDate} onChange={handleInputChange} /></td>
         <td className="fieldInputs"><input type="text" name="returnDate" value={editableReservation.returnDate} onChange={handleInputChange} /></td>
-        <td className="fieldInputs"><input type="text" name="location" value={editableReservation.location} onChange={handleInputChange} /></td>
-        <td className="fieldInputs"><input type="text" name="returnLocation" value={editableReservation.returnLocation} onChange={handleInputChange} /></td>
+        <td className="fieldInputs">
+    <select
+      name="location"
+      value={editableReservation.location}
+      onChange={handleInputChange}
+      className="outlined_fields"
+      required
+    >
+      {branchLocations.map((location) => (
+        <option key={location} value={location}>{location}</option>
+      ))}
+    </select>
+  </td>
+  <td className="fieldInputs">
+    <select
+      name="returnLocation"
+      value={editableReservation.returnLocation}
+      onChange={handleInputChange}
+      className="outlined_fields"
+      required
+    >
+      {branchLocations.map((location) => (
+        <option key={location} value={location}>{location}</option>
+      ))}
+    </select>
+  </td>
+  <td>
+    <div className="checkbox-container"></div>
+        </td>
         <td>
           <div className="checkbox-container">
           <input type="checkbox" name="Insurance" checked={editableReservation.Additionalservices && editableReservation.Additionalservices.Insurance} onChange={handleCheckboxChange} />

@@ -146,35 +146,25 @@ const CarRentalReservation = () => {
         const differenceInTime = returnDate.getTime() - reservationDate.getTime();
         const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
 
-        let finalAmount;
+        axios.get(`http://localhost:8080/vehicles/${formData.carId}`)
+        .then(response => {
+          const vehiclePrice = response.data.rentalPrice; 
+          const finalAmount = differenceInDays * vehiclePrice;
 
-        if (formData.carId.includes("667a")) {
-          finalAmount = differenceInDays * 1100;
-        } else if (formData.carId.includes("096e")) {
-          finalAmount = differenceInDays * 50;
-        } else if (formData.carId.includes("cc82")) {
-          finalAmount = differenceInDays * 70;
-        } else if (formData.carId.includes("fcee")) {
-          finalAmount = differenceInDays * 95;
-        } else if (formData.carId.includes("eb33")) {
-          finalAmount = differenceInDays * 60;
-        } else if (formData.carId.includes("ab4e")) {
-          finalAmount = differenceInDays * 40;
-        } else {
-          finalAmount = differenceInDays * 80;
-        }
-
-        history(`/payment?amount=${finalAmount}`);
-
-      })
-      .catch((error) => {
-        console.error("Error creating reservation:", error);
-      });
-    }
+          constructEmail(reservation_id, formData.reservationDate, formData.returnDate, finalAmount, formData.Additionalservices, formData.location, formData.returnLocation);
+          history(`/payment?amount=${finalAmount}`);
+        })
+        .catch(error => {
+          console.error("Error fetching car details:", error);
+        });
+    })
+    .catch((error) => {
+      console.error("Error creating reservation:", error);
+    });
+  }
     else{
       alert("The selected vehicle is not available given the dates you have selected! Please select change the dates of your booking or select a new vehicle.");
     }
-  };
 
 
   return (
@@ -256,7 +246,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s1"
                     name="Insurance"
-                    checked={formData.Additionalservices.Insurance}
+                    checked={formData.Additionalservices &&formData.Additionalservices.Insurance}
                     onChange={handleChange}
                   />
                   <label htmlFor="s1">  Insurance </label>
@@ -266,7 +256,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s2"
                     name="GPS"
-                    checked={formData.Additionalservices.GPS}
+                    checked={formData.Additionalservices &&formData.Additionalservices.GPS}
                     onChange={handleChange}
                   />
                   <label htmlFor="s2">GPS</label>
@@ -275,7 +265,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s3"
                     name="EntertainmentSystems"
-                    checked={formData.Additionalservices.EntertainmentSystems}
+                    checked={formData.Additionalservices &&formData.Additionalservices.EntertainmentSystems}
                     onChange={handleChange}
                   />
                   <label htmlFor="s3">Entertainment systems</label>
@@ -285,7 +275,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s4"
                     name="MobilePhones"
-                    checked={formData.Additionalservices.MobilePhones}
+                    checked={formData.Additionalservices &&formData.Additionalservices.MobilePhones}
                     onChange={handleChange}
                   />
                   <label htmlFor="s4">Mobile phones</label>
@@ -294,7 +284,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s5"
                     name="PortableWiFi"
-                    checked={formData.Additionalservices.PortableWiFi}
+                    checked={formData.Additionalservices &&formData.Additionalservices.PortableWiFi}
                     onChange={handleChange}
                   />
                   <label htmlFor="s5">Portable WiFi</label>
@@ -303,7 +293,7 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s6"
                     name="ChildSafetySeats"
-                    checked={formData.Additionalservices.ChildSafetySeats}
+                    checked={formData.Additionalservices &&formData.Additionalservices.ChildSafetySeats}
                     onChange={handleChange}
                   />
                   <label htmlFor="s6">Child safety seats</label>
