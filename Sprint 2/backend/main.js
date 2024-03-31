@@ -304,6 +304,7 @@ app.delete("/reservations/:id", (req, res) => {
     });
 });
 
+
 app.get("/checkCarAvailability/:id", (req, res) => {
   const carId = req.params.id;
   reservation = ReservationDB.checkCarAvailability(carId);

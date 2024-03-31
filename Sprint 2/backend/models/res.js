@@ -92,10 +92,6 @@ class ReservationDB {
     return Reservation.deleteMany({ userId: userId });
   }
 
-  /*static findReservationByCarId(carId) {
-    return Reservation.findById({carId : carId});
-  }*/
-
   static checkCarAvailability(carId) {
     return Reservation.find({ carId: carId });
   }
