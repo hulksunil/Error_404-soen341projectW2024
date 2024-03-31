@@ -16,8 +16,8 @@ import CSRView from "../CSRVIew.tsx";
 import CheckoutRedirect from "../CheckoutRedirect.tsx";
 import ViewCheckouts from "../ViewCheckouts.tsx";
 import RentalAgreement from "../car_rentral_agreement.js";
-import CheckInForm from "../check-in.js"
-import CheckInApproved from "../check-in_approved.js"
+import CheckInForm from "../check-in.js";
+import CheckInApproved from "../check-in_approved.js";
 import EmailTemplate from "../EmailTemplate.tsx";
 import AboutUs from "../AboutUs.tsx";
 
@@ -51,14 +51,21 @@ function App() {
             element={<CheckoutRedirect />}
           />
           <Route path="/view-checkouts" element={<ViewCheckouts />} />
-          <Route path="/car_rental_agreement/:reservationId" element={<RentalAgreement />}/>
-          <Route path="/check_in" element={<CheckInForm />}/>
-          <Route path="/approved_check-in/:carId" element={<CheckInApproved />}/>
-
-          <Route path="/temp" element = {<EmailTemplate/>}/>
-
+          <Route
+            path="/car_rental_agreement/:reservationId"
+            element={<RentalAgreement />}
+          />
+          <Route path="/check_in" element={<CheckInForm />} />
+          <Route
+            path="/approved_check-in/:carId"
+            element={<CheckInApproved />}
+          />
+          <Route path="/temp" element={<EmailTemplate />} />
         </Routes>
       </BrowserRouter>
+      <footer>
+        <span>&copy; Team Error404</span>
+      </footer>
     </div>
   );
 }
