@@ -44,16 +44,15 @@ export default function ModifyReservations() {
 
   useEffect(() => {
     loadAllReservations();
-  }, []);
-  useEffect(() => {
     axios.get("http://localhost:8080/branches")
-      .then(response => {
-        setBranchLocations(response.data.map((branch: { name: string }) => branch.name));
-      })
-      .catch(error => {
-        console.error("Error fetching branch locations:", error);
-      });
+    .then(response => {
+      setBranchLocations(response.data.map((branch: { name: string }) => branch.name));
+    })
+    .catch(error => {
+      console.error("Error fetching branch locations:", error);
+    });
   }, []);
+
 
   function updateReservation(reservationId: string, updatedReservation: Partial<Reservation>) {
     axios.put(`http://localhost:8080/UpdateReservation/${reservationId}`, updatedReservation)
@@ -144,7 +143,6 @@ export default function ModifyReservations() {
       className="outlined_fields"
       required
     >
-      <option value="">Select Pickup Location</option>
       {branchLocations.map((location) => (
         <option key={location} value={location}>{location}</option>
       ))}
@@ -158,7 +156,6 @@ export default function ModifyReservations() {
       className="outlined_fields"
       required
     >
-      <option value="">Select Return Location</option>
       {branchLocations.map((location) => (
         <option key={location} value={location}>{location}</option>
       ))}
