@@ -128,7 +128,7 @@ export default function CreateUser(props) {
 
   return (
     <div className="createAccount">
-      <div className="mainContent">
+      <div id="createAccountMainContent" className="mainContent">
         <CloseModal className="close" onClick={props.toggleModal} />
         <div className="rightContainer">
           <table>

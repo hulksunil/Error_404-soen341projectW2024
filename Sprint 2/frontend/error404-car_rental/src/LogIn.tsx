@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./styles/CreateUser.css";
-import "./styles/LogIn.css";
 import axios from "axios";
 // @ts-ignore
 import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
@@ -56,7 +55,7 @@ export default function LogIn(props) {
   }
 
   return (
-    <div className="mainContent" id="signin">
+    <div className="mainContent">
       <CloseModal className="close" onClick={props.toggleModal} />
       <div className="rightContainer">
         <table>
