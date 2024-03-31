@@ -304,32 +304,43 @@ app.delete("/reservations/:id", (req, res) => {
     });
 });
 
+
+app.get("/checkCarAvailability/:id", (req, res) => {
+  const carId = req.params.id;
+  reservation = ReservationDB.checkCarAvailability(carId);
+  reservation
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the reservations given car ID\n" + err);
+    });
+});
+
 // ======================================================== VEHICLE ROUTES ========================================================
 //Creating a vehicle
 app.post("/createVehicle", (req, res) => {
-  
   const vehicleInfo = req.body;
 
   const createdVehicle = VehicleDB.createVehicle(
-      vehicleInfo.model, 
-      vehicleInfo.type, 
-      vehicleInfo.transmission, 
-      vehicleInfo.numberOfSeats, 
-      vehicleInfo.fuelType, 
-      vehicleInfo.url, 
-      vehicleInfo.rentalPrice, 
-      vehicleInfo.hasBluetooth, 
-      vehicleInfo.drivetrain,
-      vehicleInfo.year,
-      vehicleInfo.licensePlate,
-      vehicleInfo.color,
-      vehicleInfo.branchId,
+    vehicleInfo.model,
+    vehicleInfo.type,
+    vehicleInfo.transmission,
+    vehicleInfo.numberOfSeats,
+    vehicleInfo.fuelType,
+    vehicleInfo.url,
+    vehicleInfo.rentalPrice,
+    vehicleInfo.hasBluetooth,
+    vehicleInfo.drivetrain,
+    vehicleInfo.year,
+    vehicleInfo.licensePlate,
+    vehicleInfo.color,
+    vehicleInfo.branchId
   );
 
   // Saving the vehicle to the database
   createdVehicle.then((result) => {
     console.log(result);
-
 
     // Sending the result to the client
     res.send(result);
@@ -338,7 +349,7 @@ app.post("/createVehicle", (req, res) => {
 
 app.get("/vehicles/:id", (req, res) => {
   const id = req.params.id;
-  
+
   vehicle = VehicleDB.findVehicleById(id);
   vehicle
     .then((result) => {
@@ -378,7 +389,7 @@ app.post("/updateVehicle", (req, res) => {
     newVehicleInfo.year,
     newVehicleInfo.licensePlate,
     newVehicleInfo.color,
-    newVehicleInfo.branchId,
+    newVehicleInfo.branchId
   );
   updateVehicle
     .then((result) => {
@@ -492,16 +503,16 @@ app.get("/branches", (req, res) => {
     });
 });
 
-app.get("/branches/:id",(req,res) => {
+app.get("/branches/:id", (req, res) => {
   const id = req.params.id;
   branches = BranchDB.findBranchById(id);
   branches
-  .then((result) => {
-    res.send(result);
-  })
-  .catch((err) => {
-    console.log("Error in finding the branch by id\n" + err);
-  });
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error in finding the branch by id\n" + err);
+    });
 });
 
 // ======================================================== SEND EMAIL ========================================================
@@ -514,36 +525,35 @@ const senderEmail = "sebastian.iaricci@gmail.com";
 
 //Configuration of the mailer
 const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: senderEmail,
-      pass: "iukn eedy iusd ttmr",
-    },
-  });
-
-app.post("/sendEmail",(req,res) => {
-  //userEmail , confirmationHtml 
-  const emailInfo = req.body;
-
-    const mailOptions = {
-      from: senderEmail,
-      to: emailInfo.userEmail,
-      subject: "CarsRUs Rental Information",
-      html: emailInfo.confirmationHtml,
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log('error' + error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+  service: "Gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: senderEmail,
+    pass: "iukn eedy iusd ttmr",
+  },
 });
 
+app.post("/sendEmail", (req, res) => {
+  //userEmail , confirmationHtml
+  const emailInfo = req.body;
+
+  const mailOptions = {
+    from: senderEmail,
+    to: emailInfo.userEmail,
+    subject: "CarsRUs Rental Information",
+    html: emailInfo.confirmationHtml,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log("error" + error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+});
 
 // ========================================================================================================================
 // SOME TEST CODE (Can ignore if you want)
