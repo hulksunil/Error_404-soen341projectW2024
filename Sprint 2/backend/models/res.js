@@ -9,13 +9,13 @@ const reservationSchema = new Schema({
   returnDate: Date,
   location: String,
   returnLocation: String,
-  Additionalservices:{
+  Additionalservices: {
     Insurance: Boolean,
     GPS: Boolean,
     EntertainmentSystems: Boolean,
     MobilePhones: Boolean,
     PortableWiFi: Boolean,
-    ChildSafetySeats: Boolean
+    ChildSafetySeats: Boolean,
   },
 });
 
@@ -41,8 +41,8 @@ class ReservationDB {
       reservationDate: reservationDate,
       returnDate: returnDate,
       location: location,
-      returnLocation:returnLocation,
-      Additionalservices:Additionalservices,
+      returnLocation: returnLocation,
+      Additionalservices: Additionalservices,
     });
     return reservation.save();
   }
@@ -73,8 +73,8 @@ class ReservationDB {
         reservationDate: reservationDate,
         returnDate: returnDate,
         location: location,
-        returnLocation:returnLocation,
-        Additionalservices:Additionalservices
+        returnLocation: returnLocation,
+        Additionalservices: Additionalservices,
       },
       { new: true }
     );
@@ -92,12 +92,9 @@ class ReservationDB {
     return Reservation.deleteMany({ userId: userId });
   }
 
- static checkCarAvailability(carId){
+  static checkCarAvailability(carId) {
     return Reservation.find({ carId: carId });
   }
-
 }
-
-  
 
 module.exports = ReservationDB;
