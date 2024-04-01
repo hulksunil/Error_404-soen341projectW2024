@@ -25,6 +25,7 @@ function RentalAgreement() {
     const [carData, setCarData] = useState(null);
     const [rentalPeriod, setRentalPeriod] = useState({
         days: 0,
+        hours:0,
         minutes: 0
     });
     const [currentUser, setCurrentUser] = useState(null);
@@ -81,14 +82,23 @@ function RentalAgreement() {
         const returnTime = new Date(returnDate).getTime();
         const diffTime = returnTime - pickupTime;
     
-        // Calculate days and minutes separately
+        // Convert time difference to days, hours, and minutes
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60));
+        const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
     
         setRentalPeriod({
             days: diffDays,
+            hours: diffHours,
             minutes: diffMinutes
         });
+    };
+
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        return `${formattedDate} at ${formattedTime}`;
     };
     
     const username = userData ? `${userData.firstName} ${userData.lastName}` : 'Loading...';
@@ -146,11 +156,11 @@ function RentalAgreement() {
                           <>
                             <li className="li">Rental Details:</li>
                             <p>
-                                Rental Start Date: {reservationData.reservationDate} <br />
-                                Rental End Date: {reservationData.returnDate} <br />
+                                Rental Start Date and Time: {formatDateTime(reservationData.reservationDate)} <br />
+                                Rental End Date and Time: {formatDateTime(reservationData.returnDate)} <br />
                                 Pick-up Location: {reservationData.location} <br />
                                 Drop-off Location: {reservationData.returnLocation} <br />
-                                Rental Period: {rentalPeriod.days} days and {rentalPeriod.minutes} minutes <br />
+                                Rental Period: {rentalPeriod.days} days, {rentalPeriod.hours} hours, {rentalPeriod.minutes} minutes <br />
                                 Mileage Limit (if applicable): none  <br />
                                 Rental Rate: ${carData ? carData.rentalPrice:'loading...'}/day <br />
                                 Additional Services (if any): 

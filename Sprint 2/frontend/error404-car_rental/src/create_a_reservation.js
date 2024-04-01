@@ -15,7 +15,9 @@ const getCurrentDate = () => {
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
   const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const hours = String(today.getHours()).padStart(2, "0");
+  const minutes = String(today.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 const CarRentalReservation = () => {
@@ -39,8 +41,6 @@ const CarRentalReservation = () => {
   const [allBranches, setAllBranches] = useState([]);
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
-
-
   const location = useLocation();
 
   useEffect(() => {
@@ -106,25 +106,23 @@ const CarRentalReservation = () => {
           [name]: checked
         }
       });
-    } else {
+    } 
+    else { 
       if (name === "reservationDate") {
-        const selectedDate = new Date(value);
-        if (!isNaN(selectedDate.getTime())) {
-          const nextDay = new Date(selectedDate);
-          nextDay.setDate(selectedDate.getDate() + 1);
-          const nextDayString = nextDay.toISOString().split('T')[0];
-          setFormData({
-            ...formData,
-            [name]: value,
-            returnDate: nextDayString
-          });
-        }
-      } else {
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value,
+          returnDate: getNextDay(value) // Update returnDate to the next day in local time format
+        }));
+      } 
+      else {
         setFormData({ ...formData, [name]: value });
       }
     }
   };
 
+  
+  
   function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
     const regex = /[{}]/g;
     let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
@@ -149,8 +147,20 @@ const CarRentalReservation = () => {
     EmailConfirmation.emailProps = props;
   }
 
+  const getNextDay = (selectedDate) => {
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1); // Adding one day
+    const year = nextDay.getFullYear();
+    const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+    const day = String(nextDay.getDate()).padStart(2, "0");
+    const hours = String(nextDay.getHours()).padStart(2, "0"); // Use hours from next day
+    const minutes = String(nextDay.getMinutes()).padStart(2, "0"); // Use minutes from next day
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     let reservation_id = "";
 
     // Do Form Validation
@@ -226,10 +236,10 @@ const CarRentalReservation = () => {
             <tbody>
               { }
               <tr>
-                <th>Pickup Date:</th>
+                <th>Pickup Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="reservationDate"
                     value={formData.reservationDate}
                     onChange={handleChange}
@@ -240,14 +250,14 @@ const CarRentalReservation = () => {
                 </td>
               </tr>
               <tr>
-                <th>Return Date:</th>
+                <th>Return Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
-                    min={formData.reservationDate ? formData.returnDate : getCurrentDate()}
+                    min={formData.reservationDate ? getNextDay(formData.reservationDate) : getCurrentDate()}
                     className="outlined_fields"
                     required
                   />
@@ -261,6 +271,7 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.location = e.target.value;
                     }}
+                    required
                   >
                     {allBranches.map(branch =>
                       <option key={branch._id} value={branch.name}>{branch.name}</option>
@@ -276,6 +287,7 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.returnLocation = e.target.value;
                     }}
+                    required
                   >
                     {allBranches.map(branch =>
                       <option key={branch._id} value={branch.name}>{branch.name}</option>
@@ -293,9 +305,8 @@ const CarRentalReservation = () => {
                     checked={formData.Additionalservices &&formData.Additionalservices.Insurance}
                     onChange={handleChange}
                   />
-                  <label htmlFor="s1">  Insurance </label>
+                  <label htmlFor="s1">Insurance</label>
                   <br />
-
                   <input
                     type="checkbox"
                     id="s2"

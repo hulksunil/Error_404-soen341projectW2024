@@ -1,24 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from './components/Navbar/navbar';
-import "./components/Navbar/navbar.css"
+import "./components/Navbar/navbar.css";
 
 const TransactionApproved = () => {
+  const history = useNavigate(); 
 
-  return React.createElement(
-    "div",
-    null,
-    React.createElement(Navbar, null),
-    React.createElement(
-      "div",
-      { className: "background_confirm" },
-      React.createElement("h1", null, "Transaction Approved"),
-      React.createElement(
-        "p",
-        null,
-        "Your payment has been successfully processed. Thank you for your reservation! Make a new selection from the Nav Bar to exit. You will receive an confirmation email shortly."
-      
-      )
-    )
+  const handleExit = () => {
+    history("/"); 
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <div className="background_confirm">
+        <h1>Transaction Approved</h1>
+        <p>
+          Your payment has been successfully processed. Thank you for your reservation! You will receive an confirmation email shortly.
+        </p>
+        <button onClick={handleExit}>Exit</button> 
+      </div>
+    </div>
   );
 };
 

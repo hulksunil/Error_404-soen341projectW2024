@@ -7,6 +7,7 @@ import { ReactComponent as Modify } from "./svgs/edit.svg";
 import axios from "axios";
 import { getCookie } from './CookieManager.ts';
 import Navbar from "./components/Navbar/navbar";
+import { convertToLocalForDisplay } from './UTCToLocal.ts';
 
 
 export default function ViewReservation() {
@@ -27,13 +28,23 @@ export default function ViewReservation() {
     };
     carImage: string;
   }
-  
 
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
   const [selectedReservation, setSelectedReservation] = useState<reservation>();
-  
+  const [allBranches, setAllBranches] = useState([]);
   const [reservations, setReservations] = useState<reservation[]>([])
+  const [selectedPickupBranch, setSelectedPickupBranch] = useState<string>("");
+  const [selectedReturnBranch, setSelectedReturnBranch] = useState<string>("");
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+    const day = String(today.getDate()).padStart(2, "0");
+    const hours = String(today.getHours()).padStart(2, "0");
+    const minutes = String(today.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
 
   function handleSubmit(event: React.FormEvent, updatedReservationInfo: reservation) {
     event.preventDefault();
@@ -63,13 +74,14 @@ export default function ViewReservation() {
         <div className="actionbar">
           <button className="viewLabel" onClick={() => viewReservationOnClick(reservation)}>View</button>
           {/* <Modify className="editSVG" onClick={() => modifyReservationOnClick(resId)} /> */}
-          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(reservation)} />
+          <Delete fill="red" className="deleteSVG" onClick={() => deleteReservationOnClick(reservation._id)} />
         </div>
       </div>
     )
   }
 
   function deleteReservationOnClick(resId: String) {
+
     console.log(resId+" would be deleted")
     axios
       .delete("http://localhost:8080/reservations/"+resId)
@@ -92,7 +104,17 @@ export default function ViewReservation() {
   function loadAllReservations() {
     const userId = getCookie("userid");
 
-    
+    axios
+    .get("http://localhost:8080/branches")
+    .then((res) => {
+      if (res.status === 200) {
+        setAllBranches(res.data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching branches:", error);
+    });
+
     // get the user details from the backend
     axios.post("http://localhost:8080/users/" + userId).then((userRes) => {
       const user = userRes.data;
@@ -134,9 +156,7 @@ export default function ViewReservation() {
       <h3>No reservations found</h3>
       </>
       :
-        <>
-        
-        
+      <>  
       {reservations.sort((a,b)=>Date.parse(a.reservationDate)-Date.parse(b.reservationDate)).map(reservaton =>
         <Reservation key={reservaton._id} reservation={reservaton} />
       )}
@@ -158,21 +178,59 @@ export default function ViewReservation() {
 
   function Form({ formData }: { formData: reservation }) {
     const [updatedReservationInfo, setUpdatedReservationInfo] = useState<reservation>(formData);
-    console.log(updatedReservationInfo);
+  
+    let reservationDate = formData.reservationDate.substring(0, 16);
+    let returnDate = formData.returnDate.substring(0, 16);
 
-    let reservationDate = formData.reservationDate.substring(0, 10);
-    let returnDate = formData.returnDate.substring(0, 10);
+    const pickupLocalTime = convertToLocalForDisplay(new Date(formData.reservationDate));
+    const returnLocalTime = convertToLocalForDisplay(new Date(formData.returnDate));
+
+    const handleReturnBranchChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedReturnBranch(e.target.value);
+    };
 
     const handleCheckboxChange = (serviceName: keyof reservation['Additionalservices'], checked: boolean) => {
       setUpdatedReservationInfo(prevData => ({
-      ...prevData,
-      Additionalservices: {
-        ...prevData.Additionalservices,
-        [serviceName]: checked
+        ...prevData,
+        Additionalservices: {
+          ...prevData.Additionalservices,
+          [serviceName]: checked
         }
       }));
     };
 
+    const handleDateTimeChange = (fieldName: 'reservationDate' | 'returnDate', value: string) => {
+      setUpdatedReservationInfo(prevData => ({
+        ...prevData,
+        [fieldName]: value
+      }));
+      if (fieldName === 'reservationDate') {
+        const updatedReturnDate = setMinReturnDate(value);
+        setUpdatedReservationInfo(prevData => ({
+          ...prevData,
+          returnDate: updatedReturnDate
+        }));
+      }
+  };
+
+  const setMinReturnDate = (newReservationDate: string) => {
+    const selectedReservationDate = new Date(newReservationDate);
+    selectedReservationDate.setDate(selectedReservationDate.getDate() + 1);
+  
+    // Adjusting hours and minutes to avoid invalid time value
+    selectedReservationDate.setHours(0);
+    selectedReservationDate.setMinutes(0);
+  
+    const year = selectedReservationDate.getFullYear();
+    const month = String(selectedReservationDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedReservationDate.getDate()).padStart(2, '0');
+    const hours = String(selectedReservationDate.getHours()).padStart(2, '0');
+    const minutes = String(selectedReservationDate.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  
     return (
       <form className="formToUpdate" onSubmit={(e)=>handleSubmit(e,updatedReservationInfo)}>
         <table className="tableToUpdate">
@@ -184,37 +242,38 @@ export default function ViewReservation() {
                 <label>{formData?._id}</label>
               </td>
             </tr>
-                  <tr>
-              <th>Pickup Date:</th>
+            <tr>
+              <th>Pickup Date and Time:</th>
               <td>
-                <input
-                  type="date"
-                  name="reservationDate"
-                  defaultValue={reservationDate}
-                  onChange={(e) => updatedReservationInfo.reservationDate=e.target.value}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
+              <input
+                type="datetime-local"
+                name="reservationDate"
+                defaultValue={pickupLocalTime.toISOString().slice(0, 16)}
+                onChange={(e) => handleDateTimeChange("reservationDate", e.target.value)}
+                min={getCurrentDate()}
+                className="outlined_fields"
+                required
+              />
+            </td>
             </tr>
             <tr>
-              <th>Return Date:</th>
+              <th>Return Date and Time:</th>
               <td>
-                <input
-                  type="date"
-                  name="returnDate"
-                  min={reservationDate}
-                  defaultValue={returnDate}
-                  onChange={(e) => updatedReservationInfo.returnDate=e.target.value}
-                  className="outlined_fields"
-                  required
-                />
-              </td>
+              <input
+                type="datetime-local"
+                name="returnDate"
+                defaultValue={returnLocalTime.toISOString().slice(0, 16)}
+                onChange={(e) => handleDateTimeChange("returnDate", e.target.value)}
+                className="outlined_fields"
+                min={setMinReturnDate(updatedReservationInfo.reservationDate)}
+                required
+              />
+            </td>
             </tr>
             <tr>
               <th>Pickup Location:</th>
               <td>
-                <input
+              <input
                   type="text"
                   name="location"
                   defaultValue={formData.location}
@@ -227,14 +286,18 @@ export default function ViewReservation() {
             <tr>
               <th>Return location:</th>
               <td>
-                <input
-                  type="text"
-                  name="returnLocation"
-                  defaultValue={formData.returnLocation}
-                  onChange={(e) => updatedReservationInfo.returnLocation=e.target.value}
-                  className="outlined_fields"
-                  required
-                />
+              <select
+                value={selectedReturnBranch}
+                onChange={handleReturnBranchChange}
+                className="outlined_fields"
+                required
+              >
+                {allBranches.map((branch: any) => (
+                  <option key={branch._id} value={branch._id}>
+                    {branch.name} - {branch.location}
+                  </option>
+                ))}
+              </select>
               </td>
             </tr>
             <tr>
