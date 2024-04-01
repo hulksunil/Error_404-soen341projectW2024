@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "./CookieManager.ts";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar.jsx";
-import {EmailConfirmation} from './EmailConfirmation.ts';
+import { EmailConfirmation } from "./EmailConfirmation.ts";
 
 const userId = getCookie("userid");
 const userName = getCookie("username");
@@ -34,13 +34,17 @@ const CarRentalReservation = () => {
       EntertainmentSystems: false,
       MobilePhones: false,
       PortableWiFi: false,
-      ChildSafetySeats: false
+      ChildSafetySeats: false,
     },
-    carImageUrl:""
+    carImageUrl: "",
   });
   const [allBranches, setAllBranches] = useState([]);
   const [vehicleInfo, setVehicleInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
+
+  const [reservationDates, setReservationDates] = useState({});
+
+
   const location = useLocation();
 
   useEffect(() => {
@@ -48,14 +52,15 @@ const CarRentalReservation = () => {
     const carId = searchParams.get("carId");
     setFormData({ ...formData, carId: carId });
 
-    axios.get(`http://localhost:8080/vehicles/${carId}`)
-      .then(response => {
-        setFormData(prevState => ({
+    axios
+      .get(`http://localhost:8080/vehicles/${carId}`)
+      .then((response) => {
+        setFormData((prevState) => ({
           ...prevState,
-          carImageUrl: response.data.url
+          carImageUrl: response.data.url,
         }));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching car details:", error);
       });
     //Gets all the branches to display in the drop down
@@ -70,7 +75,14 @@ const CarRentalReservation = () => {
         console.error("Error:", error);
       });
 
-    //Gets the vehicles data 
+    //Gets the avalability reservation dates for the car
+    axios
+      .get("http://localhost:8080/checkCarAvailability/" + carId)
+      .then((res) => {
+        setReservationDates(res.data);
+      });
+
+    //Gets the vehicles data
     axios
       .get("http://localhost:8080/vehicles/" + carId)
       .then((res) => {
@@ -81,8 +93,9 @@ const CarRentalReservation = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-      //gets the users info like their email
-      axios.post("http://localhost:8080/users/" + userId)
+    //gets the users info like their email
+    axios
+      .post("http://localhost:8080/users/" + userId)
       .then((res) => {
         if (res.status === 200) {
           setUserInfo(res.data);
@@ -90,8 +103,7 @@ const CarRentalReservation = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
-      })
-
+      });
   }, [location]);
 
   const history = useNavigate();
@@ -103,60 +115,103 @@ const CarRentalReservation = () => {
         ...formData,
         Additionalservices: {
           ...formData.Additionalservices,
-          [name]: checked
-        }
+          [name]: checked,
+        },
       });
     } 
     else { 
       if (name === "reservationDate") {
-        setFormData(prevState => ({
-          ...prevState,
-          [name]: value,
-          returnDate: getNextDay(value) // Update returnDate to the next day in local time format
-        }));
-      } 
-      else {
+
+
+        const selectedDate = new Date(value);
+        if (!isNaN(selectedDate.getTime())) {
+          const nextDay = new Date(selectedDate);
+          nextDay.setDate(selectedDate.getDate() + 1);
+          const nextDayString = nextDay.toISOString().split("T")[0];
+          setFormData({
+            ...formData,
+            [name]: value,
+            returnDate: nextDayString,
+          });
+        }
+      } else {
+
         setFormData({ ...formData, [name]: value });
       }
     }
   };
 
-  
-  
-  function constructEmail(res_id, reservationDate, returnDate, finalAmount, additional,pickupLocation,returnLocation) {
+  function constructEmail(
+    res_id,
+    reservationDate,
+    returnDate,
+    finalAmount,
+    additional,
+    pickupLocation,
+    returnLocation
+  ) {
+
     const regex = /[{}]/g;
-    let additionalArray = JSON.stringify(additional).replace(regex,"").split(",");
-    let filteredServices = additionalArray.filter(item => item.includes("true"));
+    let additionalArray = JSON.stringify(additional)
+      .replace(regex, "")
+      .split(",");
+    let filteredServices = additionalArray.filter((item) =>
+      item.includes("true")
+    );
 
-
-
-    const props= {
+    const props = {
       name: String(userName),
-      confirmation:String(res_id),
-      startDate:String(reservationDate),
-      endDate:String(returnDate),
-      pickup:String(pickupLocation),
-      dropoff:String(returnLocation),
+      confirmation: String(res_id),
+      startDate: String(reservationDate),
+      endDate: String(returnDate),
+      pickup: String(pickupLocation),
+      dropoff: String(returnLocation),
       model: String(vehicleInfo.model),
       year: String(vehicleInfo.year),
-      additional:filteredServices,
-      total:String(finalAmount),
-      email:userInfo.email
-    }
+      additional: filteredServices,
+      total: String(finalAmount),
+      email: userInfo.email,
+    };
 
     EmailConfirmation.emailProps = props;
   }
 
-  const getNextDay = (selectedDate) => {
-    const nextDay = new Date(selectedDate);
-    nextDay.setDate(nextDay.getDate() + 1); // Adding one day
-    const year = nextDay.getFullYear();
-    const month = String(nextDay.getMonth() + 1).padStart(2, "0");
-    const day = String(nextDay.getDate()).padStart(2, "0");
-    const hours = String(nextDay.getHours()).padStart(2, "0"); // Use hours from next day
-    const minutes = String(nextDay.getMinutes()).padStart(2, "0"); // Use minutes from next day
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
+
+  function checkGivenUserDates() {
+    for (let index = 0; index < reservationDates.length; index++) {
+      const element = reservationDates[index];
+
+      const existingReservationDate = new Date(element.reservationDate);
+      const existingReturnDate = new Date(element.returnDate);
+      const givenReservationDate = new Date(formData.reservationDate);
+      const givenReturnDate = new Date(formData.returnDate);
+
+      // if either the given reservation date or return date is between the existing reservation and return date
+      if (
+        (givenReservationDate >= existingReservationDate &&
+          givenReservationDate <= existingReturnDate) ||
+        (givenReturnDate >= existingReservationDate &&
+          givenReturnDate <= existingReturnDate)
+      ) {
+        console.log(
+          "Car not available! Conflicting reservation dates with existing reservation!"
+        );
+        return false;
+      }
+      // if the given reservation date is before the existing reservation date and the given return date is after the existing return date
+      else if (
+        givenReservationDate <= existingReservationDate &&
+        givenReturnDate >= existingReturnDate
+      ) {
+        console.log(
+          "The car is already being reserved within the given dates!"
+        );
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -169,14 +224,15 @@ const CarRentalReservation = () => {
       return;
     }
 
-    if(formData.location.length == 0){
-      formData.location = allBranches[0].name
+    // default location to the first branch if not selected
+    if (formData.location.length == 0) {
+      formData.location = allBranches[0].name;
     }
 
-    if(formData.returnLocation.length == 0){
-      formData.returnLocation = allBranches[0].name
+    if (formData.returnLocation.length == 0) {
+      formData.returnLocation = allBranches[0].name;
     }
-    
+
     // Create the reservation data
     const reservationData = {
       userId: formData.userId,
@@ -188,37 +244,58 @@ const CarRentalReservation = () => {
       Additionalservices: formData.Additionalservices,
     };
 
-    axios
-      .post("http://localhost:8080/CreateReservation", reservationData)
-      .then((res) => {
-        // console.log("Reservation created:", res.data);
-        reservation_id = res.data._id;
-        setFormData({
-          reservationDate: "",
-          returnDate: "",
-          location: "",
-          returnLocation: "",
-        });
-        const reservationDate = new Date(formData.reservationDate);
-        const returnDate = new Date(formData.returnDate);
-        const differenceInTime = returnDate.getTime() - reservationDate.getTime();
-        const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+    if (checkGivenUserDates()) {
+      axios
+        .post("http://localhost:8080/CreateReservation", reservationData)
+        .then((res) => {
+          // console.log("Reservation created:", res.data);
+          reservation_id = res.data._id;
+          setFormData({
+            reservationDate: "",
+            returnDate: "",
+            location: "",
+            returnLocation: "",
+          });
+          const reservationDate = new Date(formData.reservationDate);
+          const returnDate = new Date(formData.returnDate);
+          const differenceInTime =
+            returnDate.getTime() - reservationDate.getTime();
+          const differenceInDays = Math.floor(
+            differenceInTime / (1000 * 60 * 60 * 24)
+          );
 
-        axios.get(`http://localhost:8080/vehicles/${formData.carId}`)
-        .then(response => {
-          const vehiclePrice = response.data.rentalPrice; 
-          const finalAmount = differenceInDays * vehiclePrice;
 
-          constructEmail(reservation_id, formData.reservationDate, formData.returnDate, finalAmount, formData.Additionalservices, formData.location, formData.returnLocation);
-          history(`/payment?amount=${finalAmount}`);
+
+          axios
+            .get(`http://localhost:8080/vehicles/${formData.carId}`)
+            .then((response) => {
+              const vehiclePrice = response.data.rentalPrice;
+              const finalAmount = differenceInDays * vehiclePrice;
+
+              constructEmail(
+                reservation_id,
+                formData.reservationDate,
+                formData.returnDate,
+                finalAmount,
+                formData.Additionalservices,
+                formData.location,
+                formData.returnLocation
+              );
+              history(`/payment?amount=${finalAmount}`);
+            })
+            .catch((error) => {
+              console.error("Error fetching car details:", error);
+            });
         })
-        .catch(error => {
-          console.error("Error fetching car details:", error);
+        .catch((error) => {
+          console.error("Error creating reservation:", error);
         });
-    })
-    .catch((error) => {
-      console.error("Error creating reservation:", error);
-    });
+    } else {
+      alert(
+        "The selected vehicle is not available given the dates you have selected! Please select change the dates of your booking or select a new vehicle."
+      );
+    }
+
   };
 
   return (
@@ -234,7 +311,7 @@ const CarRentalReservation = () => {
         <form onSubmit={handleSubmit}>
           <table className="reservationTable">
             <tbody>
-              { }
+              {}
               <tr>
                 <th>Pickup Date and Time:</th>
                 <td>
@@ -257,7 +334,14 @@ const CarRentalReservation = () => {
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
-                    min={formData.reservationDate ? getNextDay(formData.reservationDate) : getCurrentDate()}
+
+=======
+                    min={
+                      formData.reservationDate
+                        ? formData.returnDate
+                        : getCurrentDate()
+                    }
+
                     className="outlined_fields"
                     required
                   />
@@ -271,10 +355,13 @@ const CarRentalReservation = () => {
                     onChange={(e) => {
                       formData.location = e.target.value;
                     }}
-                    required
+
+=======
+                    disabled
+
                   >
                     {allBranches.map(branch =>
-                      <option key={branch._id} value={branch.name}>{branch.name}</option>
+                      <option key={branch._id} value={branch.name} selected={vehicleInfo.branchId == branch._id}>{branch.name}</option>
                     )}
                   </select>
                 </td>
@@ -289,9 +376,11 @@ const CarRentalReservation = () => {
                     }}
                     required
                   >
-                    {allBranches.map(branch =>
-                      <option key={branch._id} value={branch.name}>{branch.name}</option>
-                    )}
+                    {allBranches.map((branch) => (
+                      <option key={branch._id} value={branch.name}>
+                        {branch.name}
+                      </option>
+                    ))}
                   </select>
                 </td>
               </tr>
@@ -302,16 +391,28 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s1"
                     name="Insurance"
-                    checked={formData.Additionalservices &&formData.Additionalservices.Insurance}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.Insurance
+                    }
                     onChange={handleChange}
                   />
-                  <label htmlFor="s1">Insurance</label>
+                  <label htmlFor="s1"> Insurance </label>
+
                   <br />
                   <input
                     type="checkbox"
                     id="s2"
                     name="GPS"
-                    checked={formData.Additionalservices &&formData.Additionalservices.GPS}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.GPS
+                    }
+
                     onChange={handleChange}
                   />
                   <label htmlFor="s2">GPS</label>
@@ -320,7 +421,13 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s3"
                     name="EntertainmentSystems"
-                    checked={formData.Additionalservices &&formData.Additionalservices.EntertainmentSystems}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.EntertainmentSystems
+                    }
+
                     onChange={handleChange}
                   />
                   <label htmlFor="s3">Entertainment systems</label>
@@ -330,7 +437,13 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s4"
                     name="MobilePhones"
-                    checked={formData.Additionalservices &&formData.Additionalservices.MobilePhones}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.MobilePhones
+                    }
+
                     onChange={handleChange}
                   />
                   <label htmlFor="s4">Mobile phones</label>
@@ -339,7 +452,13 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s5"
                     name="PortableWiFi"
-                    checked={formData.Additionalservices &&formData.Additionalservices.PortableWiFi}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.PortableWiFi
+                    }
+
                     onChange={handleChange}
                   />
                   <label htmlFor="s5">Portable WiFi</label>
@@ -348,7 +467,13 @@ const CarRentalReservation = () => {
                     type="checkbox"
                     id="s6"
                     name="ChildSafetySeats"
-                    checked={formData.Additionalservices &&formData.Additionalservices.ChildSafetySeats}
+
+=======
+                    checked={
+                      formData.Additionalservices &&
+                      formData.Additionalservices.ChildSafetySeats
+                    }
+
                     onChange={handleChange}
                   />
                   <label htmlFor="s6">Child safety seats</label>
@@ -367,7 +492,6 @@ const CarRentalReservation = () => {
               type="reset"
               value="Reset"
               className="reset"
-
               onClick={() => {
                 setFormData({
                   ...formData,

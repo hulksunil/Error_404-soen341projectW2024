@@ -53,6 +53,22 @@ const CarRentalPayment = () => {
     return true;
   }
 
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCVV] = useState("");
+
+  function validateForm() {
+    if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+      alert("Please enter a valid credit card number (16 digits)");
+      return false;
+    }
+    if (cvv.length !== 3 || isNaN(cvv)) {
+      alert("Please enter a valid CVV (3 digits)");
+      return false;
+    }
+
+    return true;
+  }
+
   function transactionapproved(){
     
     const componentHTML = ReactDOMServer.renderToString(<EmailTemplate reservationInfo = {EmailConfirmation.emailProps}/>);
