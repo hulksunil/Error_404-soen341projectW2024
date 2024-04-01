@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/create_a_reservation&payment.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import {EmailConfirmation} from './EmailConfirmation.ts';
 import EmailTemplate from "./EmailTemplate.tsx";
 import ReactDOMServer from 'react-dom/server';
@@ -15,6 +15,7 @@ const getCurrentMonthYear = () => {
 
 const CarRentalPayment = () => {
   const history = useNavigate();
+  const location= useLocation();
   const searchParams = new URLSearchParams(location.search);
   const amount = searchParams.get('amount') || 0; 
 
