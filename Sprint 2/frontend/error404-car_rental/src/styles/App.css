@@ -3,6 +3,12 @@
   --secondary-color: #adadff;
 }
 
+body {
+  background-color: #adadff;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -51,8 +57,8 @@ input {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
+  padding: 0.5em;
+  margin-top: 5vh;
   display: flex;
   justify-content: center;
 }
