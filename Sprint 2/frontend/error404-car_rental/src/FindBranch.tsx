@@ -90,7 +90,6 @@ export default function FindBranch() {
 
     function viewBranch(branchid) {
         history("/browse", { state: { branchId: branchid } });
-        // history(`/browse?branchId=${branchid}`);
     }
 
     function BranchRow({ branchInfo }) {

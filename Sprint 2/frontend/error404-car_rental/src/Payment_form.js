@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/create_a_reservation&payment.css";
 import { useNavigate,useLocation } from 'react-router-dom';
 import {EmailConfirmation} from './EmailConfirmation.ts';
@@ -6,9 +6,10 @@ import EmailTemplate from "./EmailTemplate.tsx";
 import ReactDOMServer from 'react-dom/server';
 import axios from "axios";
 
+
 const getCurrentMonthYear = () => {
   const today = new Date();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const month = String(today.getMonth() + 2).padStart(2, "0");
   const year = today.getFullYear();
   return `${year}-${month}`;
 };
@@ -19,9 +20,26 @@ const CarRentalPayment = () => {
   const searchParams = new URLSearchParams(location.search);
   const amount = searchParams.get('amount') || 0; 
 
-  function transactionapproved(){
-    const componentHTML = ReactDOMServer.renderToString(<EmailTemplate reservationInfo = {EmailConfirmation.emailProps}/>);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCVV] = useState("");
 
+  function validateForm() {
+    if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+      alert("Please enter a valid credit card number (16 digits)");
+      return false;
+    }
+    if (cvv.length !== 3 || isNaN(cvv)) {
+      alert("Please enter a valid CVV (3 digits)");
+      return false;
+    }
+
+    return true;
+  }
+
+  function transactionapproved(){
+    
+    const componentHTML = ReactDOMServer.renderToString(<EmailTemplate reservationInfo = {EmailConfirmation.emailProps}/>);
+    
     axios.post("http://localhost:8080/sendEmail", {
       userEmail: EmailConfirmation.emailProps.email,
       confirmationHtml: componentHTML,
@@ -65,9 +83,11 @@ const CarRentalPayment = () => {
             <td>
               <input
                 type="text"
-                maxLength="12"
+                maxLength="16"
                 className="outlined_fields"
                 required
+                value={cardNumber}
+                onChange={(e)=>setCardNumber(e.target.value)}
               />
             </td>
           </tr>
@@ -94,6 +114,8 @@ const CarRentalPayment = () => {
                 className="outlined_fields"
                 placeholder="555"
                 required
+                value={cvv}
+                onChange={(e)=>setCVV(e.target.value)}
               />
             </td>
           </tr>
@@ -107,7 +129,8 @@ const CarRentalPayment = () => {
         </table>
         <br />
         <div>
-          <input type="submit" value="Make Payment" className="submit" onClick={() => {transactionapproved()}}/>
+          <input type="submit" value="Make Payment" className="submit" onClick={(e) => {e.preventDefault();
+            if (validateForm())transactionapproved()}}/>
           <input type="reset" value="Reset" className="reset" />
         </div>
       </form>
