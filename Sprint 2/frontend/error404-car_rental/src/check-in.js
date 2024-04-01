@@ -61,7 +61,6 @@ function CheckInForm() {
                                     value={reservationId}
                                     onChange={(e) => setReservationId(e.target.value)}
                                     className='required_field'
-                                    maxLength={24}
                                     required
                                 />
                             </td>

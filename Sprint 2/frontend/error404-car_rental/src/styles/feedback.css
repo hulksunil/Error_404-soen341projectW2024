@@ -1,0 +1,48 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.checked {
+    color: orange;
+  }
+  
+  .rating span {
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .rating-label {
+    margin-right: 10px;
+  }
+  
+  .rating {
+    margin: 0 auto; /* Set left and right margins to auto to center the div */
+    width: 200px; /* Adjust width as needed */
+    height: 30px; /* Set a fixed height */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
+  }
+  
+  #stars_filled {
+    margin-left: 10px;
+  }
+
+  .stars-container {
+    display: flex;
+    text-align: center;
+  }
+
+  .fa-star {
+    display: inline-block; 
+    margin: 0 5px; 
+  }
+
+  .feedback-container {
+    text-align: center; /* Align all content to the center */
+  }
+
+  .comment{
+    border: 1px solid #aaa; 
+    border-radius: 10px; 
+    padding: 8px; 
+    outline: none;
+  }

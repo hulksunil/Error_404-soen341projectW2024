@@ -15,7 +15,9 @@ const getCurrentDate = () => {
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
   const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const hours = String(today.getHours()).padStart(2, "0");
+  const minutes = String(today.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 const CarRentalReservation = () => {
@@ -116,17 +118,11 @@ const CarRentalReservation = () => {
       });
     } else {
       if (name === "reservationDate") {
-        const selectedDate = new Date(value);
-        if (!isNaN(selectedDate.getTime())) {
-          const nextDay = new Date(selectedDate);
-          nextDay.setDate(selectedDate.getDate() + 1);
-          const nextDayString = nextDay.toISOString().split("T")[0];
-          setFormData({
-            ...formData,
-            [name]: value,
-            returnDate: nextDayString,
-          });
-        }
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: value,
+          returnDate: getNextDay(value), // Update returnDate to the next day in local time format
+        }));
       } else {
         setFormData({ ...formData, [name]: value });
       }
@@ -202,8 +198,20 @@ const CarRentalReservation = () => {
     return true;
   }
 
+  const getNextDay = (selectedDate) => {
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1); // Adding one day
+    const year = nextDay.getFullYear();
+    const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+    const day = String(nextDay.getDate()).padStart(2, "0");
+    const hours = String(nextDay.getHours()).padStart(2, "0"); // Use hours from next day
+    const minutes = String(nextDay.getMinutes()).padStart(2, "0"); // Use minutes from next day
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     let reservation_id = "";
 
     // Do Form Validation
@@ -212,13 +220,17 @@ const CarRentalReservation = () => {
       return;
     }
 
-    // default location to the first branch if not selected
+    // default location to the pickup branch location if not selected
     if (formData.location.length == 0) {
-      formData.location = allBranches[0].name;
+      formData.location = allBranches.find(
+        (branch) => branch._id == vehicleInfo.branchId
+      ).name;
     }
 
     if (formData.returnLocation.length == 0) {
-      formData.returnLocation = allBranches[0].name;
+      formData.returnLocation = allBranches.find(
+        (branch) => branch._id == vehicleInfo.branchId
+      ).name;
     }
 
     // Create the reservation data
@@ -298,10 +310,10 @@ const CarRentalReservation = () => {
             <tbody>
               {}
               <tr>
-                <th>Pickup Date:</th>
+                <th>Pickup Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="reservationDate"
                     value={formData.reservationDate}
                     onChange={handleChange}
@@ -312,16 +324,16 @@ const CarRentalReservation = () => {
                 </td>
               </tr>
               <tr>
-                <th>Return Date:</th>
+                <th>Return Date and Time:</th>
                 <td>
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleChange}
                     min={
                       formData.reservationDate
-                        ? formData.returnDate
+                        ? getNextDay(formData.reservationDate)
                         : getCurrentDate()
                     }
                     className="outlined_fields"
@@ -330,18 +342,23 @@ const CarRentalReservation = () => {
                 </td>
               </tr>
               <tr>
-                <th> Pickup location:</th>
+                <th>Pickup location:</th>
                 <td>
                   <select
+                    name="location"
                     className="branchDropDown"
-                    onChange={(e) => {
-                      formData.location = e.target.value;
-                    }}
+                    onChange={handleChange}
                     disabled
                   >
-                    {allBranches.map(branch =>
-                      <option key={branch._id} value={branch.name} selected={vehicleInfo.branchId == branch._id}>{branch.name}</option>
-                    )}
+                    {allBranches.map((branch) => (
+                      <option
+                        key={branch._id}
+                        value={branch.name}
+                        selected={vehicleInfo.branchId == branch._id}
+                      >
+                        {branch.name}
+                      </option>
+                    ))}
                   </select>
                 </td>
               </tr>
@@ -349,13 +366,17 @@ const CarRentalReservation = () => {
                 <th> Return location:</th>
                 <td>
                   <select
+                    name="returnLocation"
                     className="branchDropDown"
-                    onChange={(e) => {
-                      formData.returnLocation = e.target.value;
-                    }}
+                    onChange={handleChange}
+                    required
                   >
                     {allBranches.map((branch) => (
-                      <option key={branch._id} value={branch.name}>
+                      <option
+                        key={branch._id}
+                        value={branch.name}
+                        selected={vehicleInfo.branchId == branch._id}
+                      >
                         {branch.name}
                       </option>
                     ))}
@@ -375,9 +396,8 @@ const CarRentalReservation = () => {
                     }
                     onChange={handleChange}
                   />
-                  <label htmlFor="s1"> Insurance </label>
+                  <label htmlFor="s1">Insurance</label>
                   <br />
-
                   <input
                     type="checkbox"
                     id="s2"
