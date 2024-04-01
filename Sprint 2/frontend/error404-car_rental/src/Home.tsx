@@ -5,6 +5,15 @@ import Navbar from "./components/Navbar/navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+type Car = {
+  _id: string;
+  make: string;
+  model: string;
+  year: string;
+  price: number;
+  url: string;
+};
+
 export default function Home() {
   const history = useNavigate();
 
@@ -94,7 +103,7 @@ export default function Home() {
         <div className="carsSneakPeak">
           <h2>Some of our offered cars</h2>
           <div>
-            {cars.slice(0, 5).map((car) => (
+            {cars.slice(0, 5).map((car: Car) => (
               <div key={car._id}>
                 <img src={car.url} alt="Car" />
               </div>
