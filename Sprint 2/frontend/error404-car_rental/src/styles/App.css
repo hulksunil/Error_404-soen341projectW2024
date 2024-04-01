@@ -3,6 +3,12 @@
   --secondary-color: #adadff;
 }
 
+body {
+  background-color: #adadff;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }

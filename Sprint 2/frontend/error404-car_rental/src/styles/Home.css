@@ -77,3 +77,68 @@
   margin: 1em;
   border-radius: 0.5em;
 }
+
+@media only screen and (max-width: 1800px) {
+  /* body {
+    background-color: black;
+  } */
+
+  .content > h1 {
+    display: none;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  .buttonContainer {
+    width: 10em;
+    height: 10em;
+  }
+
+  .buttonContainer * {
+    font-size: 15px;
+  }
+
+  .missionStatement {
+    margin: 10px;
+  }
+
+  .missionStatement * {
+    font-size: 15px;
+  }
+
+  .homePageContent {
+    display: grid;
+    grid-template-areas:
+      "homePageButtons info"
+      "carsSneakPeak carsSneakPeak";
+  }
+
+  .homePageContent .homePageButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .homePageButtons {
+    grid-area: homePageButtons;
+  }
+
+  .info {
+    grid-area: info;
+    justify-content: initial;
+  }
+
+  .carsSneakPeak {
+    grid-area: carsSneakPeak;
+  }
+
+  .carsSneakPeak img {
+    width: 13em;
+  }
+
+  .carsSneakPeak > h2 {
+    margin: 0;
+  }
+}
