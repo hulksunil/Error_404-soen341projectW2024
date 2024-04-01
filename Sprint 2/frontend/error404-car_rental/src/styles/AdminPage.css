@@ -42,3 +42,7 @@
   .checkbox-container table {
     margin: 0; 
   }
+
+  .input_fields[type="datetime-local"] {
+    width: 80% ;
+  }
