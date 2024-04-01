@@ -20,6 +20,7 @@ import CheckInForm from "../check-in.js";
 import CheckInApproved from "../check-in_approved.js";
 import EmailTemplate from "../EmailTemplate.tsx";
 import AboutUs from "../AboutUs.tsx";
+import FeedbackForm from "../Feedback_form.js";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             path="/approved_check-in/:carId"
             element={<CheckInApproved />}
           />
+          <Route path="/feedback" element={<FeedbackForm />} />{" "}
           <Route path="/temp" element={<EmailTemplate />} />
         </Routes>
       </BrowserRouter>
