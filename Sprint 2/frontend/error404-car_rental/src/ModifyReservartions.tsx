@@ -140,15 +140,12 @@ export default function ModifyReservations() {
       setEditableReservation(reservation);
     }, [reservation]);
 
-    function formatDate(dateString) {
-      // Adjust the date by adding four hours
-      const adjustedDate = new Date(
-        new Date(dateString).getTime() + 4 * 60 * 60 * 1000
-      );
-      // Convert the adjusted date to local time using your existing function
-      const localDate = convertToLocalForDisplay(adjustedDate);
-      return localDate.toLocaleString();
-    }
+    const pickupLocalTime = convertToLocalForDisplay(
+      new Date(editableReservation.reservationDate)
+    );
+    const returnLocalTime = convertToLocalForDisplay(
+      new Date(editableReservation.returnDate)
+    );
 
     return (
       <tr>
@@ -172,18 +169,20 @@ export default function ModifyReservations() {
         </td>
         <td className="fieldInputs">
           <input
-            type="text"
+            type="datetime-local"
             name="reservationDate"
-            value={formatDate(editableReservation.reservationDate)}
             onChange={handleInputChange}
+            value={pickupLocalTime.toISOString().slice(0, 16)}
+            className="outlined_fields"
           />
         </td>
         <td className="fieldInputs">
           <input
-            type="text"
+            type="datetime-local"
             name="returnDate"
-            value={formatDate(editableReservation.returnDate)}
+            value={returnLocalTime.toISOString().slice(0, 16)}
             onChange={handleInputChange}
+            className="outlined_fields"
           />
         </td>
         <td className="fieldInputs">
@@ -216,9 +215,6 @@ export default function ModifyReservations() {
               </option>
             ))}
           </select>
-        </td>
-        <td>
-          <div className="checkbox-container"></div>
         </td>
         <td>
           <div className="checkbox-container">
