@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from './components/Navbar/navbar';
 import "./components/Navbar/navbar.css";
 
-const TransactionApproved = () => {
+const CheckoutApproved = () => {
   const history = useNavigate(); 
+
+  const handleLeaveReview = () => {
+    history("/feedback"); 
+  };
 
   const handleExit = () => {
     history("/"); 
@@ -14,14 +18,15 @@ const TransactionApproved = () => {
     <div>
       <Navbar />
       <div className="background_confirm">
-        <h1>Transaction Approved</h1>
+        <h1>Checkout Approved</h1>
         <p>
-          Your payment has been successfully processed. Thank you for your reservation! You will receive an confirmation email shortly.
+          Your payment has been successfully processed. Thank you for your reservation! Please feel free to leave a review.
         </p>
+        <button onClick={handleLeaveReview}>Leave a Review</button>
         <button onClick={handleExit}>Exit</button> 
       </div>
     </div>
   );
 };
 
-export default TransactionApproved;
+export default CheckoutApproved;

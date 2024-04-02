@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/feedback.css';
 import Navbar from "./components/Navbar/navbar.jsx";
 
@@ -6,6 +7,7 @@ const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [comments, setComments] = useState('');
+  const history = useNavigate()
 
   const handleStarClick = (index) => {
     const newRating = index + 1;
@@ -27,6 +29,10 @@ const FeedbackForm = () => {
   const handlereset = () => {
     setRating(0);
     setComments('');
+  };
+  const handleSubmit = () => {
+    
+    history("/"); 
   };
 
   return (
@@ -67,6 +73,7 @@ const FeedbackForm = () => {
           type="submit"
           value="Submit Feedback"
           className='submit'
+          onClick={handleSubmit}
         />
         <input
           type="reset"

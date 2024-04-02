@@ -14,7 +14,7 @@ const getCurrentMonthYear = () => {
   return `${year}-${month}`;
 };
 
-const CarRentalPayment = () => {
+const CheckoutPayment = () => {
   const history = useNavigate();
   const location=useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -67,7 +67,7 @@ const CarRentalPayment = () => {
       console.error(error);
     });
     
-      history("/transactionapproved");
+      history("/checkoutapproved");
     
   }
 
@@ -171,4 +171,4 @@ const CarRentalPayment = () => {
   );
 };
 
-export default CarRentalPayment;
+export default CheckoutPayment;
