@@ -17,15 +17,6 @@ function CardBrowse(props) {
     setIsModalOpen(false);
   };
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
-
-  const handleSelectClick = (e) => {
-    e.stopPropagation(); 
-    onSelectForComparison(props); // Call the function for comparison
-  };
-
   return (
     <>
       <div className='card-container' onClick={handleCardClick}>
@@ -40,9 +31,6 @@ function CardBrowse(props) {
             <br />
             <div>No. of Seats: {numberOfSeats}</div>
             <br />
-            {/* <div>Fuel Type: {fuelType}</div>
-            <br />
-            <div>Transmission: {transmission}</div> */}
           </div>
           <div className="rentBtn">
             <Link to={`/reservation?carId=${carId}`}>Rent</Link>

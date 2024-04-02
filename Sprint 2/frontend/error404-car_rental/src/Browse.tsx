@@ -123,6 +123,34 @@ export default function Browse() {
     }));
   };
 
+  //function to change color for prices in comparison
+  const getRentalPriceColor = (price) => {
+    const lowerThird = parseFloat(userInput.budget) / 3;
+    const upperThird = parseFloat(userInput.budget) * (2 / 3);
+  
+    if (price <= lowerThird) {
+      return "#8ffc80";
+    } else if (price > lowerThird && price <= upperThird) {
+      return "#fa9a41";
+    } else {
+      return "#f55959";
+    }
+  };
+
+  //function to change color for type of fuel
+  const getFuelColor = (fuelType) => {
+    switch (fuelType.toLowerCase()) {
+      case "electric":
+        return "#8ffc80";
+      case "hybrid":
+        return "#fa9a41";
+      case "gas":
+        return "#f55959";
+        default:
+          return "";
+    }
+  }
+
   return (
     <div className="mainBrowse">
       <Navbar />
@@ -195,6 +223,7 @@ export default function Browse() {
               <th>Rental Price</th>
               <th>Bluetooth</th>
               <th>Fuel Type</th>
+              <th>No. of Seats</th>
             </tr>
           </thead>
           <tbody className="comparisonContent">
@@ -204,9 +233,16 @@ export default function Browse() {
                 <br />
                 <img className="imageCompare"src={car.url} alt="" /></td>
                 <td>{car.type}</td>
-                <td>{car.rentalPrice}</td>
-                <td>{car.hasBluetooth}</td>
-                <td>{car.fuelType}</td>
+                <td style={{backgroundColor: getRentalPriceColor(parseFloat(car.rentalPrice))}}>
+                  {car.rentalPrice}
+                </td>
+                <td className={car.hasBluetooth.toLowerCase() === "yes"?"bluetooth-yes":"bluetooth-no"}>
+                  {car.hasBluetooth}
+                </td>
+                <td style={{backgroundColor: getFuelColor((car.fuelType))}}>
+                  {car.fuelType}
+                </td>
+                <td>{car.numberOfSeats}</td>
               </tr>
             ))}
           </tbody>
