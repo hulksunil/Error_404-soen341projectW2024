@@ -151,14 +151,10 @@ export default function CreateVehicle(props){
                     <tr>
                         <td className="fieldLabels">Transmission</td>
                         <td className="fieldInputs">
-                            <input
-                            type="text"
-                            placeholder="Transmission"
-                            required
-                            autoFocus
-                            autoComplete="off"
-                            onChange={(e) => setTransmission(e.target.value)}
-                            />
+                        <select onChange={(e) => setTransmission(e.target.value)}>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                        </select>
                         </td>
                     </tr>
                     <tr>
@@ -177,14 +173,11 @@ export default function CreateVehicle(props){
                     <tr>
                         <td className="fieldLabels">Fuel Type</td>
                         <td className="fieldInputs">
-                            <input
-                            type="text"
-                            placeholder="Fuel Type"
-                            required
-                            autoFocus
-                            autoComplete="off"
-                            onChange={(e) => setFuelType(e.target.value)}
-                            />
+                        <select onChange={(e) => setFuelType(e.target.value)}>
+                            <option value="Gas">Gas</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
                         </td>
                     </tr>
                     <tr>
