@@ -3,9 +3,9 @@ import "../styles/App.css";
 import Home from "../Home.tsx";
 import Browse from "../Browse.tsx";
 import ViewRes from "../ViewReservation.tsx";
-import CarRentalPayment from "../Payment_form.js";
-import CarRentalReservation from "../create_a_reservation.js";
-import TransactionApproved from "../Transaction_approved.js";
+import CarRentalPayment from "../PaymentForm.tsx";
+import CarRentalReservation from "../CreateReservation.jsx";
+import TransactionApproved from "../TransactionApproved.tsx";
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 import ModifyVehicles from "../ModifyVehicles.tsx";
@@ -15,12 +15,12 @@ import CheckOut from "../CheckOut.tsx";
 import CSRView from "../CSRVIew.tsx";
 import CheckoutRedirect from "../CheckoutRedirect.tsx";
 import ViewCheckouts from "../ViewCheckouts.tsx";
-import RentalAgreement from "../car_rentral_agreement.js";
-import CheckInForm from "../check-in.js";
-import CheckInApproved from "../check-in_approved.js";
+import RentalAgreement from "../CarRentralAgreement.tsx";
+import CheckInForm from "../CheckIn.tsx";
+import CheckInApproved from "../CheckinApproved.tsx";
 import EmailTemplate from "../EmailTemplate.tsx";
 import AboutUs from "../AboutUs.tsx";
-import FeedbackForm from "../Feedback_form.js";
+import FeedbackForm from "../FeedbackForm.tsx";
 
 function App() {
   return (
