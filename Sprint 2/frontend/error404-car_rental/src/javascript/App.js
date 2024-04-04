@@ -6,6 +6,7 @@ import ViewRes from "../ViewReservation.tsx";
 import CarRentalPayment from "../PaymentForm.tsx";
 import CarRentalReservation from "../CreateReservation.jsx";
 import TransactionApproved from "../TransactionApproved.tsx";
+import CheckoutApproved from "../CheckoutApproved.js";
 import AdminView from "../AdminView.tsx";
 import ModifyUsers from "../ModifyUsers.tsx";
 import ModifyVehicles from "../ModifyVehicles.tsx";
@@ -21,6 +22,7 @@ import CheckInApproved from "../CheckinApproved.tsx";
 import EmailTemplate from "../EmailTemplate.tsx";
 import AboutUs from "../AboutUs.tsx";
 import FeedbackForm from "../FeedbackForm.tsx";
+import CheckoutPayment from "../CheckoutPayment.js"
 
 function App() {
   return (
@@ -35,10 +37,15 @@ function App() {
           <Route path="/browse/:branchId" element={<Browse />} />
           <Route path="/viewreservation" element={<ViewRes />} />
           <Route path="/payment" element={<CarRentalPayment />} />
+          <Route path="/checkoutpayment" element={<CheckoutPayment />} />
           <Route path="/reservation" element={<CarRentalReservation />} />
           <Route
             path="/transactionapproved"
             element={<TransactionApproved />}
+          />
+          <Route
+            path="/checkoutapproved"
+            element={<CheckoutApproved />}
           />
           <Route path="/adminview" element={<AdminView />} />
           <Route path="/modifyusers" element={<ModifyUsers />} />

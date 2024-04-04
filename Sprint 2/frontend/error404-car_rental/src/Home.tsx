@@ -47,67 +47,72 @@ export default function Home() {
         <Navbar />
         <h1>Cars R Us</h1>
 
-        <button
-          className="buttonContainer"
-          onClick={() => {
-            NavigateTo("browse");
-          }}
-        >
-          <img
-            src={require("./images/roadtrip.jpg")}
-            alt="People on an advdnture"
-            className="image"
-          />
-          <Link to="/browse" className="centeredText">
-            {" "}
-            Find A Car!{" "}
-          </Link>
-        </button>
+        <div className="homePageContent">
+          <div className="homePageButtons">
+            <button
+              className="buttonContainer"
+              onClick={() => {
+                NavigateTo("browse");
+              }}
+            >
+              <img
+                src={require("./images/roadtrip.jpg")}
+                alt="People on an advdnture"
+                className="image"
+              />
+              <Link to="/browse" className="centeredText">
+                {" "}
+                Find A Car!{" "}
+              </Link>
+            </button>
 
-        <button
-          className="buttonContainer"
-          onClick={() => {
-            NavigateTo("viewreservation");
-          }}
-        >
-          <img
-            src={require("./images/handingOverKeys.jpg")}
-            alt="handingOverKeys"
-            className="image"
-          />
-          <Link to="/viewreservation" className="centeredText">
-            {" "}
-            View Reservations{" "}
-          </Link>
-        </button>
-        <div className="info">
-          <div className="missionStatement">
-            <h2>Our Mission</h2>
-            <p>
-              Our mission is to provide you with the best car rental experience
-              possible. We offer a wide variety of cars to choose from, and we
-              are dedicated to providing you with the best customer service
-              possible. We are committed to making your car rental experience as
-              easy and stress-free as possible. We look forward to serving you!
-            </p>
+            <button
+              className="buttonContainer"
+              onClick={() => {
+                NavigateTo("viewreservation");
+              }}
+            >
+              <img
+                src={require("./images/handingOverKeys.jpg")}
+                alt="handingOverKeys"
+                className="image"
+              />
+              <Link to="/viewreservation" className="centeredText">
+                {" "}
+                View Reservations{" "}
+              </Link>
+            </button>
           </div>
-          <div className="missionStatement">
-            <h2>Why Choose Us?</h2>
-            <ul>
-              <li>Wide variety of cars to choose from</li>
-              <li>Easy and stress-free car rental experience</li>
-              <li>Best customer service possible</li>
-            </ul>
+          <div className="info">
+            <div className="missionStatement">
+              <h2>Our Mission</h2>
+              <p>
+                Our mission is to provide you with the best car rental
+                experience possible. We offer a wide variety of cars to choose
+                from, and we are dedicated to providing you with the best
+                customer service possible. We are committed to making your car
+                rental experience as easy and stress-free as possible. We look
+                forward to serving you!
+              </p>
+            </div>
+            <div className="missionStatement">
+              <h2>Why Choose Us?</h2>
+              <ul>
+                <li>Wide variety of cars to choose from</li>
+                <li>Easy and stress-free car rental experience</li>
+                <li>Best customer service possible</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="carsSneakPeak">
-          <h2>Some of our offered cars</h2>
-          <div>
-            {cars.slice(0, 5).map((car: Car) => (
-              <div key={car._id}>
-                <img src={car.url} alt="Car" />
-              </div>
-            ))}
+          <div className="carsSneakPeak">
+            <h2>Some of our offered cars</h2>
+            <div>
+              {cars.slice(0, 5).map((car: Car) => (
+                <div key={car._id}>
+                  <img src={car.url} alt="Car" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
