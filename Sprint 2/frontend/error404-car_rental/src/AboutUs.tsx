@@ -29,17 +29,9 @@ const AboutUs: React.FC = () => {
         fetchReviews();
     }, []);
 
-    const handleMouseOver = (index: number) => {
-        setHoveredIndex(index + 1);
-    };
+  
 
-    const handleMouseOut = () => {
-        setHoveredIndex(-1);
-    };
-
-    const handleStarClick = (index: number) => {
-        setRating(index + 1);
-    };
+    
 
     const [rating, setRating] = useState(0);
     const [hoveredIndex, setHoveredIndex] = useState(-1);
@@ -64,9 +56,6 @@ const AboutUs: React.FC = () => {
                                     <span
                                         key={starIndex}
                                         className={`fa fa-star ${starIndex < review.rating || starIndex < hoveredIndex ? 'checked' : ''}`}
-                                        onMouseOver={() => handleMouseOver(starIndex)}
-                                        onMouseOut={handleMouseOut}
-                                        onClick={() => handleStarClick(starIndex)}
                                     ></span>
                                 ))}
                             </div>
