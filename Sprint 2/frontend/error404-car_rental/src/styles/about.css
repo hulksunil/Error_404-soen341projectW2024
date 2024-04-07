@@ -1,0 +1,53 @@
+/* styles.css */
+
+.review {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.rating-column {
+    flex: 1;
+}
+
+.comment-column {
+    flex: 4;
+}
+
+.rating-label,
+.comment-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stars-container {
+    margin-bottom: 10px;
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center; 
+}
+
+.fa-star {
+    font-size: 20px;
+    color: #C0C0C0; 
+    cursor: pointer;
+}
+
+.checked {
+    color: #ff9900;
+}
+
+.clear-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+    background-color: #ff3333; 
+}

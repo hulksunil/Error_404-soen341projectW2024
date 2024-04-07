@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/feedback.css';
 import Navbar from "./components/Navbar/navbar.jsx";
@@ -7,6 +8,7 @@ const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [comments, setComments] = useState('');
+  const [loading, setLoading] = useState(false);
   const history = useNavigate()
 
   const handleStarClick = (index) => {
@@ -30,10 +32,31 @@ const FeedbackForm = () => {
     setRating(0);
     setComments('');
   };
-  const handleSubmit = () => {
-    
-    history("/"); 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+  
+    try {
+      await axios.post('http://localhost:8080/createFeedback', {
+        rating,
+        comments,
+      });
+  
+      console.log('Feedback submitted successfully');
+      history('/'); 
+  
+
+      setRating(0);
+      setComments('');
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
+  
+  
 
   return (
     <>

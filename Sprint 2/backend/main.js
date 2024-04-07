@@ -8,6 +8,7 @@ const crypto = require("crypto"); // this is for hashing the password
 const ReservationDB = require("./models/res");
 const VehicleDB = require("./models/vehicle");
 const BranchDB = require("./models/branch");
+const FeedbackDB=require("./models/feedback");
 
 const CheckoutDB = require("./models/checkout");
 const app = express();
@@ -416,9 +417,48 @@ app.delete("/vehicles/:id", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+  });
+//===============================================================REVIEW DB============================================================
+
+// Create a new feedback
+app.post('/createFeedback', async (req, res) => {
+  try {
+    const { rating, comments } = req.body;
+    const createdFeedback = await FeedbackDB.createFeedback(rating, comments);
+    res.status(201).json(createdFeedback);
+  } catch (error) {
+    console.error("Error creating feedback:", error);
+    res.status(500).send("Error creating feedback.");
+  }
+});
+
+// Get all feedbacks
+app.get("/feedback", async (req, res) => {
+  try {
+    const feedbacks = await FeedbackDB.findAllFeedback();
+    res.send(feedbacks);
+  } catch (err) {
+    console.log("Error finding all feedback.\n" + err);
+    res.status(500).send("Error finding all feedback.");
+  }
+});
+
+
+// Delete all feedbacks
+app.delete("/deleteFeedback", (req, res) => {
+  FeedbackDB.deleteAllFeedback()
+    .then(() => {
+      res.status(200).send("All feedback deleted successfully.");
+    })
+    .catch((err) => {
+      console.error("Error deleting all feedback:", err);
+      res.status(500).send("Error deleting all feedback.");
+    });
+});
+
 
   //============================================================CHECKOUT DB===========================================================
-});
+
 
 //Create a checkout
 app.post("/CreateCheckout", (req, res) => {
