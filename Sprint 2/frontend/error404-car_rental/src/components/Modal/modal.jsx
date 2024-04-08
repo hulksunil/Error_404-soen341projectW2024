@@ -1,11 +1,11 @@
 // Modal.js
-import React from 'react';
-import './modal.css';
+import React from 'react'
+import './modal.css'
 
-function Modal(props) {
-  const { isOpen, onClose, car } = props;
+function Modal (props) {
+  const { isOpen, onClose, car } = props
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className='modal-overlay' onClick={onClose}>
@@ -16,17 +16,17 @@ function Modal(props) {
           </div>
           <div className='modal-body'>
             <div className='image-and-attributes'>
-              <div className="imagemodal"><img src={car.url} alt="" /></div>
+              <div className='imagemodal'><img src={car.url} alt='' /></div>
               <div className='modalAttributes'>
-                <span className="attribute">Type:</span> {car.type}<br />
-                <span className="attribute">No. of Seats:</span> {car.numberOfSeats}<br />
-                <span className="attribute">Fuel Type:</span> {car.fuelType}<br />
-                <span className="attribute">Transmission:</span> {car.transmission}<br />
-                <span className="attribute">Rental Price:</span> {car.rentalPrice}<br />
-                <span className="attribute">Color:</span> {car.color}<br />
-                <span className="attribute">Drivetrain:</span> {car.drivetrain}<br />
-                <span className="attribute">Bluetooth:</span> {car.hasBluetooth}<br />
-                <span className="attribute">License Plate:</span> {car.licensePlate}<br />
+                <span className='attribute'>Type:</span> {car.type}<br />
+                <span className='attribute'>No. of Seats:</span> {car.numberOfSeats}<br />
+                <span className='attribute'>Fuel Type:</span> {car.fuelType}<br />
+                <span className='attribute'>Transmission:</span> {car.transmission}<br />
+                <span className='attribute'>Rental Price:</span> {car.rentalPrice}<br />
+                <span className='attribute'>Color:</span> {car.color}<br />
+                <span className='attribute'>Drivetrain:</span> {car.drivetrain}<br />
+                <span className='attribute'>Bluetooth:</span> {car.hasBluetooth}<br />
+                <span className='attribute'>License Plate:</span> {car.licensePlate}<br />
                 {/* Add additional information here */}
               </div>
             </div>
@@ -35,7 +35,7 @@ function Modal(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Modal;
+export default Modal

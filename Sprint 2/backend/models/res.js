@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const reservationSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -15,14 +15,14 @@ const reservationSchema = new Schema({
     EntertainmentSystems: Boolean,
     MobilePhones: Boolean,
     PortableWiFi: Boolean,
-    ChildSafetySeats: Boolean,
-  },
-});
+    ChildSafetySeats: Boolean
+  }
+})
 
-const Reservation = mongoose.model("Reservation", reservationSchema);
+const Reservation = mongoose.model('Reservation', reservationSchema)
 
 class ReservationDB {
-  static createReservation(
+  static createReservation (
     userId,
     carId,
     reservationDate,
@@ -32,30 +32,30 @@ class ReservationDB {
     Additionalservices
   ) {
     if (returnDate <= reservationDate) {
-      throw new Error("Return date must be after reservation date");
+      throw new Error('Return date must be after reservation date')
     }
     const reservation = new Reservation({
       _id: new mongoose.Types.ObjectId(),
-      userId: userId,
-      carId: carId,
-      reservationDate: reservationDate,
-      returnDate: returnDate,
-      location: location,
-      returnLocation: returnLocation,
-      Additionalservices: Additionalservices,
-    });
-    return reservation.save();
+      userId,
+      carId,
+      reservationDate,
+      returnDate,
+      location,
+      returnLocation,
+      Additionalservices
+    })
+    return reservation.save()
   }
 
-  static findReservationById(id) {
-    return Reservation.findById(id);
+  static findReservationById (id) {
+    return Reservation.findById(id)
   }
 
-  static findAllReservations() {
-    return Reservation.find();
+  static findAllReservations () {
+    return Reservation.find()
   }
 
-  static updateReservation(
+  static updateReservation (
     id,
     userId,
     carId,
@@ -68,33 +68,33 @@ class ReservationDB {
     return Reservation.findByIdAndUpdate(
       id,
       {
-        userId: userId,
-        carId: carId,
-        reservationDate: reservationDate,
-        returnDate: returnDate,
-        location: location,
-        returnLocation: returnLocation,
-        Additionalservices: Additionalservices,
+        userId,
+        carId,
+        reservationDate,
+        returnDate,
+        location,
+        returnLocation,
+        Additionalservices
       },
       { new: true }
-    );
+    )
   }
 
-  static deleteReservation(id) {
-    return Reservation.findByIdAndDelete(id);
+  static deleteReservation (id) {
+    return Reservation.findByIdAndDelete(id)
   }
 
-  static deleteReservationsMatchingVehicle(carId) {
-    return Reservation.deleteMany({ carId: carId });
+  static deleteReservationsMatchingVehicle (carId) {
+    return Reservation.deleteMany({ carId })
   }
 
-  static deleteReservationsMatchingUser(userId) {
-    return Reservation.deleteMany({ userId: userId });
+  static deleteReservationsMatchingUser (userId) {
+    return Reservation.deleteMany({ userId })
   }
 
-  static checkCarAvailability(carId) {
-    return Reservation.find({ carId: carId });
+  static checkCarAvailability (carId) {
+    return Reservation.find({ carId })
   }
 }
 
-module.exports = ReservationDB;
+module.exports = ReservationDB

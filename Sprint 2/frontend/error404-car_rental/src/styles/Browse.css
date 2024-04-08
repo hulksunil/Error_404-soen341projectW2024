@@ -4,8 +4,8 @@
   flex-wrap: wrap;
 }
 
-.comparisonSection{
-  background-color: #D6D6FF;
+.comparisonSection {
+  background-color: #d6d6ff;
   border-radius: 20px;
   margin: 50px;
   padding: 30px;
@@ -14,20 +14,21 @@
   flex-direction: column;
 }
 
-.comparisonTable{
+.comparisonTable {
   border-collapse: collapse;
   width: 100%;
   border-radius: 20px;
 }
 
-.comparisonTable th, .comparisonTable td{
+.comparisonTable th,
+.comparisonTable td {
   border: 1px solid #000;
   text-align: left;
   padding: 8px;
 }
 
-.comparisonTable th{
-  background-color: #7A7AFF;
+.comparisonTable th {
+  background-color: #7a7aff;
 }
 
 .comparisonContent tr:nth-child(even) {
@@ -38,7 +39,7 @@
   margin: 20px;
 }
 
-.imageCompare{
+.imageCompare {
   width: 300px;
   height: 200px;
   overflow: hidden;
@@ -46,41 +47,46 @@
   border-radius: 20px;
 }
 
-.imageCompare img{
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover
+.imageCompare img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.bluetooth-yes{
+.bluetooth-yes {
   background-color: #8ffc80;
 }
 
-.bluetooth-no{
+.bluetooth-no {
   background-color: #f55959;
 }
 
-.selectInput{
-  border-radius: 20px;
+.selectInput {
   width: auto;
   height: 30px;
 }
 
-.comparisonInput{
-  border-radius: 20px;
+.comparisonInput {
   height: 12.5px;
 }
 
-.compareBtn{
-  border-radius: 20px;
+.compareBtn {
   width: auto;
   height: 30px;
 }
 
-.compareInfo{
-  text-align: left;
+.compareBtn,
+.comparisonInput,
+.selectInput {
+  margin: auto 5px;
+  border-radius: 10px;
 }
 
-.compareInfo h3{
+.compareInfo {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.compareInfo h3 {
   margin: 0px;
 }
