@@ -60,8 +60,8 @@ const FeedbackForm = () => {
       <div>
         <label>Comments:</label><br />
         <textarea
-          rows="8"
-          cols="45"
+          rows={8}
+          cols={45}
           value={comments}
           onChange={handleCommentChange}
           className='comment'
