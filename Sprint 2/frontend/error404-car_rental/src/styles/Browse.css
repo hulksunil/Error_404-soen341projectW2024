@@ -59,3 +59,28 @@
 .bluetooth-no{
   background-color: #f55959;
 }
+
+.selectInput{
+  border-radius: 20px;
+  width: auto;
+  height: 30px;
+}
+
+.comparisonInput{
+  border-radius: 20px;
+  height: 12.5px;
+}
+
+.compareBtn{
+  border-radius: 20px;
+  width: auto;
+  height: 30px;
+}
+
+.compareInfo{
+  text-align: left;
+}
+
+.compareInfo h3{
+  margin: 0px;
+}

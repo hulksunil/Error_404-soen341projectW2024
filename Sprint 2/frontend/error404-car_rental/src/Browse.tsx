@@ -101,6 +101,11 @@ export default function Browse() {
   const compareAndSuggestVehicles = () => {
     const { budget, type, numberOfSeats, fuelType } = userInput;
 
+    if (budget === ""){
+      alert("Please enter a budget before comparing");
+      return;
+    }
+
     const suggested = AllVehicles.filter((car) => {
       return (
         parseFloat(car.rentalPrice) <= parseFloat(budget) &&
@@ -113,6 +118,7 @@ export default function Browse() {
     setSuggestedVehicles(suggested);
   };
 
+  //handle input type for comparison
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -122,6 +128,18 @@ export default function Browse() {
       [name]: value,
     }));
   };
+
+  //handle select type for comparison
+  const handleSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setUserInput((prevInput) => ({
+      ...prevInput,
+      [name]: value,
+    }));
+  };
+  
 
   //function to change color for prices in comparison
   const getRentalPriceColor = (price) => {
@@ -151,9 +169,21 @@ export default function Browse() {
     }
   }
 
+  //reset function for comparison
+  const resetFields = () => {
+    setUserInput({
+      budget: "",
+      type: "",
+      numberOfSeats: "",
+      fuelType: "",
+    });
+    setSuggestedVehicles([]);
+  };
   return (
     <div className="mainBrowse">
       <Navbar />
+      
+      <div><h1>Browse Vehicle</h1></div>
       <Sidebar
         handleFilterChange={handleFilterChange}
         branchId={location.state?.branchId}
@@ -182,41 +212,66 @@ export default function Browse() {
       
       <div className="comparisonSection">
         <div className="compareInput">
-          <h2>Compare and Suggestion</h2>
+          <h1>Compare and Suggestion</h1>
           <input
+            className="comparisonInput"
             type="text"
             name="budget"
             value={userInput.budget}
             onChange={handleInputChange}
             placeholder="Budget"
           />
-          <input
-            type="text"
+          <select
+            className="selectInput"
             name="type"
             value={userInput.type}
-            onChange={handleInputChange}
-            placeholder="Type of Car"
-          />
-          <input
-            type="text"
+            onChange={handleSelectChange}>
+              <option value="">Type of Vehicle</option>
+              <option value="Hatchback">Hatchback</option>
+              <option value="SUV">SUV</option>
+              <option value="Sedan">Sedan</option>
+              <option value="Pick-Up">Pick-Up</option>
+              <option value="Sports Car">Sports Car</option>
+          </select>
+          <select
+            className="selectInput"
             name="numberOfSeats"
             value={userInput.numberOfSeats}
-            onChange={handleInputChange}
-            placeholder="Number of Seats"
-          />
-          <input
-            type="text"
+            onChange={handleSelectChange}>
+              <option value="">No. of Seats</option>
+              <option value="2">2</option>
+              <option value="5">5</option>
+              <option value="7">7</option>
+            
+          </select>
+          <select
+            className="selectInput"
             name="fuelType"
             value={userInput.fuelType}
-            onChange={handleInputChange}
-            placeholder="Fuel Type"
-          />
-          <button onClick={compareAndSuggestVehicles}>
+            onChange={handleSelectChange}>
+              <option value="">Fuel Type</option>
+              <option value="Gas">Gas</option>
+              <option value="Electric">Electric</option>
+              <option value="Hybrid">Hybrid</option>
+          </select>
+          
+          <button onClick={compareAndSuggestVehicles} className="compareBtn">
             Compare and suggest
           </button>
+          <button className="compareBtn" onClick={resetFields}>
+            Reset 
+          </button>
         </div>
+        <div className="compareInfo">
+            <h3>Information:</h3>
+            <br />
+            <li>Hatchbacks, SUVs and Pick-Ups will have the most storage space.</li>
+            <li>Electric car will save the most money on fuel.</li>
+            <li>Table colors: Green = good/best, Orange = medium/decent, Red = bad/worst</li>
+            
+          </div>
         <table className="comparisonTable">
-          <thead>
+          <thead> 
             <tr>
               <th>Model</th>
               <th>Type</th>
