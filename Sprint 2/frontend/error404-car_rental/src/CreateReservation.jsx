@@ -212,6 +212,8 @@ const CarRentalReservation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const additionalServicesCost = Object.values(formData.Additionalservices).filter(service => service).length * 10;
+
     let reservation_id = "";
 
     // Do Form Validation
@@ -258,17 +260,17 @@ const CarRentalReservation = () => {
           });
           const reservationDate = new Date(formData.reservationDate);
           const returnDate = new Date(formData.returnDate);
-          const differenceInTime =
-            returnDate.getTime() - reservationDate.getTime();
-          const differenceInDays = Math.floor(
-            differenceInTime / (1000 * 60 * 60 * 24)
-          );
+          const differenceInMilliseconds = returnDate.getTime() - reservationDate.getTime();
+          const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+          const differenceInHours = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const differenceInminutes = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
 
           axios
             .get(`http://localhost:8080/vehicles/${formData.carId}`)
             .then((response) => {
+              const totalDays = differenceInDays + (differenceInHours / 24) + (differenceInminutes / (24 * 60));
               const vehiclePrice = response.data.rentalPrice;
-              const finalAmount = differenceInDays * vehiclePrice;
+              const finalAmount = (totalDays * vehiclePrice + additionalServicesCost).toFixed(2);
 
               constructEmail(
                 reservation_id,
