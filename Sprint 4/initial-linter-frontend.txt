@@ -1,0 +1,32 @@
+> standard --fix | snazzy       
+
+standard: Use JavaScript Standard Style (https://standardjs.com)
+standard: Run `standard --fix` to automatically fix some problems.
+
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\CheckoutPayment.js
+  30:7  error  'alert' is not defined  no-undef
+  34:7  error  'alert' is not defined  no-undef
+  38:7  error  'alert' is not defined  no-undef
+  42:7  error  'alert' is not defined  no-undef
+  46:7  error  'alert' is not defined  no-undef
+
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\components\Navbar\navbar.jsx
+  87:13  error  Expected indentation of 10 space characters but found 12  react/jsx-indent
+  91:11  error  Expected closing tag to match indentation of opening      react/jsx-closing-tag-location
+
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\components\Sidebar\sidebar.jsx
+  80:42  error  Expected '===' and instead saw '=='  eqeqeq
+
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\CreateReservation.jsx
+  133:5   error  Identifier 'res_id' is not in camel case                                      camelcase
+  186:7   error  Closing curly brace does not appear on the same line as the subsequent block  brace-style
+  217:9   error  Identifier 'reservation_id' is not in camel case                              camelcase
+  221:7   error  'alert' is not defined                                                        no-undef
+  226:34  error  Expected '===' and instead saw '=='                                           eqeqeq
+  228:32  error  Expected '===' and instead saw '=='                                           eqeqeq
+  232:40  error  Expected '===' and instead saw '=='                                           eqeqeq
+  234:32  error  Expected '===' and instead saw '=='                                           eqeqeq
+  254:11  error  Identifier 'reservation_id' is not in camel case                              camelcase
+  294:7   error  'alert' is not defined                                                        no-undef
+  360:58  error  Expected '===' and instead saw '=='                                           eqeqeq
+  381:58  error  Expected '===' and instead saw '=='                                           eqeqeq
