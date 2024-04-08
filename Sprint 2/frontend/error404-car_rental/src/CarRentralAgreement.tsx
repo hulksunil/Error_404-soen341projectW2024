@@ -5,9 +5,45 @@ import axios from 'axios';
 import { useParams,useNavigate } from 'react-router-dom';
 import { getCookie } from "./CookieManager.ts";
 
+interface RentalPeriod {
+    days: number;
+    hours: number;
+    minutes: number;
+}
+
+interface ReservationData {
+    userId: string;
+    carId: string;
+    location: string;
+    returnLocation: string;
+    reservationDate: string;
+    returnDate: string;
+    Additionalservices: {
+        [serviceName: string]: boolean;
+    };
+}
+
+interface UserData {
+    firstName: string;
+    lastName: string;
+    address: string;
+    contactNum: string;
+    email: string;
+    licenseNum: string;
+}
+
+interface CarData {
+    model: string;
+    type: string;
+    year: number;
+    licensePlate: string;
+    color: string;
+    rentalPrice: number;
+}
+
 function RentalAgreement() {
 
-    const { reservationId } = useParams();
+    const { reservationId } = useParams<{ reservationId: string }>();
 
     const getTodayDate = () => {
       const today = new Date();
@@ -18,17 +54,17 @@ function RentalAgreement() {
     };
 
     const history = useNavigate();
-    const [currentDate, setCurrentDate] = useState(getTodayDate());
-    const [signature, setSignature] = useState('');
-    const [reservationData, setReservationData] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [carData, setCarData] = useState(null);
-    const [rentalPeriod, setRentalPeriod] = useState({
+    const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
+    const [signature, setSignature] = useState<string>('');
+    const [reservationData, setReservationData] = useState<ReservationData | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [carData, setCarData] = useState<CarData | null>(null);
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({
         days: 0,
-        hours:0,
+        hours: 0,
         minutes: 0
     });
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState<UserData | null>(null);
 
 
     useEffect(() => {
@@ -108,7 +144,7 @@ function RentalAgreement() {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (signature === username) {
-            history(`/approved_check-in/${reservationData.carId}`);
+            history(`/approved_check-in/${reservationData?.carId}`);
         }
         else {
 
@@ -147,7 +183,7 @@ function RentalAgreement() {
                                 Model: {carData.type} <br />
                                 Year: {carData.year} <br />
                                 License Plate Number: {carData.licensePlate} <br />
-                                Vehicle Identification Number (VIN): {reservationData.carId}<br />
+                                Vehicle Identification Number (VIN): {reservationData?.carId}<br />
                                 Color: {carData.color} <br />
                             </p>
                           </>

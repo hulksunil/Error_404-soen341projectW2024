@@ -30,6 +30,39 @@ export default function ModifyReservations() {
   const [branchLocations, setBranchLocations] = useState<string[]>([]);
   const history = useNavigate();
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 because January is 0
+    const day = String(today.getDate()).padStart(2, "0");
+    const hours = String(today.getHours()).padStart(2, "0");
+    const minutes = String(today.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  const setMinReturnDate = (newReservationDate: string) => {
+    const selectedReservationDate = new Date(newReservationDate);
+    selectedReservationDate.setDate(selectedReservationDate.getDate() + 1);
+
+    // Adjusting hours and minutes to avoid invalid time value
+    selectedReservationDate.setHours(0);
+    selectedReservationDate.setMinutes(0);
+
+    const year = selectedReservationDate.getFullYear();
+    const month = String(selectedReservationDate.getMonth() + 1).padStart(
+      2,
+      "0"
+    );
+    const day = String(selectedReservationDate.getDate()).padStart(2, "0");
+    const hours = String(selectedReservationDate.getHours()).padStart(2, "0");
+    const minutes = String(selectedReservationDate.getMinutes()).padStart(
+      2,
+      "0"
+    );
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   function loadAllReservations() {
     axios
       .get("http://localhost:8080/reservations")
@@ -96,6 +129,10 @@ export default function ModifyReservations() {
     event.preventDefault();
     updateReservation(updatedReservation._id, updatedReservation);
   }
+
+  const getISOStringFromDate = (date: Date | null): string => {
+    return date instanceof Date && !isNaN(date.getTime()) ? date.toISOString().slice(0, 16) : '';
+  };
 
   function ReservationRow({ reservation }: { reservation: Reservation }) {
     const [editableReservation, setEditableReservation] =
@@ -172,41 +209,38 @@ export default function ModifyReservations() {
             type="datetime-local"
             name="reservationDate"
             onChange={handleInputChange}
-            value={pickupLocalTime.toISOString().slice(0, 16)}
-            className="outlined_fields"
+            value={getISOStringFromDate(pickupLocalTime)}
+            min={getCurrentDate()}
+            className="input_fields"
           />
         </td>
         <td className="fieldInputs">
           <input
             type="datetime-local"
             name="returnDate"
-            value={returnLocalTime.toISOString().slice(0, 16)}
+            value={getISOStringFromDate(returnLocalTime)}
             onChange={handleInputChange}
-            className="outlined_fields"
+            min={getISOStringFromDate(pickupLocalTime) ? setMinReturnDate(editableReservation.reservationDate) : getCurrentDate()}
+            className="input_fields"
           />
         </td>
         <td className="fieldInputs">
-          <select
+          <input
+            type="text"
             name="location"
             value={editableReservation.location}
             onChange={handleInputChange}
-            className="outlined_fields"
+            className="input_fields"
+            readOnly
             required
-          >
-            {branchLocations.map((location) => (
-              <option key={location} value={location}>
-                {location}
-              </option>
-            ))}
-          </select>
+          />
         </td>
-
         <td className="fieldInputs">
           <select
             name="returnLocation"
             value={editableReservation.returnLocation}
             onChange={handleInputChange}
-            className="outlined_fields"
+            className="input_fields"
             required
           >
             {branchLocations.map((location) => (

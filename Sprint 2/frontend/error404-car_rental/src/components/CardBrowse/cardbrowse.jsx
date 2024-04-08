@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState,useEffect} from 'react';
 import './cardbrowse.css';
 import { Link } from "react-router-dom";
 import Modal from "../Modal/modal";
+import { getCookie } from "../../CookieManager.ts"
 
 function CardBrowse(props) {
-  const { carId, model, type, transmission, numberOfSeats, fuelType, url, onSelectForComparison } = props;
+  const { carId, model, type, numberOfSeats, url} = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Get userId from cookie when component mounts
+    const userIdFromCookie = getCookie('userid');
+    setUserId(userIdFromCookie);
+  }, []); // Empty dependency array means this effect runs only once when component mounts
 
   const handleCardClick = () => {
     console.log("Card clicked");
@@ -32,10 +40,11 @@ function CardBrowse(props) {
             <div>No. of Seats: {numberOfSeats}</div>
             <br />
           </div>
-          <div className="rentBtn">
-            <Link to={`/reservation?carId=${carId}`}>Rent</Link>
-          </div>
-          
+          {userId && (
+            <div className="rentBtn">
+              <Link to={`/reservation?carId=${carId}`}>Rent</Link>
+            </div>
+          )}
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} car={props} />
