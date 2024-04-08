@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 function CheckInForm() {
 
     const history = useNavigate();
-    const [reservationId, setReservationId] = useState('');
-    const [license, setLicense] = useState('');
-    const [cardholder, setCardholder] = useState('');
-    const [allReservationIds, setAllReservationIds] = useState([]);
+    const [reservationId, setReservationId] = useState<string>('');
+    const [license, setLicense] = useState<string>('');
+    const [cardholder, setCardholder] = useState<string>('');
+    const [allReservationIds, setAllReservationIds] = useState<string[]>([]);
 
     useEffect(() => {
         // Fetch resId from the database
@@ -86,7 +86,7 @@ function CheckInForm() {
                                     name="cardholder"
                                     value={cardholder}
                                     onChange={(e) => setCardholder(e.target.value)}
-                                    maxLength="12"
+                                    maxLength={12}
                                     className='required_field'
                                     required
                                 />
