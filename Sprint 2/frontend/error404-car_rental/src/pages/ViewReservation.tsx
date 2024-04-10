@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./styles/ViewReservation.css";
+import "../styles/ViewReservation.css";
 // @ts-ignore
-import { ReactComponent as Delete } from "./svgs/delete.svg";
+import { ReactComponent as Delete } from "../svgs/delete.svg";
 // @ts-ignore
-import { ReactComponent as Modify } from "./svgs/edit.svg";
+import { ReactComponent as Modify } from "../svgs/edit.svg";
 import axios from "axios";
-import { getCookie } from "./CookieManager.ts";
-import Navbar from "./components/Navbar/navbar";
-import { convertToLocalForDisplay } from "./UTCToLocal.ts";
+import { getCookie } from "../CookieManager.ts";
+import Navbar from "../components/Navbar/navbar";
+import { convertToLocalForDisplay } from "../UTCToLocal.ts";
 
 export default function ViewReservation() {
   type reservation = {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
-import Navbar from "./components/Navbar/navbar";
-import "./components/Navbar/navbar.css"
-import "./styles/ModifyUsers.css";
-import CreateVehicle from "./CreateVehicle.tsx";
+import Navbar from "../components/Navbar/navbar";
+import "../components/Navbar/navbar.css"
+import "../styles/ModifyUsers.css";
+import CreateVehicle from "../CreateVehicle.tsx";
 
 
 

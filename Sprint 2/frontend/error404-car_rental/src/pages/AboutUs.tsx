@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './styles/about.css';
-import Navbar from './components/Navbar/navbar';
+import '../styles/about.css';
+import Navbar from '../components/Navbar/navbar';
 
 const AboutUs: React.FC = () => {
     const [reviews, setReviews] = useState([]);
@@ -66,7 +66,7 @@ const AboutUs: React.FC = () => {
                         </div>
                     </div>
                 ))}
-                <button onClick={clearReviews}>Clear All Reviews</button>
+                
             </div>
         </>
     );
