@@ -66,9 +66,9 @@ export default function CheckoutRedirect() {
   function handleCheckout() {
     const finalAmount = totalAmount - 500;
     if (finalAmount < 1) {
-      history('/transactionapproved');
+      history('/checkoutapproved');
     } else {
-      history(`/payment?amount=${finalAmount}`);
+      history(`/checkoutpayment?amount=${finalAmount}`);
     }
   }
 

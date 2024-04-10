@@ -11,14 +11,8 @@
 
 .mainContent{
     background-color:#7A7AFF;
-    width:50em;
-    height: fit-content;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
-    padding: 5px;
+    padding: 27px;
     display: flex;
     justify-content: center; 
     align-items: center; 
@@ -27,6 +21,7 @@
     border-style: solid;
     border-width: 5px;
     border-radius: 10px;
+    flex-direction: column;
 }
 
 .leftContainer,.rightContainer{

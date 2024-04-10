@@ -19,7 +19,7 @@
     text-decoration: underline;
     color: #000;
     text-align:left;
-    margin-top: 0.05px;
+    margin: 1px;
     
 }
 
@@ -42,5 +42,10 @@
 }
 
 .titlecheck{
-    margin-bottom: 0px;
+    margin: 0.05px;
+    
+}
+
+.moreinfo{
+    font-weight: bold;
 }

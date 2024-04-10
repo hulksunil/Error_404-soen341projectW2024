@@ -1,3 +1,14 @@
+:root {
+  --primary-color: #7a7aff;
+  --secondary-color: #adadff;
+}
+
+body {
+  background-color: #adadff;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -40,7 +51,14 @@
 input {
   border-radius: 10px;
   border: 1px solid #ccc;
-  padding: 8px 12px; 
-  font-size: 12px; 
-  outline: none; 
+  padding: 8px 12px;
+  font-size: 12px;
+  outline: none;
+}
+
+footer {
+  padding: 0.5em;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: center;
 }

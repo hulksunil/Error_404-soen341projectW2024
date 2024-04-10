@@ -5,9 +5,45 @@ import axios from 'axios';
 import { useParams,useNavigate } from 'react-router-dom';
 import { getCookie } from "./CookieManager.ts";
 
+interface RentalPeriod {
+    days: number;
+    hours: number;
+    minutes: number;
+}
+
+interface ReservationData {
+    userId: string;
+    carId: string;
+    location: string;
+    returnLocation: string;
+    reservationDate: string;
+    returnDate: string;
+    Additionalservices: {
+        [serviceName: string]: boolean;
+    };
+}
+
+interface UserData {
+    firstName: string;
+    lastName: string;
+    address: string;
+    contactNum: string;
+    email: string;
+    licenseNum: string;
+}
+
+interface CarData {
+    model: string;
+    type: string;
+    year: number;
+    licensePlate: string;
+    color: string;
+    rentalPrice: number;
+}
+
 function RentalAgreement() {
 
-    const { reservationId } = useParams();
+    const { reservationId } = useParams<{ reservationId: string }>();
 
     const getTodayDate = () => {
       const today = new Date();
@@ -18,16 +54,17 @@ function RentalAgreement() {
     };
 
     const history = useNavigate();
-    const [currentDate, setCurrentDate] = useState(getTodayDate());
-    const [signature, setSignature] = useState('');
-    const [reservationData, setReservationData] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [carData, setCarData] = useState(null);
-    const [rentalPeriod, setRentalPeriod] = useState({
+    const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
+    const [signature, setSignature] = useState<string>('');
+    const [reservationData, setReservationData] = useState<ReservationData | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [carData, setCarData] = useState<CarData | null>(null);
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({
         days: 0,
+        hours: 0,
         minutes: 0
     });
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState<UserData | null>(null);
 
 
     useEffect(() => {
@@ -81,14 +118,23 @@ function RentalAgreement() {
         const returnTime = new Date(returnDate).getTime();
         const diffTime = returnTime - pickupTime;
     
-        // Calculate days and minutes separately
+        // Convert time difference to days, hours, and minutes
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60));
+        const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
     
         setRentalPeriod({
             days: diffDays,
+            hours: diffHours,
             minutes: diffMinutes
         });
+    };
+
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        return `${formattedDate} at ${formattedTime}`;
     };
     
     const username = userData ? `${userData.firstName} ${userData.lastName}` : 'Loading...';
@@ -98,7 +144,7 @@ function RentalAgreement() {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (signature === username) {
-            history(`/approved_check-in/${reservationData.carId}`);
+            history(`/approved_check-in/${reservationData?.carId}`);
         }
         else {
 
@@ -137,7 +183,7 @@ function RentalAgreement() {
                                 Model: {carData.type} <br />
                                 Year: {carData.year} <br />
                                 License Plate Number: {carData.licensePlate} <br />
-                                Vehicle Identification Number (VIN): {reservationData.carId}<br />
+                                Vehicle Identification Number (VIN): {reservationData?.carId}<br />
                                 Color: {carData.color} <br />
                             </p>
                           </>
@@ -146,11 +192,11 @@ function RentalAgreement() {
                           <>
                             <li className="li">Rental Details:</li>
                             <p>
-                                Rental Start Date: {reservationData.reservationDate} <br />
-                                Rental End Date: {reservationData.returnDate} <br />
+                                Rental Start Date and Time: {formatDateTime(reservationData.reservationDate)} <br />
+                                Rental End Date and Time: {formatDateTime(reservationData.returnDate)} <br />
                                 Pick-up Location: {reservationData.location} <br />
                                 Drop-off Location: {reservationData.returnLocation} <br />
-                                Rental Period: {rentalPeriod.days} days and {rentalPeriod.minutes} minutes <br />
+                                Rental Period: {rentalPeriod.days} days, {rentalPeriod.hours} hours, {rentalPeriod.minutes} minutes <br />
                                 Mileage Limit (if applicable): none  <br />
                                 Rental Rate: ${carData ? carData.rentalPrice:'loading...'}/day <br />
                                 Additional Services (if any): 
