@@ -6,7 +6,7 @@ import ViewRes from '../ViewReservation.tsx'
 import CarRentalPayment from '../PaymentForm.tsx'
 import CarRentalReservation from '../CreateReservation.jsx'
 import TransactionApproved from '../TransactionApproved.tsx'
-import CheckoutApproved from '../CheckoutApproved.js'
+import CheckoutApproved from '../CheckoutApproved.tsx'
 import AdminView from '../AdminView.tsx'
 import ModifyUsers from '../ModifyUsers.tsx'
 import ModifyVehicles from '../ModifyVehicles.tsx'
@@ -22,7 +22,7 @@ import CheckInApproved from '../CheckinApproved.tsx'
 import EmailTemplate from '../EmailTemplate.tsx'
 import AboutUs from '../AboutUs.tsx'
 import FeedbackForm from '../FeedbackForm.tsx'
-import CheckoutPayment from '../CheckoutPayment.js'
+import CheckoutPayment from '../CheckoutPayment.tsx'
 
 function App () {
   return (
