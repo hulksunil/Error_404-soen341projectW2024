@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/navbar";
 import "../components/Navbar/navbar.css";
 import "../styles/AdminPage.css";
-import { convertToLocalForDisplay } from "../UTCToLocal.ts";
+import { convertToLocalForDisplay } from "../utils/UTCToLocal.ts";
 
 export default function ModifyReservations() {
   type Reservation = {
@@ -131,7 +131,9 @@ export default function ModifyReservations() {
   }
 
   const getISOStringFromDate = (date: Date | null): string => {
-    return date instanceof Date && !isNaN(date.getTime()) ? date.toISOString().slice(0, 16) : '';
+    return date instanceof Date && !isNaN(date.getTime())
+      ? date.toISOString().slice(0, 16)
+      : "";
   };
 
   function ReservationRow({ reservation }: { reservation: Reservation }) {
@@ -220,7 +222,11 @@ export default function ModifyReservations() {
             name="returnDate"
             value={getISOStringFromDate(returnLocalTime)}
             onChange={handleInputChange}
-            min={getISOStringFromDate(pickupLocalTime) ? setMinReturnDate(editableReservation.reservationDate) : getCurrentDate()}
+            min={
+              getISOStringFromDate(pickupLocalTime)
+                ? setMinReturnDate(editableReservation.reservationDate)
+                : getCurrentDate()
+            }
             className="input_fields"
           />
         </td>

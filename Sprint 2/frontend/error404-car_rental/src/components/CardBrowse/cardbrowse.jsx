@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './cardbrowse.css'
 import { Link } from 'react-router-dom'
 import Modal from '../Modal/modal'
-import { getCookie } from '../../CookieManager.ts'
+import { getCookie } from '../../utils/CookieManager.ts'
 
 function CardBrowse (props) {
   const { carId, model, type, numberOfSeats, url } = props
