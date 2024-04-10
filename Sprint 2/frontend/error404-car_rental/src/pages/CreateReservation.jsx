@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './styles/create_a_reservation&payment.css'
+import '../styles/create_a_reservation&payment.css'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { getCookie } from './CookieManager.ts'
+import { getCookie } from '../utils/CookieManager.ts'
 
-import Navbar from './components/Navbar/navbar.jsx'
-import { EmailConfirmation } from './EmailConfirmation.ts'
+import Navbar from '../components/Navbar/navbar.jsx'
+import { EmailConfirmation } from '../EmailConfirmation.ts'
 
 const userId = getCookie('userid')
 const userName = getCookie('username')

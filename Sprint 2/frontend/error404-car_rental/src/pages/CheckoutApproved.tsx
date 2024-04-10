@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from './components/Navbar/navbar'
-import './components/Navbar/navbar.css'
+import Navbar from '../components/Navbar/navbar'
+import '../components/Navbar/navbar.css'
 
 const CheckoutApproved = () => {
   const history = useNavigate()

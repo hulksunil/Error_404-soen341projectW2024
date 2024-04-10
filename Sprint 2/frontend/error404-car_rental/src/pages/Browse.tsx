@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./styles/Browse.css";
-import Navbar from "./components/Navbar/navbar";
-import CarBrowse from "./components/CardBrowse/cardbrowse";
-import Sidebar from "./components/Sidebar/sidebar";
+import "../styles/Browse.css";
+import Navbar from "../components/Navbar/navbar";
+import CarBrowse from "../components/CardBrowse/cardbrowse";
+import Sidebar from "../components/Sidebar/sidebar";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
