@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./styles/ModifyUsers.css";
-import "./styles/CreateUser.css";
-import Navbar from "./components/Navbar/navbar";
-import "./components/Navbar/navbar.css"
-import CreateUser from "./CreateUser.tsx";
+import "../styles/ModifyUsers.css";
+import "../styles/CreateUser.css";
+import Navbar from "../components/Navbar/navbar";
+import "../components/Navbar/navbar.css"
+import CreateUser from "../CreateUser.tsx";
 
 export default function ModifyUsers() {
     type user = {

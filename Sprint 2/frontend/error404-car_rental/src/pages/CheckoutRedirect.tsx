@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from './components/Navbar/navbar';
-import "./components/Navbar/navbar.css";
-import "./styles/CheckoutRedirect.css";
+import Navbar from '../components/Navbar/navbar';
+import "../components/Navbar/navbar.css";
+import "../styles/CheckoutRedirect.css";
 import { Link } from "react-router-dom";
 
 export default function CheckoutRedirect() {

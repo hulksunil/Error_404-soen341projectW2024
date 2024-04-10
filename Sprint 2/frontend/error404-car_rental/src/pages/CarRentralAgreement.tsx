@@ -1,9 +1,9 @@
 import React, { useState,useEffect} from 'react';
-import "./styles/agreement.css"
-import Navbar from "./components/Navbar/navbar.jsx";
+import "../styles/agreement.css"
+import Navbar from "../components/Navbar/navbar.jsx";
 import axios from 'axios';
 import { useParams,useNavigate } from 'react-router-dom';
-import { getCookie } from "./CookieManager.ts";
+import { getCookie } from "../CookieManager.ts";
 
 interface RentalPeriod {
     days: number;

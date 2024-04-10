@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./styles/Home.css";
+import "../styles/Home.css";
 import axios from "axios";
-import {storeCookies} from './CookieManager.ts';
-import Navbar from "./components/Navbar/navbar";
+import {storeCookies} from '../CookieManager.ts';
+import Navbar from "../components/Navbar/navbar";
 import { useNavigate } from 'react-router-dom';
 
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./components/Navbar/navbar";
-import "./components/Navbar/navbar.css";
-import "./styles/AdminPage.css";
-import { convertToLocalForDisplay } from "./UTCToLocal.ts";
+import Navbar from "../components/Navbar/navbar";
+import "../components/Navbar/navbar.css";
+import "../styles/AdminPage.css";
+import { convertToLocalForDisplay } from "../UTCToLocal.ts";
 
 export default function ModifyReservations() {
   type Reservation = {

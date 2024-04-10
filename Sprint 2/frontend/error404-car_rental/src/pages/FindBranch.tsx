@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar/navbar";
-import "./styles/FindBranch.css";
-import "./styles/CreateUser.css";
+import Navbar from "../components/Navbar/navbar";
+import "../styles/FindBranch.css";
+import "../styles/CreateUser.css";
 import axios from "axios";
 import {
     setDefaults,
