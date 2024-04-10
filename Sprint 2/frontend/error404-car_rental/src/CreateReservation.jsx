@@ -28,13 +28,13 @@ const CarRentalReservation = () => {
     returnDate: '',
     location: '',
     returnLocation: '',
-    Additionalservices: {
-      Insurance: false,
-      GPS: false,
-      EntertainmentSystems: false,
-      MobilePhones: false,
-      PortableWiFi: false,
-      ChildSafetySeats: false
+    additionalServices: {
+      insurance: false,
+      gps: false,
+      entertainmentSystems: false,
+      mobilePhones: false,
+      portableWiFi: false,
+      childSafetySeats: false
     },
     carImageUrl: ''
   })
@@ -111,8 +111,8 @@ const CarRentalReservation = () => {
     if (type === 'checkbox') {
       setFormData({
         ...formData,
-        Additionalservices: {
-          ...formData.Additionalservices,
+        additionalServices: {
+          ...formData.additionalServices,
           [name]: checked
         }
       })
@@ -130,7 +130,7 @@ const CarRentalReservation = () => {
   }
 
   function constructEmail (
-    res_id,
+    resId,
     reservationDate,
     returnDate,
     finalAmount,
@@ -148,7 +148,7 @@ const CarRentalReservation = () => {
 
     const props = {
       name: String(userName),
-      confirmation: String(res_id),
+      confirmation: String(resId),
       startDate: String(reservationDate),
       endDate: String(returnDate),
       pickup: String(pickupLocation),
@@ -212,9 +212,9 @@ const CarRentalReservation = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const additionalServicesCost = Object.values(formData.Additionalservices).filter(service => service).length * 10
+    const additionalServicesCost = Object.values(formData.additionalServices).filter(service => service).length * 10
 
-    let reservation_id = ''
+    let reserveId = ''
 
     // Do Form Validation
     if (formData.returnDate <= formData.reservationDate) {
@@ -223,15 +223,15 @@ const CarRentalReservation = () => {
     }
 
     // default location to the pickup branch location if not selected
-    if (formData.location.length == 0) {
+    if (formData.location.length === 0) {
       formData.location = allBranches.find(
-        (branch) => branch._id == vehicleInfo.branchId
+        (branch) => branch._id === vehicleInfo.branchId
       ).name
     }
 
-    if (formData.returnLocation.length == 0) {
+    if (formData.returnLocation.length === 0) {
       formData.returnLocation = allBranches.find(
-        (branch) => branch._id == vehicleInfo.branchId
+        (branch) => branch._id === vehicleInfo.branchId
       ).name
     }
 
@@ -243,7 +243,7 @@ const CarRentalReservation = () => {
       returnDate: formData.returnDate,
       location: formData.location,
       returnLocation: formData.returnLocation,
-      Additionalservices: formData.Additionalservices
+      additionalServices: formData.additionalServices
     }
 
     if (checkGivenUserDates()) {
@@ -251,7 +251,7 @@ const CarRentalReservation = () => {
         .post('http://localhost:8080/CreateReservation', reservationData)
         .then((res) => {
           // console.log("Reservation created:", res.data);
-          reservation_id = res.data._id
+          reserveId = res.data._id
           setFormData({
             reservationDate: '',
             returnDate: '',
@@ -273,11 +273,11 @@ const CarRentalReservation = () => {
               const finalAmount = (totalDays * vehiclePrice + additionalServicesCost).toFixed(2)
 
               constructEmail(
-                reservation_id,
+                reserveId,
                 formData.reservationDate,
                 formData.returnDate,
                 finalAmount,
-                formData.Additionalservices,
+                formData.additionalServices,
                 formData.location,
                 formData.returnLocation
               )
@@ -357,7 +357,7 @@ const CarRentalReservation = () => {
                         <option
                           key={branch._id}
                           value={branch.name}
-                          selected={vehicleInfo.branchId == branch._id}
+                          selected={vehicleInfo.branchId === branch._id}
                         >
                           {branch.name}
                         </option>
@@ -378,7 +378,7 @@ const CarRentalReservation = () => {
                         <option
                           key={branch._id}
                           value={branch.name}
-                          selected={vehicleInfo.branchId == branch._id}
+                          selected={vehicleInfo.branchId === branch._id}
                         >
                           {branch.name}
                         </option>
@@ -392,10 +392,10 @@ const CarRentalReservation = () => {
                     <input
                       type='checkbox'
                       id='s1'
-                      name='Insurance'
+                      name='insurance'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.Insurance
+                        formData.additionalServices &&
+                        formData.additionalServices.insurance
                       }
                       onChange={handleChange}
                     />
@@ -404,10 +404,10 @@ const CarRentalReservation = () => {
                     <input
                       type='checkbox'
                       id='s2'
-                      name='GPS'
+                      name='gps'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.GPS
+                        formData.additionalServices &&
+                        formData.additionalServices.gps
                       }
                       onChange={handleChange}
                     />
@@ -416,23 +416,22 @@ const CarRentalReservation = () => {
                     <input
                       type='checkbox'
                       id='s3'
-                      name='EntertainmentSystems'
+                      name='entertainmentSystems'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.EntertainmentSystems
+                        formData.additionalServices &&
+                        formData.additionalServices.entertainmentSystems
                       }
                       onChange={handleChange}
                     />
                     <label htmlFor='s3'>Entertainment systems</label>
                     <br />
-
                     <input
                       type='checkbox'
                       id='s4'
-                      name='MobilePhones'
+                      name='mobilePhones'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.MobilePhones
+                        formData.additionalServices &&
+                        formData.additionalServices.mobilePhones
                       }
                       onChange={handleChange}
                     />
@@ -441,10 +440,10 @@ const CarRentalReservation = () => {
                     <input
                       type='checkbox'
                       id='s5'
-                      name='PortableWiFi'
+                      name='portableWiFi'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.PortableWiFi
+                        formData.additionalServices &&
+                        formData.additionalServices.portableWiFi
                       }
                       onChange={handleChange}
                     />
@@ -453,10 +452,10 @@ const CarRentalReservation = () => {
                     <input
                       type='checkbox'
                       id='s6'
-                      name='ChildSafetySeats'
+                      name='childSafetySeats'
                       checked={
-                        formData.Additionalservices &&
-                        formData.Additionalservices.ChildSafetySeats
+                        formData.additionalServices &&
+                        formData.additionalServices.childSafetySeats
                       }
                       onChange={handleChange}
                     />

@@ -18,7 +18,7 @@ interface ReservationData {
     returnLocation: string;
     reservationDate: string;
     returnDate: string;
-    Additionalservices: {
+    additionalServices: {
         [serviceName: string]: boolean;
     };
 }
@@ -200,9 +200,9 @@ function RentalAgreement() {
                                 Mileage Limit (if applicable): none  <br />
                                 Rental Rate: ${carData ? carData.rentalPrice:'loading...'}/day <br />
                                 Additional Services (if any): 
-                                    {Object.values(reservationData.Additionalservices).some(service => service) ? (
+                                    {Object.values(reservationData.additionalServices).some(service => service) ? (
                                 <ul>
-                                    {Object.entries(reservationData.Additionalservices).map(([serviceName, isAvailable]) => (
+                                    {Object.entries(reservationData.additionalServices).map(([serviceName, isAvailable]) => (
                                     isAvailable && (
                                         <li key={serviceName}>{serviceName}</li>
                                     )

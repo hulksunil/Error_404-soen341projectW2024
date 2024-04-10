@@ -15,13 +15,13 @@ export default function CheckOut() {
     returnDate: string;
     location: string;
     returnLocation: string;
-    Additionalservices: {
-      Insurance: boolean;
-      GPS: boolean;
-      EntertainmentSystems: boolean;
-      MobilePhones: boolean;
-      PortableWiFi: boolean;
-      ChildSafetySeats: boolean;
+    additionalServices: {
+      insurance: boolean;
+      gps: boolean;
+      entertainmentSystems: boolean;
+      mobilePhones: boolean;
+      portableWiFi: boolean;
+      childSafetySeats: boolean;
     };
   };
 
@@ -109,7 +109,7 @@ export default function CheckOut() {
                 <td>{reservation.returnLocation}</td>
                 <td>
                   <ul>
-                    {Object.entries(reservation.Additionalservices).map(
+                    {Object.entries(reservation.additionalServices).map(
                       ([service, included]) => (
                         <li key={service}>
                           {service}:{" "}

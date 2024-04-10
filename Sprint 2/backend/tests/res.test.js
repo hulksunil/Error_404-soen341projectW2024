@@ -24,9 +24,9 @@ const userIdMock = new mongoose.Types.ObjectId(123)
 const carIdMock = new mongoose.Types.ObjectId(123456)
 
 const additionalServices = {
-  PortableWiFi: true,
-  GPS: false,
-  ChildSafetySeats: true
+  portableWiFi: true,
+  gps: false,
+  childSafetySeats: true
 }
 
 // Test cases
@@ -51,7 +51,7 @@ test('Create a reservation', async () => {
   )
   expect(createdReservation.location).toEqual('Montreal')
   expect(createdReservation.returnLocation).toEqual('ReturnLocation')
-  expect(createdReservation.Additionalservices).toEqual(additionalServices)
+  expect(createdReservation.additionalServices).toEqual(additionalServices)
 })
 
 test('Find all reservations', async () => {
@@ -133,7 +133,7 @@ test('Update a reservation', async () => {
   expect(newFoundReservation.returnLocation).toEqual(
     updatedReservation.returnLocation
   )
-  expect(newFoundReservation.Additionalservices).toEqual(additionalServices)
+  expect(newFoundReservation.additionalServices).toEqual(additionalServices)
 })
 
 test('Delete a reservation', async () => {
@@ -159,8 +159,8 @@ test('Delete a reservation', async () => {
   expect(deletedReservation.returnLocation).toEqual(
     createdReservation.returnLocation
   )
-  expect(deletedReservation.Additionalservices).toEqual(
-    createdReservation.Additionalservices
+  expect(deletedReservation.additionalServices).toEqual(
+    createdReservation.additionalServices
   )
   const foundRes = await ReservationDB.findReservationById(
     createdReservation._id

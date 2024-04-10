@@ -15,13 +15,13 @@ export default function ModifyReservations() {
     returnDate: string;
     location: string;
     returnLocation: string;
-    Additionalservices: {
-      Insurance: boolean;
-      GPS: boolean;
-      EntertainmentSystems: boolean;
-      MobilePhones: boolean;
-      PortableWiFi: boolean;
-      ChildSafetySeats: boolean;
+    additionalServices: {
+      insurance: boolean;
+      gps: boolean;
+      entertainmentSystems: boolean;
+      mobilePhones: boolean;
+      portableWiFi: boolean;
+      childSafetySeats: boolean;
     };
   };
 
@@ -152,8 +152,8 @@ export default function ModifyReservations() {
       const { name, checked } = e.target;
       setEditableReservation({
         ...editableReservation,
-        Additionalservices: {
-          ...editableReservation.Additionalservices,
+        additionalServices: {
+          ...editableReservation.additionalServices,
           [name]: checked,
         },
       });
@@ -167,7 +167,7 @@ export default function ModifyReservations() {
         returnDate: editableReservation.returnDate,
         location: editableReservation.location,
         returnLocation: editableReservation.returnLocation,
-        Additionalservices: editableReservation.Additionalservices,
+        additionalServices: editableReservation.additionalServices,
       };
 
       updateReservation(editableReservation._id, updatedFields);
@@ -254,10 +254,10 @@ export default function ModifyReservations() {
           <div className="checkbox-container">
             <input
               type="checkbox"
-              name="Insurance"
+              name="insurance"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.Insurance
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.insurance
               }
               onChange={handleCheckboxChange}
             />
@@ -265,10 +265,10 @@ export default function ModifyReservations() {
             <br />
             <input
               type="checkbox"
-              name="GPS"
+              name="gps"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.GPS
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.gps
               }
               onChange={handleCheckboxChange}
             />
@@ -276,10 +276,10 @@ export default function ModifyReservations() {
             <br />
             <input
               type="checkbox"
-              name="EntertainmentSystems"
+              name="entertainmentSystems"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.EntertainmentSystems
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.entertainmentSystems
               }
               onChange={handleCheckboxChange}
             />
@@ -287,10 +287,10 @@ export default function ModifyReservations() {
             <br />
             <input
               type="checkbox"
-              name="MobilePhones"
+              name="mobilePhones"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.MobilePhones
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.mobilePhones
               }
               onChange={handleCheckboxChange}
             />
@@ -298,10 +298,10 @@ export default function ModifyReservations() {
             <br />
             <input
               type="checkbox"
-              name="PortableWiFi"
+              name="portableWiFi"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.PortableWiFi
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.portableWiFi
               }
               onChange={handleCheckboxChange}
             />
@@ -309,10 +309,10 @@ export default function ModifyReservations() {
             <br />
             <input
               type="checkbox"
-              name="ChildSafetySeats"
+              name="childSafetySeats"
               checked={
-                editableReservation.Additionalservices &&
-                editableReservation.Additionalservices.ChildSafetySeats
+                editableReservation.additionalServices &&
+                editableReservation.additionalServices.childSafetySeats
               }
               onChange={handleCheckboxChange}
             />

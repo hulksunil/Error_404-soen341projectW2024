@@ -9,13 +9,13 @@ const reservationSchema = new Schema({
   returnDate: Date,
   location: String,
   returnLocation: String,
-  Additionalservices: {
-    Insurance: Boolean,
-    GPS: Boolean,
-    EntertainmentSystems: Boolean,
-    MobilePhones: Boolean,
-    PortableWiFi: Boolean,
-    ChildSafetySeats: Boolean
+  additionalServices: {
+    insurance: Boolean,
+    gps: Boolean,
+    entertainmentSystems: Boolean,
+    mobilePhones: Boolean,
+    portableWiFi: Boolean,
+    childSafetySeats: Boolean
   }
 })
 
@@ -29,7 +29,7 @@ class ReservationDB {
     returnDate,
     location,
     returnLocation,
-    Additionalservices
+    additionalServices
   ) {
     if (returnDate <= reservationDate) {
       throw new Error('Return date must be after reservation date')
@@ -42,7 +42,7 @@ class ReservationDB {
       returnDate,
       location,
       returnLocation,
-      Additionalservices
+      additionalServices
     })
     return reservation.save()
   }
@@ -63,7 +63,7 @@ class ReservationDB {
     returnDate,
     location,
     returnLocation,
-    Additionalservices
+    additionalServices
   ) {
     return Reservation.findByIdAndUpdate(
       id,
@@ -74,7 +74,7 @@ class ReservationDB {
         returnDate,
         location,
         returnLocation,
-        Additionalservices
+        additionalServices
       },
       { new: true }
     )
