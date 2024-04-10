@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/navbar";
 import "../components/Navbar/navbar.css";
 import "../styles/CheckOut.css";
-import { convertToLocalForDisplay } from "../UTCToLocal.ts";
+import { convertToLocalForDisplay } from "../utils/UTCToLocal.ts";
 
 export default function CheckOut() {
   type Reservation = {
