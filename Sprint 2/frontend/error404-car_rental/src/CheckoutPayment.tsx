@@ -26,11 +26,11 @@ const CheckoutPayment = () => {
   const [cvv, setCVV] = useState('')
 
   function validateForm () {
-    if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+    if (cardNumber.length !== 16 || isNaN(Number(cardNumber))) {
       alert('Please enter a valid credit card number (16 digits)')
       return false
     }
-    if (cvv.length !== 3 || isNaN(cvv)) {
+    if (cvv.length !== 3 || isNaN(Number(cvv))) {
       alert('Please enter a valid CVV (3 digits)')
       return false
     }
@@ -102,7 +102,7 @@ const CheckoutPayment = () => {
             <td>
               <input
                 type='text'
-                maxLength='16'
+                maxLength={16}
                 className='outlined_fields'
                 required
                 value={cardNumber}
@@ -131,7 +131,7 @@ const CheckoutPayment = () => {
             <td>
               <input
                 type='text'
-                maxLength='3'
+                maxLength={3}
                 className='outlined_fields'
                 placeholder='555'
                 required
