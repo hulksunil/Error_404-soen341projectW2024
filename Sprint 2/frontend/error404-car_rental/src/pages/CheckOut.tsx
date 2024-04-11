@@ -15,13 +15,13 @@ export default function CheckOut() {
     returnDate: string;
     location: string;
     returnLocation: string;
-    Additionalservices: {
-      Insurance: boolean;
-      GPS: boolean;
-      EntertainmentSystems: boolean;
-      MobilePhones: boolean;
-      PortableWiFi: boolean;
-      ChildSafetySeats: boolean;
+    additionalServices: {
+      insurance: boolean;
+      gps: boolean;
+      entertainmentSystems: boolean;
+      mobilePhones: boolean;
+      portableWiFi: boolean;
+      childSafetySeats: boolean;
     };
   };
 
@@ -29,14 +29,8 @@ export default function CheckOut() {
   const [loading, setLoading] = useState<boolean>(true);
   const history = useNavigate();
 
-  function convertToLocalForDisplayWithOffset(date: Date): string {
-    const convertedDate = convertToLocalForDisplay(date); // Assuming convertToLocalForDisplay is already implemented
-    const adjustedDate = new Date(convertedDate);
-    adjustedDate.setHours(adjustedDate.getHours() + 4); // Adding 4 hours
-    return adjustedDate.toLocaleString();
-  }
-
-  function loadAllReservations() {
+  useEffect(() => {
+    function loadAllReservations() {
     axios
       .get("http://localhost:8080/reservations")
       .then((res) => {
@@ -51,7 +45,7 @@ export default function CheckOut() {
             ),
           })
         );
-        setReservations(res.data);
+        setReservations(convertedReservations);
         setLoading(false);
       })
       .catch((error) => {
@@ -60,7 +54,7 @@ export default function CheckOut() {
       });
   }
 
-  useEffect(() => {
+  
     loadAllReservations();
   }, []);
 
@@ -109,7 +103,7 @@ export default function CheckOut() {
                 <td>{reservation.returnLocation}</td>
                 <td>
                   <ul>
-                    {Object.entries(reservation.Additionalservices).map(
+                    {Object.entries(reservation.additionalServices).map(
                       ([service, included]) => (
                         <li key={service}>
                           {service}:{" "}

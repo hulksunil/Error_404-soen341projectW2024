@@ -18,7 +18,7 @@ interface ReservationData {
   returnLocation: string;
   reservationDate: string;
   returnDate: string;
-  Additionalservices: {
+  additionalServices: {
     [serviceName: string]: boolean;
   };
 }
@@ -53,7 +53,7 @@ function RentalAgreement() {
   };
 
   const history = useNavigate();
-  const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
+  const [currentDate] = useState<string>(getTodayDate());
   const [signature, setSignature] = useState<string>("");
   const [reservationData, setReservationData] =
     useState<ReservationData | null>(null);
@@ -226,11 +226,11 @@ function RentalAgreement() {
                   Rental Rate: ${carData ? carData.rentalPrice : "loading..."}
                   /day <br />
                   Additional Services (if any):
-                  {Object.values(reservationData.Additionalservices).some(
+                  {Object.values(reservationData.additionalServices).some(
                     (service) => service
                   ) ? (
                     <ul>
-                      {Object.entries(reservationData.Additionalservices).map(
+                      {Object.entries(reservationData.additionalServices).map(
                         ([serviceName, isAvailable]) =>
                           isAvailable && (
                             <li key={serviceName}>{serviceName}</li>

@@ -12,29 +12,12 @@ const AboutUs: React.FC = () => {
             })
             .catch(error => console.error('Error fetching reviews:', error));
     };
-    const clearReviews = () => {
-        fetch('/deleteFeedback', { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    console.log('All reviews cleared successfully');
-                    setReviews([]);
-                } else {
-                    console.error('Error clearing reviews');
-                }
-            })
-            .catch(error => console.error('Error clearing reviews:', error));
-    };
-
+    
     useEffect(() => {
         fetchReviews();
     }, []);
 
-  
-
-    
-
-    const [rating, setRating] = useState(0);
-    const [hoveredIndex, setHoveredIndex] = useState(-1);
+    const [hoveredIndex] = useState(-1);
 
     return (
         <>
@@ -52,12 +35,14 @@ const AboutUs: React.FC = () => {
                         <div className="rating-column">
                             <label className="rating-label">Rating:</label>
                             <div className="stars-container">
+                            <span className="rating-number">{review.rating}</span>
+                            &nbsp;
                                 {[...Array(5)].map((_, starIndex) => (
                                     <span
                                         key={starIndex}
                                         className={`fa fa-star ${starIndex < review.rating || starIndex < hoveredIndex ? 'checked' : ''}`}
                                     ></span>
-                                ))}
+                                ))}    
                             </div>
                         </div>
                         <div className="comment-column">
