@@ -6,7 +6,6 @@ import LogIn from '../../pages/LogIn.tsx'
 import CreateUser from '../../pages/CreateUser.tsx'
 import axios from 'axios'
 import Carslogo from '../Navbar/carsruslogo2.png'
-// import AdminManagement from "../../AdminManagement.tsx"
 
 function Navbar () {
   const [createUserModal, setCreateUserModal] = useState(false)
@@ -84,7 +83,7 @@ function Navbar () {
               }}
             >Sign Out
             </button>
-            </>
+          </>
           : <div> {/* If the user is not logged in display this */}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
             <button className='SignBtn' onClick={toggleLoginModal}>Log in</button>

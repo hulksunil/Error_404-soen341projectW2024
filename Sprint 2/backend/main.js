@@ -195,7 +195,7 @@ app.post('/CreateReservation', (req, res) => {
     returnDate,
     location,
     returnLocation,
-    Additionalservices
+    additionalServices
   } = req.body
   // console.log("Received reservation data:", req.body);
   // Create reservation in the database
@@ -206,7 +206,7 @@ app.post('/CreateReservation', (req, res) => {
     returnDate,
     location,
     returnLocation,
-    Additionalservices
+    additionalServices
   )
 
   // Handle promise result
@@ -268,7 +268,7 @@ app.put('/UpdateReservation/:id', (req, res) => {
     updatedReservationData.returnDate,
     updatedReservationData.location,
     updatedReservationData.returnLocation,
-    updatedReservationData.Additionalservices
+    updatedReservationData.additionalServices
   )
 
   updatedReservation

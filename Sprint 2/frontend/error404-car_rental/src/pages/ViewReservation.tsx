@@ -16,13 +16,13 @@ export default function ViewReservation() {
     reservationDate: string;
     returnDate: string;
     returnLocation: string;
-    Additionalservices: {
-      Insurance: boolean;
-      GPS: boolean;
-      EntertainmentSystems: boolean;
-      MobilePhones: boolean;
-      PortableWiFi: boolean;
-      ChildSafetySeats: boolean;
+    additionalServices: {
+      insurance: boolean;
+      gps: boolean;
+      entertainmentSystems: boolean;
+      mobilePhones: boolean;
+      portableWiFi: boolean;
+      childSafetySeats: boolean;
     };
     carImage: string;
   };
@@ -195,9 +195,6 @@ export default function ViewReservation() {
     const [updatedReservationInfo, setUpdatedReservationInfo] =
       useState<reservation>(formData);
 
-    let reservationDate = formData.reservationDate.substring(0, 16);
-    let returnDate = formData.returnDate.substring(0, 16);
-
     const pickupLocalTime = convertToLocalForDisplay(
       new Date(formData.reservationDate)
     );
@@ -206,13 +203,13 @@ export default function ViewReservation() {
     );
 
     const handleCheckboxChange = (
-      serviceName: keyof reservation["Additionalservices"],
+      serviceName: keyof reservation["additionalServices"],
       checked: boolean
     ) => {
       setUpdatedReservationInfo((prevData) => ({
         ...prevData,
-        Additionalservices: {
-          ...prevData.Additionalservices,
+        additionalServices: {
+          ...prevData.additionalServices,
           [serviceName]: checked,
         },
       }));
@@ -334,7 +331,7 @@ export default function ViewReservation() {
                     <option
                       key={branch._id}
                       value={branch.name}
-                      selected={branch.name == formData.returnLocation}
+                      selected={branch.name === formData.returnLocation}
                     >
                       {branch.name}
                     </option>
@@ -347,87 +344,86 @@ export default function ViewReservation() {
               <td>
                 <input
                   type="checkbox"
-                  id="Insurance"
-                  name="Insurance"
+                  id="insurance"
+                  name="insurance"
                   checked={
-                    updatedReservationInfo?.Additionalservices?.Insurance
+                    updatedReservationInfo?.additionalServices?.insurance
                   }
                   onChange={(e) =>
-                    handleCheckboxChange("Insurance", e.target.checked)
+                    handleCheckboxChange("insurance", e.target.checked)
                   }
                 />
-                <label htmlFor="Insurance"> Insurance</label>
-                <br />
-
-                <input
-                  type="checkbox"
-                  id="GPS"
-                  name="GPS"
-                  checked={updatedReservationInfo?.Additionalservices?.GPS}
-                  onChange={(e) =>
-                    handleCheckboxChange("GPS", e.target.checked)
-                  }
-                />
-                <label htmlFor="GPS"> GPS </label>
+                <label htmlFor="insurance"> Insurance</label>
                 <br />
                 <input
                   type="checkbox"
-                  id="EntertainmentSystems"
-                  name="EntertainmentSystems"
+                  id="gps"
+                  name="gps"
+                  checked={updatedReservationInfo?.additionalServices?.gps}
+                  onChange={(e) =>
+                    handleCheckboxChange("gps", e.target.checked)
+                  }
+                />
+                <label htmlFor="gps"> GPS </label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="entertainmentSystems"
+                  name="entertainmentSystems"
                   checked={
-                    updatedReservationInfo?.Additionalservices
-                      ?.EntertainmentSystems
+                    updatedReservationInfo?.additionalServices
+                      ?.entertainmentSystems
                   }
                   onChange={(e) =>
                     handleCheckboxChange(
-                      "EntertainmentSystems",
+                      "entertainmentSystems",
                       e.target.checked
                     )
                   }
                 />
-                <label htmlFor="EntertainmentSystems">
+                <label htmlFor="entertainmentSystems">
                   {" "}
                   Entertainment Systems{" "}
                 </label>
                 <br />
                 <input
                   type="checkbox"
-                  id="MobilePhones"
-                  name="MobilePhones"
+                  id="mobilePhones"
+                  name="mobilePhones"
                   checked={
-                    updatedReservationInfo?.Additionalservices?.MobilePhones
+                    updatedReservationInfo?.additionalServices?.mobilePhones
                   }
                   onChange={(e) =>
-                    handleCheckboxChange("MobilePhones", e.target.checked)
+                    handleCheckboxChange("mobilePhones", e.target.checked)
                   }
                 />
-                <label htmlFor="PortableWiFi"> Mobile Phones </label>
+                <label htmlFor="mobilePhones"> Mobile Phones </label>
                 <br />
                 <input
                   type="checkbox"
-                  id="PortableWiFi"
-                  name="PortableWiFi"
+                  id="portableWiFi"
+                  name="portableWiFi"
                   checked={
-                    updatedReservationInfo?.Additionalservices?.PortableWiFi
+                    updatedReservationInfo?.additionalServices?.portableWiFi
                   }
                   onChange={(e) =>
-                    handleCheckboxChange("PortableWiFi", e.target.checked)
+                    handleCheckboxChange("portableWiFi", e.target.checked)
                   }
                 />
-                <label htmlFor="ChildSafetySeats"> Child Safety Seats </label>
+                <label htmlFor="portableWiFi"> Portable WiFi </label>
                 <br />
                 <input
                   type="checkbox"
-                  id="ChildSafetySeats"
-                  name="ChildSafetySeats"
+                  id="childSafetySeats"
+                  name="childSafetySeats"
                   checked={
-                    updatedReservationInfo?.Additionalservices?.ChildSafetySeats
+                    updatedReservationInfo?.additionalServices?.childSafetySeats
                   }
                   onChange={(e) =>
-                    handleCheckboxChange("ChildSafetySeats", e.target.checked)
+                    handleCheckboxChange("childSafetySeats", e.target.checked)
                   }
                 />
-                <label htmlFor="PortableWiFi"> Portable WiFi</label>
+                <label htmlFor="childSafetySeats"> Child safety seats</label>
               </td>
             </tr>
           </tbody>

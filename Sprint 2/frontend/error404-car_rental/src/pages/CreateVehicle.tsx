@@ -95,14 +95,6 @@ export default function CreateVehicle(props) {
       .post("http://localhost:8080/createVehicle", vehicleData)
       .then((res) => {
         status = res.status;
-
-        // if(status == 200){
-        //     setErrorVisibility((errorVisibility) => ({
-        //         ...errorVisibility,
-        //         status: true,
-        //     }))
-        // }
-
         props.toggleModal();
         window.location.reload();
       });
