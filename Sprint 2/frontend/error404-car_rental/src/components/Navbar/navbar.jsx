@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './navbar.css'
 import { Link } from 'react-router-dom'
-import { clearCookies, getCookie, storeCookies } from '../../CookieManager.ts'
-import LogIn from '../../LogIn.tsx'
-import CreateUser from '../../CreateUser.tsx'
+import { clearCookies, getCookie, storeCookies } from '../../utils/CookieManager.ts'
+import LogIn from '../../pages/LogIn.tsx'
+import CreateUser from '../../pages/CreateUser.tsx'
 import axios from 'axios'
 import Carslogo from '../Navbar/carsruslogo2.png'
-// import AdminManagement from "../../AdminManagement.tsx"
 
 function Navbar () {
   const [createUserModal, setCreateUserModal] = useState(false)

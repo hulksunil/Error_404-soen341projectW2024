@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./styles/CreateUser.css";
+import "../styles/CreateUser.css";
 import axios from "axios";
 // @ts-ignore
-import { ReactComponent as CloseModal } from "./svgs/close-square.svg";
-import {storeCookies} from './CookieManager.ts';
+import { ReactComponent as CloseModal } from "../svgs/close-square.svg";
+import { storeCookies } from "../utils/CookieManager.ts";
 
 export default function CreateUser(props) {
   const [fname, setFname] = useState("");
@@ -29,7 +29,7 @@ export default function CreateUser(props) {
   const emailRegEx = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"; // from chatGPT and tested
   const passwordRegEx =
     "^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$";
-  const phoneRegEx = "^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
+  const phoneRegEx = "^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$";
   const maxDob = 20091231;
   const minDob = 19241231;
 
@@ -43,7 +43,7 @@ export default function CreateUser(props) {
       ...errorVisibility,
       email: !RegExp(emailRegEx).test(email),
     }));
-    
+
     let dobCompare = parseInt(dob.replace(/-/g, ""));
 
     setErrorVisibility((errorVisibility) => ({
@@ -75,7 +75,6 @@ export default function CreateUser(props) {
       submit();
     }
   }
-  
 
   function submit() {
     const userData = {
@@ -103,18 +102,20 @@ export default function CreateUser(props) {
             status: true,
           }));
 
-          if(!props.isAdmin){
-          //Setting props to be read in the previous page, NavBar.tsx
-          props.setUserInfo(res.data);
-          storeCookies("username",res.data.firstName + " " + res.data.lastName);
-          storeCookies("userid",res.data._id);
+          if (!props.isAdmin) {
+            //Setting props to be read in the previous page, NavBar.tsx
+            props.setUserInfo(res.data);
+            storeCookies(
+              "username",
+              res.data.firstName + " " + res.data.lastName
+            );
+            storeCookies("userid", res.data._id);
 
-          props.setIsLoggedIn(true);
+            props.setIsLoggedIn(true);
           }
           props.toggleModal();
           window.location.reload();
-        } 
-        else {
+        } else {
           setErrorVisibility((errorVisibility) => ({
             ...errorVisibility,
             status: false,

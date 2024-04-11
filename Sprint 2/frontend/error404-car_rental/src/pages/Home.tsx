@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./styles/Home.css";
-import Navbar from "./components/Navbar/navbar";
+import "../styles/Home.css";
+import Navbar from "../components/Navbar/navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -56,7 +56,7 @@ export default function Home() {
               }}
             >
               <img
-                src={require("./images/roadtrip.jpg")}
+                src={require("../images/roadtrip.jpg")}
                 alt="People on an advdnture"
                 className="image"
               />
@@ -73,7 +73,7 @@ export default function Home() {
               }}
             >
               <img
-                src={require("./images/handingOverKeys.jpg")}
+                src={require("../images/handingOverKeys.jpg")}
                 alt="handingOverKeys"
                 className="image"
               />
