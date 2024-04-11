@@ -83,7 +83,7 @@ function Navbar () {
               }}
             >Sign Out
             </button>
-            </>
+          </>
           : <div> {/* If the user is not logged in display this */}
             <button className='LogBtn' onClick={toggleCreateUserModal}>Sign Up</button>
             <button className='SignBtn' onClick={toggleLoginModal}>Log in</button>

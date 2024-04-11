@@ -53,7 +53,7 @@ function RentalAgreement() {
   };
 
   const history = useNavigate();
-  const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
+  const [currentDate] = useState<string>(getTodayDate());
   const [signature, setSignature] = useState<string>("");
   const [reservationData, setReservationData] =
     useState<ReservationData | null>(null);

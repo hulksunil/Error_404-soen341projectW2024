@@ -29,14 +29,8 @@ export default function CheckOut() {
   const [loading, setLoading] = useState<boolean>(true);
   const history = useNavigate();
 
-  function convertToLocalForDisplayWithOffset(date: Date): string {
-    const convertedDate = convertToLocalForDisplay(date); // Assuming convertToLocalForDisplay is already implemented
-    const adjustedDate = new Date(convertedDate);
-    adjustedDate.setHours(adjustedDate.getHours() + 4); // Adding 4 hours
-    return adjustedDate.toLocaleString();
-  }
-
-  function loadAllReservations() {
+  useEffect(() => {
+    function loadAllReservations() {
     axios
       .get("http://localhost:8080/reservations")
       .then((res) => {
@@ -51,7 +45,7 @@ export default function CheckOut() {
             ),
           })
         );
-        setReservations(res.data);
+        setReservations(convertedReservations);
         setLoading(false);
       })
       .catch((error) => {
@@ -60,7 +54,7 @@ export default function CheckOut() {
       });
   }
 
-  useEffect(() => {
+  
     loadAllReservations();
   }, []);
 

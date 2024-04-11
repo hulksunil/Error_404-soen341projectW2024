@@ -122,14 +122,6 @@ export default function ModifyReservations() {
       });
   }
 
-  function handleSubmit(
-    event: React.FormEvent,
-    updatedReservation: Reservation
-  ) {
-    event.preventDefault();
-    updateReservation(updatedReservation._id, updatedReservation);
-  }
-
   const getISOStringFromDate = (date: Date | null): string => {
     return date instanceof Date && !isNaN(date.getTime())
       ? date.toISOString().slice(0, 16)

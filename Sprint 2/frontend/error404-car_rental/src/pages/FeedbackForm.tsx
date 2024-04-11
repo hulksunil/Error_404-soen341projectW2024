@@ -8,7 +8,7 @@ const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [comments, setComments] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const history = useNavigate()
 
   const handleStarClick = (index) => {
