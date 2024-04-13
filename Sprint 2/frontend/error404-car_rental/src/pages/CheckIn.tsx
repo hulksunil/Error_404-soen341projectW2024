@@ -33,10 +33,6 @@ function CheckInForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (reservationId.length !== 24) {
-            alert("The reservation ID should contain 24 characters. Please make sure to provide exactly 24 characters.");
-            return;
-        }
         if (allReservationIds.includes(reservationId)) {
             // Redirect to the agreement page with reservation ID in the path
             history(`/car_rental_agreement/${reservationId}`);
