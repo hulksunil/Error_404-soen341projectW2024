@@ -1,0 +1,8 @@
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\components\Navbar\navbar.jsx
+  86:11  error  Expected closing tag to match indentation of opening  react/jsx-closing-tag-location
+  90:11  error  Expected closing tag to match indentation of opening  react/jsx-closing-tag-location
+
+C:\dev\School\SOEN341\Error_404-soen341projectW2024\Sprint 2\frontend\error404-car_rental\src\pages\CreateReservation.jsx
+  186:7  error  Closing curly brace does not appear on the same line as the subsequent block  brace-style
+  221:7  error  'alert' is not defined                                                        no-undef
+  294:7  error  'alert' is not defined                                                        no-undef
