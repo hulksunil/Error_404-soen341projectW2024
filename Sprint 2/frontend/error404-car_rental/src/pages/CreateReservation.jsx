@@ -102,7 +102,7 @@ const CarRentalReservation = () => {
       .catch((error) => {
         console.error('Error:', error)
       })
-  }, [location])
+  }, [location ,formData])
 
   const history = useNavigate()
   const handleChange = (e) => {
